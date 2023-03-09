@@ -1,6 +1,6 @@
 # ENSF380 Final Project (Grp 27)
 
-##Final Project – Learning Outcomes:
+# #Final Project – Learning Outcomes:
 
 • Design and document an object-oriented Java application
 • Connect to and import data from a given database
