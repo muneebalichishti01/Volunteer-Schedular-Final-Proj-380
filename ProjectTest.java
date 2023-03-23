@@ -36,13 +36,13 @@ public class ProjectTest {
 		Treatment treatment1 = new Treatment(1,1,1);
 		int actualResultTaskID = treatment1.getTaskID();
 		int expectedResultTaskID = 1;
-		assertEquals("getTaskID for treatment does not work", expectedResulTaskID,actualResultTaskID);
+		assertEquals("getTaskID for treatment does not work", expectedResultTaskID,actualResultTaskID);
 		int actualResultAnimalID = treatment1.getAnimalID();
 		int expectedResultAnimalID = 1;
 		assertEquals("getAnimalID for treatment does not work", expectedResultAnimalID,actualResultAnimalID);
-		int actualResultAnimalID = treatment1.getStartHour();
-		int expectedResultAnimalID = 1;
-		assertEquals("getStartHourID for treatment does not work", expectedResultAnimalID,actualResultAnimalID);
+		int actualResultStartHour = treatment1.getStartHour();
+		int expectedResultStartHour = 1;
+		assertEquals("getStartHourID for treatment does not work", expectedResultStartHour,actualResultStartHour);
 	}
 		
 	@Test
@@ -106,7 +106,8 @@ public class ProjectTest {
 	@Test
 	public void testGetterScheduling(){
 
-		Task [23][3] array1;
+		//int[][] array1 = new int[23][3];
+		Task [23][3] = array1;
 
 		for (int i = 0; i < 24; i++) {
 			for (int j = 0; j < 3; j++) {
@@ -124,7 +125,8 @@ public class ProjectTest {
 	@Test
 	public void testSetterScheduling(){
 
-		Task [23][3] array1;
+		//int[][] array1 = new int[23][3];
+		Task [23][3] = array1;
 		for (int i = 0; i < 24; i++){
 			for (int j = 0; j < 3; j++){
 			array1[i][j]= task1;
@@ -141,7 +143,9 @@ public class ProjectTest {
 		
 	@Test
 	public void testAddTask(){
-		Task [23][4] array1;
+
+		//int[][] array1 = new int[23][4];
+		Task [23][4] = array1;
 		for (int i = 0; i < 24; i++){
 			for (int j = 0; j < 3; j++){
 			array1[i][j]= task1;
