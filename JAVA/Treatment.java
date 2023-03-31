@@ -2,25 +2,25 @@
 // package ENSF380_Final_Project;
 
 public class Treatment {
-    private final int animalID;
-    private final int taskID;
-    private final int startHour;
+    private final int ANIMALID;
+    private final int TASKID;
+    private final int STARTHOUR;
 
     public Treatment(int animalID, int taskID, int startHour) {
-        this.taskID = taskID;
-        this.animalID = animalID;
-        this.startHour = startHour;
+        this.TASKID = taskID;
+        this.ANIMALID = animalID;
+        this.STARTHOUR = startHour;
     }
 
     public int getAnimalID() {
-        return animalID;
+        return ANIMALID;
     }
 
     public int getTaskID() {
-        return taskID;
+        return TASKID;
     }
 
     public int getStartHour() {
-        return startHour;
+        return STARTHOUR;
     }
 }
