@@ -7,7 +7,7 @@ public class Volunteer {
     private String backupVolName;
 
     public Volunteer(String volID, String volunteerName, String backupVolName) {
-        this.id = volID;
+        this.volID = volID;
         this.volunteerName = volunteerName;
         this.backupVol = backupVolName;
     }

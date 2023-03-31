@@ -1,6 +1,5 @@
 // package ENSF380_Final_Project;
 
-
 public class Task{
     private final int TASKID;
     private final String DESCRIPTION;

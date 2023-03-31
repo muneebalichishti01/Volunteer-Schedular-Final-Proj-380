@@ -1,4 +1,6 @@
-package edu.ucalgary.oop;
+// package edu.ucalgary.oop;
+// package ENSF380_Final_Project;
+
 public class Animal{
 	private final int ANIMALID;
 	private final String ANIMALNICKNAME;
