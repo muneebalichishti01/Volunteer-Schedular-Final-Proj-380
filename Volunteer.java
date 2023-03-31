@@ -1,5 +1,5 @@
 // package edu.ucalgary.oop;
-package ENSF380_Final_Project;
+// package ENSF380_Final_Project;
 
 public class Volunteer {
     private Task task;
