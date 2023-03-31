@@ -1,28 +1,29 @@
+package ENSF380_Final_Project;
 
 
 public class Task{
-    private final int taskId;
-    private final String description ;
-    private final int duration;
-    private final int maxWindow;
+    private final int TASKID;
+    private final String DESCRIPTION;
+    private final int DURATION;
+    private final int MAXWINDOW;
 
 
     public Task(int taskId, String description,int duration, int maxWindow){
-        this.taskId = taskId;
-        this.description = description;
-        this.duration = duration;
-        this.maxWindow = maxWindow; 
+        this.TASKID = taskId;
+        this.DESCRIPTION = description;
+        this.DURATION= duration;
+        this.MAXWINDOW = maxWindow; 
     }
     public int getTaskID(){
-        return this.taskId;
+        return this.TASKID;
     }
     public String getDescription(){
-        return this.description;
+        return this.DESCRIPTION;
     }
     public int getDuration(){
-        return this.duration;
+        return this.DURATION;
     }
     public int maxWindow(){
-        return this.maxWindow;
+        return this.MAXWINDOW;
     }
 }
