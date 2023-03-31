@@ -7,8 +7,8 @@ public class data_Connector{
 	private Connection dbConnect;
     private ResultSet results;
 	private Animal[] animalList = new Animal[50];
-	private Animal[] taskList = new Task[50];
-	private Animal[] treatmentList = new Treatment[50];
+	private Task[] taskList = new Task[50];
+	private Treatment[] treatmentList = new Treatment[50];
 	
 	public data_Connector(){
 	}
@@ -72,7 +72,7 @@ public class data_Connector{
 			int i=0;
 			
             while (results.next()){
-				this.treatmentList[i]= new Task(results.getInt("AnimalID"),results.getString("TaskID"),results.getInt("StartHour"));
+				this.treatmentList[i]= new Treatment(results.getInt("AnimalID"),results.getInt("TaskID"),results.getInt("StartHour"));
 				i++;
       
             }
