@@ -1,5 +1,4 @@
-// package edu.ucalgary.oop;
-// package ENSF380_Final_Project;
+package edu.ucalgary.oop;
 
 public class Volunteer {
     private String ID;
