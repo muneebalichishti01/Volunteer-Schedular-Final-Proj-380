@@ -2,6 +2,8 @@ package edu.ucalgary.oop;
 
 import java.sql.*;
 // import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.TreeSet;
 
 public class data_Connector{
 	private Connection dbConnect;
@@ -10,6 +12,8 @@ public class data_Connector{
 	private Task[] taskList = new Task[50];
 	private Treatment[] treatmentList = new Treatment[50];
     private int[][] hourList= new int [24][10];
+    private HashMap<Integer, TreeSet<Priority>> hoursMap = new HashMap<>();
+
 	
 	public data_Connector(){
 	}
@@ -85,16 +89,41 @@ public class data_Connector{
         
     }
     public void setPriority(){
-      
 
+        for(int i = 0 ; i<taskList.length;i++){
 
+            for(int j = 0; i< treatmentList.length;j++){
                 
+                if( (taskList[i].getTaskID()==treatmentList[j].getTaskID())){
+                    
+                    Priority myPriority = new Priority(taskList[i].getTaskID(),treatmentList[j].getAnimalID(),taskList[i].getDuration(),taskList[i].getMaxWindow(),taskList[i].getDescription(),treatmentList[j].getStartHour());
 
-
-
+                    if(this.hoursMap.containsKey(treatmentList[i].getStartHour())){
+                        TreeSet<Priority> set = this.hoursMap.get(treatmentList[i].getStartHour());
+                        set.add(myPriority);
+                        this.hoursMap.put(treatmentList[i].getStartHour(),set); 
+                    }
+                    else{
+                        TreeSet<Priority> set = new TreeSet<>();
+                        set.add(myPriority);
+                        this.hoursMap.put(treatmentList[i].getStartHour(),set);
+                   }
+                   
+                    
+                }
             }
+        }
+
+      
 
         }
 
-    }
-}	
+
+        public static void  main(String [] args){
+
+        }
+        
+
+        }
+
+    
