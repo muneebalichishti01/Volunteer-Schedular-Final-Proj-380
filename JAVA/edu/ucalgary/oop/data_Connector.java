@@ -4,6 +4,7 @@ import java.sql.*;
 // import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.TreeSet;
+import java.util.Map.Entry;
 
 public class data_Connector{
 	private Connection dbConnect;
@@ -140,9 +141,15 @@ public Treatment[] getTreatmentList(){
 
         }
 
+        public HashMap<Integer,TreeSet<Priority1>> getHashmap (){
+            return this.hoursMap;
+        }
+
 
         public static void  main(String [] args){
         data_Connector myJDBC = new data_Connector();
+
+
  
         myJDBC.createConnection();
         
@@ -150,6 +157,17 @@ public Treatment[] getTreatmentList(){
         
         myJDBC.selectTasks();
         myJDBC.selectTreatments();
+        HashMap<Integer, TreeSet<Priority1>> hoursMap = myJDBC.getHashmap();
+        for (Entry<Integer, TreeSet<Priority1>> entry : hoursMap.entrySet()) {
+            Integer key = entry.getKey();
+            TreeSet<Priority1> value = entry.getValue();
+            for (Priority1 item : value) {
+                System.out.println(key + " " + item);
+                }
+            }
+                
+        }   
+        
 
         
 
@@ -159,6 +177,6 @@ public Treatment[] getTreatmentList(){
         }
         
 
-        }
+        
 
     
