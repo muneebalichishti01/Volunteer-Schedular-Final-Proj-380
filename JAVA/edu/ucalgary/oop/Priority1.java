@@ -1,6 +1,6 @@
 package edu.ucalgary.oop;
 
-public class Priority {
+public class Priority1 {
     private int taskID;
     private int animalID;
     private int duration;
@@ -8,7 +8,7 @@ public class Priority {
     private String description;
     private int startHour;
 
-    public Priority(int task, int animal, int Duration, int MaxWindow, String Desc , int start){
+    public Priority1(int task, int animal, int Duration, int MaxWindow, String Desc , int start){
         this.taskID = task;
         this.animalID = animal;
         this.duration = Duration;

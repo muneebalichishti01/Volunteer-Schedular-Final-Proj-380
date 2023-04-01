@@ -1,9 +1,9 @@
 package edu.ucalgary.oop;
 
 public class Treatment {
-    private final int ANIMALID;
-    private final int TASKID;
-    private final int STARTHOUR;
+    private  int ANIMALID;
+    private  int TASKID;
+    private  int STARTHOUR;
 
     public Treatment(int animalID, int taskID, int startHour) {
         this.TASKID = taskID;
@@ -12,14 +12,14 @@ public class Treatment {
     }
 
     public int getAnimalID() {
-        return ANIMALID;
+        return this.ANIMALID;
     }
 
     public int getTaskID() {
-        return TASKID;
+        return this.TASKID;
     }
 
     public int getStartHour() {
-        return STARTHOUR;
+        return this.STARTHOUR;
     }
 }
