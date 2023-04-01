@@ -22,7 +22,7 @@ public class Task{
     public int getDuration(){
         return this.DURATION;
     }
-    public int maxWindow(){
+    public int getMaxWindow(){
         return this.MAXWINDOW;
     }
 }
