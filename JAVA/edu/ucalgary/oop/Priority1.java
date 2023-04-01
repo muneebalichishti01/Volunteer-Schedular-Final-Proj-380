@@ -1,6 +1,6 @@
 package edu.ucalgary.oop;
 
-public class Priority1 {
+public class Priority1  implements Comparable<Priority1>{
     private int taskID;
     private int animalID;
     private int duration;
@@ -35,5 +35,10 @@ public class Priority1 {
     }
     public int getStartHour(){
         return this.startHour;
+    }
+    @Override
+    public int compareTo(Priority1 o) {
+        // TODO Auto-generated method stub
+        return this.taskID;
     }
 }

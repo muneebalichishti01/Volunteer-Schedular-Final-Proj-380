@@ -6,7 +6,7 @@ import java.util.HashMap;
 import java.util.TreeSet;
 import java.util.Map.Entry;
 
-public class data_Connector{
+public class data_Connector {
 	private Connection dbConnect;
     private ResultSet results;
 	private Animal[] animalList = new Animal[15];
@@ -109,9 +109,8 @@ public Treatment[] getTreatmentList(){
 
         for(int i = 0 ; i<10;i++){
 
-            for(int j = 0; i<30 ;j++){
-             
-           
+            for(int j = 0; j<30 ;j++){
+          
                 
                 
                 if (this.taskList[i].getTaskID()==this.treatmentList[j].getTaskID() ){
@@ -119,17 +118,49 @@ public Treatment[] getTreatmentList(){
                     
                     Priority1 myPriority = new Priority1(this.taskList[i].getTaskID(),this.treatmentList[j].getAnimalID(),this.taskList[i].getDuration(),taskList[i].getMaxWindow(),this.taskList[i].getDescription(),this.treatmentList[j].getStartHour());
 
-                     if(this.hoursMap.containsKey(treatmentList[i].getStartHour())){
-                        TreeSet<Priority1> set = this.hoursMap.get(treatmentList[i].getStartHour());
+                     if(this.hoursMap.containsKey(treatmentList[j].getStartHour())){
+                        TreeSet<Priority1> set = this.hoursMap.get(treatmentList[j].getStartHour());
                         set.add(myPriority);
-                        this.hoursMap.put(treatmentList[i].getStartHour(),set); 
+                        this.hoursMap.put(treatmentList[j].getStartHour(),set); 
                     }
-                    else{
-                        TreeSet<Priority1> set = new TreeSet<>();
-                        set.add(myPriority);
-                        this.hoursMap.put(treatmentList[i].getStartHour(),set);
+                     else{
+                        TreeSet<Priority1> set1 = new TreeSet<>();
+                        set1.add(myPriority);
+                        this.hoursMap.put(treatmentList[j].getStartHour(),set1);
                    }
-                   
+                   /*
+                    if (this.reservationOfLicenceWithDate.containsKey(licence)) {
+        TreeSet<LocalDate> set = this.reservationOfLicenceWithDate.get(licence);
+        set.add(date);
+        set.add(date.plusDays(1));
+        set.add(date.plusDays(2));
+        this.reservationOfLicenceWithDate.put(licence, set);
+        TreeSet<LocalDate> myset = this.parkingRecord.get(licence);
+        TreeSet<LocalDate>mySet2 = this.reservation.get(licence);
+        myset.add(date);
+        mySet2.add(date);
+        TreeSet<LocalDate> reversedSet = (TreeSet<LocalDate>) myset.descendingSet();
+        this.parkingRecord.put(licence,reversedSet);
+        this.reservation.put(licence, mySet2);
+
+
+    }
+     else {
+        TreeSet<LocalDate> set = new TreeSet<>();
+        set.add(date);
+           set.add(date.plusDays(1));
+        set.add(date.plusDays(2));
+        this.reservationOfLicenceWithDate.put(licence, set);
+        TreeSet<LocalDate> mySet = new TreeSet<>();
+        mySet.add(date);
+        this.parkingRecord.put(licence,mySet);
+        this.reservation.put(licence, mySet);
+        if(this.count == 1){
+        this.firstDate = date;
+        this.count=0;
+     }
+
+                    */
                    
                     
                 }
@@ -157,12 +188,13 @@ public Treatment[] getTreatmentList(){
         
         myJDBC.selectTasks();
         myJDBC.selectTreatments();
+        myJDBC.setPriority();
         HashMap<Integer, TreeSet<Priority1>> hoursMap = myJDBC.getHashmap();
         for (Entry<Integer, TreeSet<Priority1>> entry : hoursMap.entrySet()) {
             Integer key = entry.getKey();
             TreeSet<Priority1> value = entry.getValue();
             for (Priority1 item : value) {
-                System.out.println(key + " " + item);
+                System.out.println(key + " " + item.getTaskID());
                 }
             }
                 
