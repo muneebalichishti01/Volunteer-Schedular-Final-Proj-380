@@ -9,6 +9,7 @@ public class data_Connector{
 	private Animal[] animalList = new Animal[50];
 	private Task[] taskList = new Task[50];
 	private Treatment[] treatmentList = new Treatment[50];
+    private int[][] hourList= new int [24][10];
 	
 	public data_Connector(){
 	}
@@ -82,5 +83,18 @@ public class data_Connector{
             ex.printStackTrace();
         }
         
+    }
+    public void setPriority(){
+      
+
+
+                
+
+
+
+            }
+
+        }
+
     }
 }	
