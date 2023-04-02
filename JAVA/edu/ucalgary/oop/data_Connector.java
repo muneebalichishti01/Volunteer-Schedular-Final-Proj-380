@@ -172,18 +172,20 @@ public int[][] getHourList(){
             for (Entry<Integer, TreeSet<Priority1>> entry : hoursMap.entrySet()) {
                 Integer key = entry.getKey();
                 TreeSet<Priority1> value = entry.getValue();
-                int i = 0;
+                
                 for (Priority1 item : value) {
                     for (int j=0; j<24; j++){
-                    
+                        
                         if (j == item.getStartHour() ){
-                            this.hourList[j][i] = item.getTaskID(); 
+                           // this.hourList[j][i] = item.getTaskID();
+                            
 
-                            i++;
-                        }
-                        if (this.hourList[j][i] != 0){ 
+                           // i++;
+                        
+                    
+                         
                             if(this.scheduleMap.containsKey(item.getStartHour())){ //0: lol + lol3
-                                String myStr = this.scheduleMap.get(item.getStartHour());
+                                String myStr = this.scheduleMap.get(item.getStartHour())+"\n";
                                 myStr = myStr + "\n" + item.getdescription();
                                 
                                 this.scheduleMap.put(item.getStartHour(),myStr); 
@@ -194,14 +196,15 @@ public int[][] getHourList(){
                                 this.scheduleMap.put(item.getStartHour(),myStr2);
                            }
                             
-                        }
+                        }   
                         
                     }
+                }
                 
             }
            
         }
-    }
+    
         
 
 
@@ -219,15 +222,12 @@ public int[][] getHourList(){
         myJDBC.selectTreatments();
         myJDBC.setPriority();
         myJDBC.scheduling();
-        for (int i = 0; i<myJDBC.getHourList().length;i++){
+        /*for (int i = 0; i<myJDBC.getHourList().length;i++){
             for (int j= 0; j<myJDBC.getHourList()[i].length; j++){
                 System.out.println( i+ " "+j+"     "+myJDBC.getHourList()[i][j]);
             }
-        }
-        System.out.println(myJDBC.getHourList());
-        System.out.println(myJDBC.getAnimalList().length);
-        System.out.println(myJDBC.getTaskList().length);
-        System.out.println(myJDBC.getTreatmentList().length);
+        }*/
+     
        /* HashMap<Integer, TreeSet<Priority1>> hoursMap = myJDBC.getHashmap();
         for (Entry<Integer, TreeSet<Priority1>> entry : hoursMap.entrySet()) {
             Integer key = entry.getKey();
@@ -239,7 +239,7 @@ public int[][] getHourList(){
                 
         } */  
 
-     HashMap<Integer, String> schedule = myJDBC.getScheduMap();
+      HashMap<Integer, String> schedule = myJDBC.getScheduMap();
      for (Entry<Integer, String> entry : schedule.entrySet()) {
         Integer key = entry.getKey();
         String value = entry.getValue();
