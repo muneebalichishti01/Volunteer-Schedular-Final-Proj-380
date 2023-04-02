@@ -1,5 +1,6 @@
 package edu.ucalgary.oop;
 
+import java.lang.annotation.Retention;
 import java.sql.*;
 import java.util.ArrayList;
 // import java.util.ArrayList;
@@ -20,6 +21,7 @@ public class data_Connector {
     private int[][] hourList= new int [24][10];
     private HashMap<Integer, String> scheduleMap = new HashMap<>(); 
     private HashMap<Integer, TreeSet<Priority1>> hoursMap = new HashMap<Integer, TreeSet<Priority1>>();
+    
 
 	
 	public data_Connector(){
@@ -29,6 +31,9 @@ public class data_Connector {
     }
     public Task[] getTaskList(){
         return this.taskList;
+    }
+    public HashMap<Integer,String> getScheduMap(){
+        return this.scheduleMap;
     }
 
 public Treatment[] getTreatmentList(){
@@ -176,7 +181,18 @@ public int[][] getHourList(){
 
                             i++;
                         }
-                        if (this.hourList[j][i] != 0){
+                        if (this.hourList[j][i] != 0){ 
+                            if(this.scheduleMap.containsKey(item.getStartHour())){ //0: lol + lol3
+                                String myStr = this.scheduleMap.get(item.getStartHour());
+                                myStr = myStr + "\n" + item.getdescription();
+                                
+                                this.scheduleMap.put(item.getStartHour(),myStr); 
+                            }
+                             else{
+                                String myStr2 = item.getdescription(); //0 = empty
+                                
+                                this.scheduleMap.put(item.getStartHour(),myStr2);
+                           }
                             
                         }
                         
@@ -222,14 +238,22 @@ public int[][] getHourList(){
             }
                 
         } */  
+
+     HashMap<Integer, String> schedule = myJDBC.getScheduMap();
+     for (Entry<Integer, String> entry : schedule.entrySet()) {
+        Integer key = entry.getKey();
+        String value = entry.getValue();
+        System.out.println(key + " " + value);
+      
         
     }
         
 
-
-
-
         }
+    }
+
+
+        
         
 
         
