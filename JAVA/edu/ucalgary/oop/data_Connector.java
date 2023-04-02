@@ -1,18 +1,24 @@
 package edu.ucalgary.oop;
 
 import java.sql.*;
+import java.util.ArrayList;
 // import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.TreeSet;
 import java.util.Map.Entry;
 
 public class data_Connector {
+    
 	private Connection dbConnect;
     private ResultSet results;
-	private Animal[] animalList = new Animal[15];
-	private Task[] taskList = new Task[10];
-	private Treatment[] treatmentList = new Treatment[30];
+	//private Animal[] animalList = new Animal[15];
+    private Animal[] animalList = null;
+	//private Task[] taskList = new Task[10];
+    private Task[] taskList = null;
+	//private Treatment[] treatmentList = new Treatment[30];
+    private Treatment[] treatmentList= null;
     private int[][] hourList= new int [24][10];
+    private HashMap<Integer, String> scheduleMap = new HashMap<>(); 
     private HashMap<Integer, TreeSet<Priority1>> hoursMap = new HashMap<Integer, TreeSet<Priority1>>();
 
 	
@@ -28,6 +34,9 @@ public class data_Connector {
 public Treatment[] getTreatmentList(){
     return this.treatmentList;
 }
+public int[][] getHourList(){
+    return this.hourList;
+}
 	
     public void createConnection(){
                 
@@ -39,7 +48,8 @@ public Treatment[] getTreatmentList(){
     }
      
     public void selectAnimals(){
-	
+        ArrayList<Animal> myAnimals = new ArrayList<>();
+
         try {   
 		
             Statement myStmt = dbConnect.createStatement();
@@ -48,10 +58,15 @@ public Treatment[] getTreatmentList(){
 			
             while (results.next()){
 				
-				this.animalList[i]= new Animal(results.getInt("AnimalID"),results.getString("AnimalNickname"),results.getString("AnimalSpecies"));
-				i++;
+				//this.animalList[i]= new Animal(results.getInt("AnimalID"),results.getString("AnimalNickname"),results.getString("AnimalSpecies"));
+				myAnimals.add(new Animal(results.getInt("AnimalID"),results.getString("AnimalNickname"),results.getString("AnimalSpecies")));
+
+                i++;
           
             }
+            this.animalList = myAnimals.toArray(new Animal[0]);
+            
+
             
             myStmt.close();
         } catch (SQLException ex) {
@@ -61,6 +76,7 @@ public Treatment[] getTreatmentList(){
     }  
 
 	 public void selectTasks(){
+        ArrayList<Task> myTasks = new ArrayList<>();
 
         try {                    
             Statement myStmt = dbConnect.createStatement();
@@ -69,11 +85,12 @@ public Treatment[] getTreatmentList(){
 			int i=0;
             while (results.next()){
                 
-                this.taskList[i]= new Task(results.getInt("TaskID"),results.getString("Description"),results.getInt("Duration"),
-				results.getInt("MaxWindow"));
+                myTasks.add(new Task(results.getInt("TaskID"),results.getString("Description"),results.getInt("Duration"),
+				results.getInt("MaxWindow")));
 				i++;		
                 
             }
+            this.taskList = myTasks.toArray(new Task[0]);
             
             myStmt.close();
         } catch (SQLException ex) {
@@ -82,6 +99,7 @@ public Treatment[] getTreatmentList(){
         
     }
     public void selectTreatments(){
+        ArrayList<Treatment> myTreatment = new ArrayList<>();
   
         try {                    
             Statement myStmt = dbConnect.createStatement();
@@ -90,7 +108,7 @@ public Treatment[] getTreatmentList(){
 			
             while (results.next()){
                 
-				this.treatmentList[i]= new Treatment(results.getInt("AnimalID"),results.getInt("TaskID"),results.getInt("StartHour"));
+				myTreatment.add(new Treatment(results.getInt("AnimalID"),results.getInt("TaskID"),results.getInt("StartHour")));
                
                 
                 
@@ -98,6 +116,7 @@ public Treatment[] getTreatmentList(){
                 i++;
       
             }
+            this.treatmentList = myTreatment.toArray(new Treatment[0]);
             
             myStmt.close();
         } catch (SQLException ex) {
@@ -128,39 +147,7 @@ public Treatment[] getTreatmentList(){
                         set1.add(myPriority);
                         this.hoursMap.put(treatmentList[j].getStartHour(),set1);
                    }
-                   /*
-                    if (this.reservationOfLicenceWithDate.containsKey(licence)) {
-        TreeSet<LocalDate> set = this.reservationOfLicenceWithDate.get(licence);
-        set.add(date);
-        set.add(date.plusDays(1));
-        set.add(date.plusDays(2));
-        this.reservationOfLicenceWithDate.put(licence, set);
-        TreeSet<LocalDate> myset = this.parkingRecord.get(licence);
-        TreeSet<LocalDate>mySet2 = this.reservation.get(licence);
-        myset.add(date);
-        mySet2.add(date);
-        TreeSet<LocalDate> reversedSet = (TreeSet<LocalDate>) myset.descendingSet();
-        this.parkingRecord.put(licence,reversedSet);
-        this.reservation.put(licence, mySet2);
-
-
-    }
-     else {
-        TreeSet<LocalDate> set = new TreeSet<>();
-        set.add(date);
-           set.add(date.plusDays(1));
-        set.add(date.plusDays(2));
-        this.reservationOfLicenceWithDate.put(licence, set);
-        TreeSet<LocalDate> mySet = new TreeSet<>();
-        mySet.add(date);
-        this.parkingRecord.put(licence,mySet);
-        this.reservation.put(licence, mySet);
-        if(this.count == 1){
-        this.firstDate = date;
-        this.count=0;
-     }
-
-                    */
+                   
                    
                     
                 }
@@ -175,6 +162,31 @@ public Treatment[] getTreatmentList(){
         public HashMap<Integer,TreeSet<Priority1>> getHashmap (){
             return this.hoursMap;
         }
+        public void scheduling(){
+            
+            for (Entry<Integer, TreeSet<Priority1>> entry : hoursMap.entrySet()) {
+                Integer key = entry.getKey();
+                TreeSet<Priority1> value = entry.getValue();
+                int i = 0;
+                for (Priority1 item : value) {
+                    for (int j=0; j<24; j++){
+                    
+                        if (j == item.getStartHour() ){
+                            this.hourList[j][i] = item.getTaskID(); 
+
+                            i++;
+                        }
+                        if (this.hourList[j][i] != 0){
+                            
+                        }
+                        
+                    }
+                
+            }
+           
+        }
+    }
+        
 
 
         public static void  main(String [] args){
@@ -187,20 +199,31 @@ public Treatment[] getTreatmentList(){
         myJDBC.selectAnimals();
         
         myJDBC.selectTasks();
+
         myJDBC.selectTreatments();
         myJDBC.setPriority();
-        HashMap<Integer, TreeSet<Priority1>> hoursMap = myJDBC.getHashmap();
+        myJDBC.scheduling();
+        for (int i = 0; i<myJDBC.getHourList().length;i++){
+            for (int j= 0; j<myJDBC.getHourList()[i].length; j++){
+                System.out.println( i+ " "+j+"     "+myJDBC.getHourList()[i][j]);
+            }
+        }
+        System.out.println(myJDBC.getHourList());
+        System.out.println(myJDBC.getAnimalList().length);
+        System.out.println(myJDBC.getTaskList().length);
+        System.out.println(myJDBC.getTreatmentList().length);
+       /* HashMap<Integer, TreeSet<Priority1>> hoursMap = myJDBC.getHashmap();
         for (Entry<Integer, TreeSet<Priority1>> entry : hoursMap.entrySet()) {
             Integer key = entry.getKey();
             TreeSet<Priority1> value = entry.getValue();
             for (Priority1 item : value) {
-                System.out.println(key + " " + item.getTaskID());
+                System.out.println(key + " " + item.getanimalID());
                 }
             }
                 
-        }   
+        } */  
         
-
+    }
         
 
 
