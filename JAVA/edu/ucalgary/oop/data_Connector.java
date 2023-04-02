@@ -185,13 +185,13 @@ public int[][] getHourList(){
                     
                          
                             if(this.scheduleMap.containsKey(item.getStartHour())){ //0: lol + lol3
-                                String myStr = this.scheduleMap.get(item.getStartHour())+"\n";
-                                myStr = myStr + "\n" + item.getdescription();
+                                String myStr = this.scheduleMap.get(item.getStartHour());
+                                myStr = myStr + "\n" + item.getdescription()+"\n";
                                 
                                 this.scheduleMap.put(item.getStartHour(),myStr); 
                             }
                              else{
-                                String myStr2 = item.getdescription(); //0 = empty
+                                String myStr2 = item.getdescription()+"\n"; //0 = empty
                                 
                                 this.scheduleMap.put(item.getStartHour(),myStr2);
                            }
