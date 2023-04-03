@@ -39,6 +39,7 @@ public class Priority1  implements Comparable<Priority1>{
     @Override
     public int compareTo(Priority1 o) {
         // TODO Auto-generated method stub
-        return this.taskID;
+        return Integer.compare(this.maxWindow, o.maxWindow);
     }
 }
+/*Arrays.sort(myArray); */

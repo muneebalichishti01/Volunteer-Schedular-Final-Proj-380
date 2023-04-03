@@ -1,29 +1,31 @@
 package edu.ucalgary.oop;
 
-import java.lang.annotation.Retention;
+
 import java.sql.*;
 import java.util.ArrayList;
-// import java.util.ArrayList;
+import java.util.Arrays;
+
 import java.util.HashMap;
 import java.util.TreeSet;
 import java.util.Map.Entry;
 
 public class data_Connector {
-    
 	private Connection dbConnect;
     private ResultSet results;
-	//private Animal[] animalList = new Animal[15];
     private Animal[] animalList = null;
-	//private Task[] taskList = new Task[10];
     private Task[] taskList = null;
-	//private Treatment[] treatmentList = new Treatment[30];
     private Treatment[] treatmentList= null;
     private int[][] hourList= new int [24][10];
-    private HashMap<Integer, String> scheduleMap = new HashMap<>(); 
     private HashMap<Integer, TreeSet<Priority1>> hoursMap = new HashMap<Integer, TreeSet<Priority1>>();
-    private HashMap<Integer, TreeSet<Integer>> maxWndow = new HashMap<Integer, TreeSet<Integer>>();
+    private HashMap<Integer, Priority1[]> newb = new HashMap<Integer, Priority1[]>();
+    private int numberOfFOx = 0;
+    private int numberOfCoyotes = 0;
+    private int numberOfprocupines = 0;
+    private int numberOfBeavers = 0;
+    private int numberOfraccoons = 0;
     
-
+ 
+    
 	
 	public data_Connector(){
 	}
@@ -33,9 +35,22 @@ public class data_Connector {
     public Task[] getTaskList(){
         return this.taskList;
     }
-    public HashMap<Integer,String> getScheduMap(){
-        return this.scheduleMap;
+    public int getnumberOfCoyotes(){
+        return this.numberOfCoyotes;
     }
+    public int getnumberOfFOx(){
+        return this.numberOfFOx;
+    }
+    public int getnumberOfprocupines(){
+        return this.numberOfprocupines;
+    }
+    public int getnumberOfBeavers(){
+        return this.numberOfBeavers;
+    }
+    public int getnumberOfraccoons(){
+        return this.numberOfraccoons;
+    }
+  
 
 public Treatment[] getTreatmentList(){
     return this.treatmentList;
@@ -63,9 +78,30 @@ public int[][] getHourList(){
             int i = 0;
 			
             while (results.next()){
+                
 				
 				//this.animalList[i]= new Animal(results.getInt("AnimalID"),results.getString("AnimalNickname"),results.getString("AnimalSpecies"));
-				myAnimals.add(new Animal(results.getInt("AnimalID"),results.getString("AnimalNickname"),results.getString("AnimalSpecies")));
+                Animal animalNew = new Animal(results.getInt("AnimalID"),results.getString("AnimalNickname"),results.getString("AnimalSpecies"));
+				
+                myAnimals.add(animalNew);
+                if (animalNew.getAnimalSpecies().equals("fox")){
+                    this.numberOfFOx+=1;
+                }
+                else if (animalNew.getAnimalSpecies().equals("coyote")){
+                    this.numberOfCoyotes+=1;
+                }
+                else if (animalNew.getAnimalSpecies().equals("porcupine")){
+                    this.numberOfprocupines+=1;
+                }
+                else if (animalNew.getAnimalSpecies().equals("beavers")){
+                    this.numberOfBeavers+=1;
+                }
+                else if (animalNew.getAnimalSpecies().equals("raccoons")){
+                    this.numberOfraccoons+=1;
+                }
+                
+
+
 
                 i++;
           
@@ -132,9 +168,9 @@ public int[][] getHourList(){
     }
     public void setPriority(){
 
-        for(int i = 0 ; i<10;i++){
+        for(int i = 0 ; i<taskList.length;i++){
 
-            for(int j = 0; j<30 ;j++){
+            for(int j = 0; j<treatmentList.length ;j++){
           
                 
                 
@@ -160,106 +196,40 @@ public int[][] getHourList(){
                 }
             }
         }
-       
-
       
 
         }
-
-        public HashMap<Integer,TreeSet<Priority1>> getHashmap (){
-            return this.hoursMap;
-        }
-        public void scheduling(){
-            
+        public void newa(){
             for (Entry<Integer, TreeSet<Priority1>> entry : hoursMap.entrySet()) {
                 Integer key = entry.getKey();
                 TreeSet<Priority1> value = entry.getValue();
                 
-                for (Priority1 item : value) {
-                    for (int j=0; j<24; j++){
-                        
-                        if (j == item.getStartHour() ){
-                           // this.hourList[j][i] = item.getTaskID();
-                            
+                Priority1[] myArray = value.toArray(new Priority1[value.size()]);
+                
+                Arrays.sort(myArray);
+                
+                this.newb.put(key,myArray);
 
-                           // i++;
-                        
-                    
-                         
-                            if(this.maxWndow.containsKey(item.getStartHour())){ //0: lol + lol3
-                                // String myStr = this.scheduleMap.get(item.getStartHour());
-
-                                // myStr = myStr + "\n" + item.getdescription()+"\n";
-                                
-                                // this.scheduleMap.put(item.getStartHour(),myStr); 
-                                TreeSet<Integer> myMax = this.maxWndow.get(item.getStartHour());
-                                myMax.add(item.getMaxWindow());
-                                this.maxWndow.put(item.getStartHour(),myMax);
-
-                            }
-                             else{
-                                // String myStr2 = item.getdescription()+"\n"; //0 = empty
-                                
-                                // this.scheduleMap.put(item.getStartHour(),myStr2);
-                                TreeSet<Integer> myMax = new TreeSet<>();
-                                myMax.add(item.getMaxWindow());
-                                this.maxWndow.put(item.getStartHour(),myMax);
-                           }
-                            
-                        }   
-                        
-                    }
-                    maxWindowArrange();
                 }
                 
-            }
-           
-        }
-    
-        public void maxWindowArrange(){
-                       
-            for (Entry<Integer, TreeSet<Priority1>> entry : hoursMap.entrySet()) {
-                Integer key = entry.getKey(); //STARTHOUR FROM HOURS MAP THAT HAS KEY AS STARTHOUR AND VALUE AS TREESET OF PRIORITY
-                TreeSet<Priority1> value = entry.getValue();
-                
-                for (Priority1 item : value) {
-                    for (Entry<Integer, TreeSet<Integer>> entry2 : maxWndow.entrySet()) { //STARTHOUR AS KEY AND ORDERED TREESET OF MAX WINDOWS
-                        Integer key2 = entry2.getKey(); //KEY : STARTHOUR
-                        TreeSet<Integer> value2 = entry2.getValue(); // ORDERED INTEGER TREESET OF MAX WINDOW FOR THAT KEY
-                        
-                        for (Integer maxWindow : value2) { 
-                            if((key2 == item.getStartHour()) &&(maxWindow == item.getMaxWindow())){ //STARTHOUR:KEY2 == STARTHOUR , MAXWINDOW == MAXWINDOW
-                                if(this.scheduleMap.containsKey(item.getStartHour())){ //0: lol + lol3
-                                    String myStr = this.scheduleMap.get(item.getStartHour());
-                                    myStr = myStr + "\n" + item.getdescription()+"\n";
-                                    
-                                    this.scheduleMap.put(item.getStartHour(),myStr); 
-                                   
-    
-                                }
-                                 else{
-                                    String myStr2 = item.getdescription()+"\n"; //0 = empty
-                                    
-                                    this.scheduleMap.put(item.getStartHour(),myStr2);
-                                   
-                               }
 
-                            }
+
+
+
+       
+                }
+      
         
 
-
-                   
-
-         
-
+        public HashMap<Integer,TreeSet<Priority1>> getHashmap (){
+            return this.hoursMap;
         }
-    }
-}
-            }
+        public HashMap<Integer,Priority1[]> getnewb (){
+            return this.newb;
         }
+    
 
-
-
+      
         public static void  main(String [] args){
         data_Connector myJDBC = new data_Connector();
 
@@ -273,36 +243,38 @@ public int[][] getHourList(){
 
         myJDBC.selectTreatments();
         myJDBC.setPriority();
-        myJDBC.scheduling();
-        /*for (int i = 0; i<myJDBC.getHourList().length;i++){
-            for (int j= 0; j<myJDBC.getHourList()[i].length; j++){
-                System.out.println( i+ " "+j+"     "+myJDBC.getHourList()[i][j]);
-            }
-        }*/
-     
-       /* HashMap<Integer, TreeSet<Priority1>> hoursMap = myJDBC.getHashmap();
-        for (Entry<Integer, TreeSet<Priority1>> entry : hoursMap.entrySet()) {
+        myJDBC.newa();
+        System.out.print( myJDBC.getnumberOfCoyotes());
+        System.out.print( myJDBC.getnumberOfFOx());
+        System.out.print( myJDBC.getnumberOfprocupines());
+       /*  for (Entry<Integer, Priority1[]> entry : myJDBC.getnewb().entrySet()) {
             Integer key = entry.getKey();
-            TreeSet<Priority1> value = entry.getValue();
+            Priority1[] value = entry.getValue();
             for (Priority1 item : value) {
-                System.out.println(key + " " + item.getanimalID());
+                System.out.print("hour: "+key+ "    ");
+                System.out.print("task: "+item.getTaskID()+ "    ");
+                System.out.print("maxwindow:"+item.getMaxWindow()+ "    ");
+                System.out.print("description: "+item.getdescription()+ "    ");
+                System.out.print("animalid: "+item.getanimalID()+ "    ");
+                System.out.print("duration: "+item.getduration()+ "    ");
+                System.out.print("\n");
+                
                 }
             }
-                
-        } */  
-
-      HashMap<Integer, String> schedule = myJDBC.getScheduMap();
-     for (Entry<Integer, String> entry : schedule.entrySet()) {
-        Integer key = entry.getKey();
-        String value = entry.getValue();
-        System.out.println(key + " " + value);
-      
-        
+        }*/
     }
+}
+       
+    
+    
+    
+            
+    
+   
         
 
-        }
-    }
+     
+    
 
 
         
