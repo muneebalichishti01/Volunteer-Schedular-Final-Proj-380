@@ -21,6 +21,7 @@ public class data_Connector {
     private int[][] hourList= new int [24][10];
     private HashMap<Integer, String> scheduleMap = new HashMap<>(); 
     private HashMap<Integer, TreeSet<Priority1>> hoursMap = new HashMap<Integer, TreeSet<Priority1>>();
+    private HashMap<Integer, TreeSet<Integer>> maxWndow = new HashMap<Integer, TreeSet<Integer>>();
     
 
 	
@@ -146,6 +147,7 @@ public int[][] getHourList(){
                         TreeSet<Priority1> set = this.hoursMap.get(treatmentList[j].getStartHour());
                         set.add(myPriority);
                         this.hoursMap.put(treatmentList[j].getStartHour(),set); 
+                        
                     }
                      else{
                         TreeSet<Priority1> set1 = new TreeSet<>();
@@ -184,28 +186,78 @@ public int[][] getHourList(){
                         
                     
                          
-                            if(this.scheduleMap.containsKey(item.getStartHour())){ //0: lol + lol3
-                                String myStr = this.scheduleMap.get(item.getStartHour());
-                                myStr = myStr + "\n" + item.getdescription()+"\n";
+                            if(this.maxWndow.containsKey(item.getStartHour())){ //0: lol + lol3
+                                // String myStr = this.scheduleMap.get(item.getStartHour());
+
+                                // myStr = myStr + "\n" + item.getdescription()+"\n";
                                 
-                                this.scheduleMap.put(item.getStartHour(),myStr); 
+                                // this.scheduleMap.put(item.getStartHour(),myStr); 
+                                TreeSet<Integer> myMax = this.maxWndow.get(item.getStartHour());
+                                myMax.add(item.getMaxWindow());
+                                this.maxWndow.put(item.getStartHour(),myMax);
+
                             }
                              else{
-                                String myStr2 = item.getdescription()+"\n"; //0 = empty
+                                // String myStr2 = item.getdescription()+"\n"; //0 = empty
                                 
-                                this.scheduleMap.put(item.getStartHour(),myStr2);
+                                // this.scheduleMap.put(item.getStartHour(),myStr2);
+                                TreeSet<Integer> myMax = new TreeSet<>();
+                                myMax.add(item.getMaxWindow());
+                                this.maxWndow.put(item.getStartHour(),myMax);
                            }
                             
                         }   
                         
                     }
+                    maxWindowArrange();
                 }
                 
             }
            
         }
     
+        public void maxWindowArrange(){
+                       
+            for (Entry<Integer, TreeSet<Priority1>> entry : hoursMap.entrySet()) {
+                Integer key = entry.getKey(); //STARTHOUR FROM HOURS MAP THAT HAS KEY AS STARTHOUR AND VALUE AS TREESET OF PRIORITY
+                TreeSet<Priority1> value = entry.getValue();
+                
+                for (Priority1 item : value) {
+                    for (Entry<Integer, TreeSet<Integer>> entry2 : maxWndow.entrySet()) { //STARTHOUR AS KEY AND ORDERED TREESET OF MAX WINDOWS
+                        Integer key2 = entry2.getKey(); //KEY : STARTHOUR
+                        TreeSet<Integer> value2 = entry2.getValue(); // ORDERED INTEGER TREESET OF MAX WINDOW FOR THAT KEY
+                        
+                        for (Integer maxWindow : value2) { 
+                            if((key2 == item.getStartHour()) &&(maxWindow == item.getMaxWindow())){ //STARTHOUR:KEY2 == STARTHOUR , MAXWINDOW == MAXWINDOW
+                                if(this.scheduleMap.containsKey(item.getStartHour())){ //0: lol + lol3
+                                    String myStr = this.scheduleMap.get(item.getStartHour());
+                                    myStr = myStr + "\n" + item.getdescription()+"\n";
+                                    
+                                    this.scheduleMap.put(item.getStartHour(),myStr); 
+                                   
+    
+                                }
+                                 else{
+                                    String myStr2 = item.getdescription()+"\n"; //0 = empty
+                                    
+                                    this.scheduleMap.put(item.getStartHour(),myStr2);
+                                   
+                               }
+
+                            }
         
+
+
+                   
+
+         
+
+        }
+    }
+}
+            }
+        }
+
 
 
         public static void  main(String [] args){
