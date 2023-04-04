@@ -1,10 +1,12 @@
 package edu.ucalgary.oop;
+import java.util.Collections;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.TreeSet;
 import java.util.Map.Entry;
 
@@ -17,9 +19,16 @@ public class data_Connector {
 
     private int[][] hourList= new int [24][10];
     private HashMap<Integer, ArrayList<Priority1>> hoursMap = new HashMap<>();
-    private HashMap<Integer, Priority1[]> newb = new HashMap<Integer, Priority1[]>();
+    private HashMap<Integer, ArrayList<Priority1>> newb = new HashMap<Integer, ArrayList<Priority1>>();
 
-    private HashMap<Integer, Priority1[]> verynewb = new HashMap<Integer, Priority1[]>();
+    private HashMap<Integer, ArrayList<Priority1>> verynewb = new HashMap<Integer, ArrayList<Priority1>>();
+    private ArrayList<ArrayList<Priority1>> twoDimArrayList = new ArrayList<ArrayList<Priority1>>();
+    private ArrayList<Integer>  keystorm =new ArrayList<>();
+    private ArrayList<Priority1> valuestorm= new ArrayList<>();;
+    private ArrayList<Integer>  keystoadd =new ArrayList<>();
+    private ArrayList<Priority1> valuestoadd= new ArrayList<>();
+    private Priority1 [][] name =new  Priority1[16][10];
+    
 
 
     private int numberOfFOx = 0;
@@ -30,8 +39,10 @@ public class data_Connector {
 
     private int timearray [] = new int [24];
     
- 
-    
+ // for 
+    public ArrayList<ArrayList<Priority1>> gettwo(){
+        return this.twoDimArrayList;
+    }
 
 	
 	public data_Connector(){
@@ -227,25 +238,36 @@ public class data_Connector {
         }
 
        
-    
+    public void copying(){
+        for (Entry<Integer, ArrayList<Priority1>> entry :this.newb.entrySet()) {
+            Integer key = entry.getKey();
+            ArrayList<Priority1> value = entry.getValue();
+            this.twoDimArrayList.add(key,value);
+        }
+}
       
 
         
        
-      
+      public Priority1 [][] getName(){
+        return this.name;
+      }
         
 
         
-        public void fun1(){
+         /*public void fun1(){
+            this.verynewb =new HashMap<>(newb);
            // Arrays.fill(this.timearray, 60);
            for (int i = 0; i<24; i++){
             
             this.timearray[i] = 60;
            }
-
-            for (Entry<Integer, Priority1[]> entry :this.newb.entrySet()) {
+           
+            for (Entry<Integer, ArrayList<Priority1>> entry :this.newb.entrySet()) {
                 Integer key = entry.getKey();
-                Priority1[] value = entry.getValue();
+                ArrayList<Priority1> value = entry.getValue();
+               
+
                 
                 for (Priority1 item : value){
                     
@@ -255,35 +277,40 @@ public class data_Connector {
                     this.timearray[key] = y- item.getduration();
   
             }
-            else{
-                if (item.getMaxWindow() == 1){
-                    System.out.print("please change time");
-                }
-                else if (item.getMaxWindow() == 2){
-                    if (item.getduration()<= gettimearrayatindex(key+1)){
-                        int y=  this.timearray[key+1] ;
-                        this.timearray[key+1] = y- item.getduration();
-                        Priority1[] newArr = new Priority1[value.length - 1];
-                        int index = 0;
-                        for (Priority1 obj : value) {
-                        if (!obj.equals(item)) {
-                            newArr[index] = obj;
-                            index++;
-                        
-                            
+                    else{
+                        if (item.getMaxWindow() == 1){
+                            System.out.print("please change time");
                         }
-                    }
-                    this.newb.put(key,newArr);
-                    Priority1[] newvalue = this.newb.get(key+1);
-                    
-                    Priority1[] newArr1 = new Priority1[newvalue.length + 1];
-                    for (int k = 0; k< newArr1.length; k++) {
-                        newArr1[k] = newvalue[k];
-                    }
-                    newArr[newArr.length - 1] = item;
-                                        }
+                        else if (item.getMaxWindow() ==2){
+                            if (item.getduration()<= gettimearrayatindex(key+1)){
+                                int y=  this.timearray[key+1] ;
+                                this.timearray[key+1] = y- item.getduration();
 
-                    
+                               
+                                keystorm.add(key);
+                                valuestorm.add(item);
+                                //newvalue1.add(item);
+                               
+                                keystoadd.add(key+1);
+                                valuestoadd.add(item);}}}}}
+                            }
+                                
+
+                                /*Priority1[] newArr = new Priority1[value.length - 1];
+                                int index = 0;
+                                for (Priority1 obj : value) {
+                                if (!obj.equals(item)) {
+                                    newArr[index] = obj;
+                                    index++;
+                                
+                                    
+                                }
+                            }
+                            
+                            
+                                                }
+
+                        
 
                        
                                     }
@@ -293,11 +320,64 @@ public class data_Connector {
 
                 }
 
+            }*/
+           /* public void xx(){
+            for (int i= 0; i<1; i++){
+
+                int element  = keystorm.get(0);
+                Priority1 element1 = valuestorm.get(0);
+                ArrayList<Priority1> x= this.newb.get(element); 
+                x.remove(element1);
+                this.newb.put(element, x);
+                int element2  = keystoadd.get(0);
+                Priority1 element3 = valuestoadd.get(0);
+                ArrayList<Priority1> y= this.newb.get(element);
+                y.add(element3) ;
+                this.newb.put(element2, x);
+
             }
         }
-                    
-
-
+            */        
+  /*public void addPriority(int startHour, Priority1 priority) {
+            ArrayList<Priority1> priorityList = this.gettwo().get(startHour);
+            int remainingTime = 60;
+            for (Priority1 p : priorityList) {
+                remainingTime -= p.getduration();
+                if (remainingTime <= 0) {
+                    shiftPriority(startHour, priorityList, priority);
+                    return;
+                }
+            }
+            priorityList.add(priority);
+        }
+       
+            private void shiftPriority(int startHour, ArrayList<Priority1> priorityList, Priority1 priority) {
+                int maxWindow = priority.getMaxWindow();
+                int shiftCount = 0;
+                int currentHour = startHour;
+                while (shiftCount < maxWindow && currentHour < 23) {
+                    currentHour++;
+                    ArrayList<Priority1> nextPriorityList = this.gettwo().get(currentHour);
+                    int remainingTime = 60;
+                    for (Iterator<Priority1> it = priorityList.iterator(); it.hasNext();) {
+                        Priority1 p = it.next();
+                        remainingTime -= p.getduration();
+                        if (remainingTime <= 0) {
+                            shiftPriority(currentHour, nextPriorityList, priority);
+                            return;
+                        }
+                    }
+                    nextPriorityList.add(priority);
+                    for (Iterator<Priority1> it = priorityList.iterator(); it.hasNext();) {
+                        Priority1 p = it.next();
+                        if (p == priority) {
+                            it.remove();
+                            break;
+                        }
+                    }
+                    shiftCount++;
+                }
+            }
                     
                     
                 
@@ -305,23 +385,66 @@ public class data_Connector {
 
 
     
-   / public void newa(){
-        for (Entry<Integer, ArrayList<Priority1> > entry : hoursMap.entrySet()) {
+    /*public void fun2(){
+        this.verynewb =new HashMap<>(newb);
+       
+        for (Entry<Integer, ArrayList<Priority1>> entry : this.newb.entrySet()){
+            
+            ArrayList<Priority1> value = entry.getValue();
+            
+               
+                twoDimArrayList.add(value);
+            }
+           
+        }*/
+       /*  public void fun1(){
+            for (int i = 0; i < 16; i++) {
+                A.get(i);
+                for (int j = 0; j < row.size(); j++) {
+                    Priority1 ob=row.get(j); 
+                    addPriority(j, ob);
+                }
+            }
+        }
+
+       /* for(int k= 0; k<24;k++){
+            for (int z=0 ;z<this.twoDimArrayList.get(k).size(); z++){
+
+            
+            addPriority(k, this.twoDimArrayList.get(k).get(p));
+        }
+        
+    }*/
+
+    
+        
+   
+    
+    
+    
+    
+
+
+
+
+   public void newa(){
+        for (Entry<Integer, ArrayList<Priority1>> entry : hoursMap.entrySet()) {
             Integer key = entry.getKey();
             ArrayList<Priority1> value = entry.getValue();
                 
             Priority1[] myArray = value.toArray(new Priority1[value.size()]);
                 
             Arrays.sort(myArray);
+            ArrayList<Priority1> list = new ArrayList<>(Arrays.asList(myArray));
                 
-            this.newb.put(key,myArray);
+            this.newb.put(key,list);
         }
     }
       
     public HashMap<Integer,ArrayList<Priority1>> getHashmap (){
         return this.hoursMap;
     }
-    public HashMap<Integer,Priority1[]> getnewb (){
+    public HashMap<Integer,ArrayList<Priority1> > getnewb (){
         return this.newb;
     }
     
@@ -339,11 +462,24 @@ public class data_Connector {
 
         myJDBC.selectTreatments();
         myJDBC.setPriority();
-        //myJDBC.newa();
-        //myJDBC.fun1();
+        myJDBC.newa();
+        myJDBC.copying();
+        
+        
+        
         System.out.print( myJDBC.getnumberOfCoyotes());
         System.out.print( myJDBC.getnumberOfFOx());
         System.out.print( myJDBC.getnumberOfprocupines());
+        ArrayList<ArrayList<Priority1>> lol = myJDBC.gettwo();
+
+       for(int i = 0; i< lol.size();i++){
+        ArrayList<Priority1> key = lol.get(i);
+        for(int j = 0; j<lol.get(i).size(); j++){
+            Priority1 value = lol.get(i).get(j);
+            System.out.println(key + " " + value.getStartHour());
+        }
+
+        
     
 
       /*   for (Entry<Integer, Priority1[]> entry : myJDBC.getnewb().entrySet()) {
@@ -355,22 +491,32 @@ public class data_Connector {
         System.out.print( myJDBC.getnumberOfCoyotes());
         System.out.print( myJDBC.getnumberOfFOx());
         System.out.print( myJDBC.getnumberOfprocupines());
-
-       /*  for (Entry<Integer, Priority1[]> entry : myJDBC.getnewb().entrySet())
-            Integer key = entry.getKey();
-            Priority1[] value = entry.getValue();
-            for (Priority1 item : value) {
-                System.out.print("hour: "+key+ "    ");
-                System.out.print("task: "+item.getTaskID()+ "    ");
-                System.out.print("maxwindow:"+item.getMaxWindow()+ "    ");
-                System.out.print("description: "+item.getdescription()+ "    ");
-                System.out.print("animalid: "+item.getanimalID()+ "    ");
-                System.out.print("duration: "+item.getduration()+ "    ");
-                System.out.print("\n");
+*/
+        // for (Entry<Integer, ArrayList<Priority1>> entry : myJDBC.getnewb().entrySet()){
+        //     Integer key = entry.getKey();
+        //     ArrayList<Priority1> value = entry.getValue();
+        //     for (Priority1 item : value) {
+        //         System.out.print("hour: "+key+ "    ");
+        //         System.out.print("task: "+item.getTaskID()+ "    ");
+        //         System.out.print("maxwindow:"+item.getMaxWindow()+ "    ");
+        //         System.out.print("description: "+item.getdescription()+ "    ");
+        //         System.out.print("animalid: "+item.getanimalID()+ "    ");
+        //         System.out.print("duration: "+item.getduration()+ "    ");
+        //         System.out.print("\n");
                 
+        //         }
+        //     }
+
+
+            /*for (int i = 0; i < 16; i++) {
+                ArrayList<Priority1> row = myJDBC.gettwo().get(i);
+                System.out.print("k"+ row.size());
+                for (int j = 0; j < row.size(); j++) {
+                    Priority1 ob=row.get(j); 
+                    System.out.println("lll"+ob.getStartHour());
                 }
             }
-            */
+            /*
             for (Entry<Integer, ArrayList<Priority1>> entry : myJDBC.getHashmap().entrySet()) {
                 Integer key = entry.getKey();
                 ArrayList<Priority1> value = entry.getValue();
@@ -384,16 +530,17 @@ public class data_Connector {
                  
                     
                     }
-          /*   for (int i = 0; i<24 ; i++){
+            for (int i = 0; i<24 ; i++){
                 System.out.println( myJDBC.gettimearrayatindex(i));
             }*/
             
        
-             } }
+             
     }
+}
+}
 
-    
-    
+ 
         
 
     
