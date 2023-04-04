@@ -27,7 +27,7 @@ public class data_Connector {
     private ArrayList<Priority1> valuestorm= new ArrayList<>();;
     private ArrayList<Integer>  keystoadd =new ArrayList<>();
     private ArrayList<Priority1> valuestoadd= new ArrayList<>();
-    private Priority1 [][] name =new  Priority1[16][10];
+
     
 
 
@@ -208,6 +208,7 @@ public class data_Connector {
 
                         ArrayList<Priority1> set = this.hoursMap.get(treatmentList[j].getStartHour());
                         set.add(myPriority);
+                   
 
                        
                         this.hoursMap.put(treatmentList[j].getStartHour(),set); 
@@ -239,19 +240,18 @@ public class data_Connector {
 
        
     public void copying(){
-        for (Entry<Integer, ArrayList<Priority1>> entry :this.newb.entrySet()) {
+       this.twoDimArrayList = new ArrayList<>(this.newb.values());
+        /*for (Entry<Integer, ArrayList<Priority1>> entry :this.newb.entrySet()) {
             Integer key = entry.getKey();
             ArrayList<Priority1> value = entry.getValue();
             this.twoDimArrayList.add(key,value);
-        }
+        }*/
 }
       
 
         
        
-      public Priority1 [][] getName(){
-        return this.name;
-      }
+    
         
 
         
@@ -474,9 +474,11 @@ public class data_Connector {
 
        for(int i = 0; i< lol.size();i++){
         ArrayList<Priority1> key = lol.get(i);
+       
+        
         for(int j = 0; j<lol.get(i).size(); j++){
             Priority1 value = lol.get(i).get(j);
-            System.out.println(key + " " + value.getStartHour());
+            System.out.println( value.getStartHour()+ " " + value.getTaskID());
         }
 
         
