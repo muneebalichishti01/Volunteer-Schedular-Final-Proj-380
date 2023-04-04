@@ -208,6 +208,7 @@ public class data_Connector {
 
                         ArrayList<Priority1> set = this.hoursMap.get(treatmentList[j].getStartHour());
                         set.add(myPriority);
+                   
 
                        
                         this.hoursMap.put(treatmentList[j].getStartHour(),set); 
