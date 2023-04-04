@@ -18,17 +18,33 @@ public class data_Connector {
     private int[][] hourList= new int [24][10];
     private HashMap<Integer, TreeSet<Priority1>> hoursMap = new HashMap<Integer, TreeSet<Priority1>>();
     private HashMap<Integer, Priority1[]> newb = new HashMap<Integer, Priority1[]>();
+    private HashMap<Integer, Priority1[]> verynewb = new HashMap<Integer, Priority1[]>();
     private int numberOfFOx = 0;
     private int numberOfCoyotes = 0;
     private int numberOfprocupines = 0;
     private int numberOfBeavers = 0;
     private int numberOfraccoons = 0;
+    private int timearray [] = new int [24];
     
  
     
 	
 	public data_Connector(){
+           
+       
+       
 	}
+    public int [] gettimearray(){
+        return this.timearray;
+    }
+    public int gettimearrayatindex(int x){
+        return this.timearray[x];
+
+    }
+    public void settimearray(int x,int duration ){
+         int y=  this.timearray[x] ;
+         this.timearray[x] = y- duration;
+    }
     public Animal[] getAnimalList(){
         return this.animalList;
     }
@@ -167,6 +183,7 @@ public int[][] getHourList(){
         
     }
     public void setPriority(){
+        int l =0;
 
         for(int i = 0 ; i<taskList.length;i++){
 
@@ -176,29 +193,37 @@ public int[][] getHourList(){
                 
                 if (this.taskList[i].getTaskID()==this.treatmentList[j].getTaskID() ){
 
-                    
+                   
                     Priority1 myPriority = new Priority1(this.taskList[i].getTaskID(),this.treatmentList[j].getAnimalID(),this.taskList[i].getDuration(),taskList[i].getMaxWindow(),this.taskList[i].getDescription(),this.treatmentList[j].getStartHour());
-
+                    
                      if(this.hoursMap.containsKey(treatmentList[j].getStartHour())){
                         TreeSet<Priority1> set = this.hoursMap.get(treatmentList[j].getStartHour());
                         set.add(myPriority);
+                        System.out.println("n"+treatmentList[j].getTaskID());
                         this.hoursMap.put(treatmentList[j].getStartHour(),set); 
+                        l++;
                         
                     }
                      else{
+                        System.out.println("k"+treatmentList[j].getTaskID());
                         TreeSet<Priority1> set1 = new TreeSet<>();
                         set1.add(myPriority);
                         this.hoursMap.put(treatmentList[j].getStartHour(),set1);
+                        l++;
+
                    }
                    
                    
                     
                 }
+
             }
         }
+        System.out.println("last"+l);
+    }
       
 
-        }
+        
         public void newa(){
             for (Entry<Integer, TreeSet<Priority1>> entry : hoursMap.entrySet()) {
                 Integer key = entry.getKey();
@@ -218,6 +243,7 @@ public int[][] getHourList(){
 
        
                 }
+            
       
         
 
@@ -227,6 +253,72 @@ public int[][] getHourList(){
         public HashMap<Integer,Priority1[]> getnewb (){
             return this.newb;
         }
+        public void fun1(){
+           // Arrays.fill(this.timearray, 60);
+           for (int i = 0; i<24; i++){
+            
+            this.timearray[i] = 60;
+           }
+
+            for (Entry<Integer, Priority1[]> entry :this.newb.entrySet()) {
+                Integer key = entry.getKey();
+                Priority1[] value = entry.getValue();
+                
+                for (Priority1 item : value){
+                    
+                    if (item.getduration()<= gettimearrayatindex(key)){
+                    
+                    int y=  this.timearray[key] ;
+                    this.timearray[key] = y- item.getduration();
+  
+            }
+            else{
+                if (item.getMaxWindow() == 1){
+                    System.out.print("please change time");
+                }
+                else if (item.getMaxWindow() == 2){
+                    if (item.getduration()<= gettimearrayatindex(key+1)){
+                        int y=  this.timearray[key+1] ;
+                        this.timearray[key+1] = y- item.getduration();
+                        Priority1[] newArr = new Priority1[value.length - 1];
+                        int index = 0;
+                        for (Priority1 obj : value) {
+                        if (!obj.equals(item)) {
+                            newArr[index] = obj;
+                            index++;
+                        
+                            
+                        }
+                    }
+                    this.newb.put(key,newArr);
+                    Priority1[] newvalue = this.newb.get(key+1);
+                    
+                    Priority1[] newArr1 = new Priority1[newvalue.length + 1];
+                    for (int k = 0; k< newArr1.length; k++) {
+                        newArr1[k] = newvalue[k];
+                    }
+                    newArr[newArr.length - 1] = item;
+                                        }
+
+                    
+
+                       
+                                    }
+
+                        
+                    }
+
+                }
+
+            }
+        }
+                    
+
+
+                    
+                    
+                
+        
     
 
       
@@ -240,14 +332,19 @@ public int[][] getHourList(){
         myJDBC.selectAnimals();
         
         myJDBC.selectTasks();
+       
+        
+       
+
 
         myJDBC.selectTreatments();
         myJDBC.setPriority();
         myJDBC.newa();
+        myJDBC.fun1();
         System.out.print( myJDBC.getnumberOfCoyotes());
         System.out.print( myJDBC.getnumberOfFOx());
         System.out.print( myJDBC.getnumberOfprocupines());
-       /*  for (Entry<Integer, Priority1[]> entry : myJDBC.getnewb().entrySet()) {
+      /*   for (Entry<Integer, Priority1[]> entry : myJDBC.getnewb().entrySet()) {
             Integer key = entry.getKey();
             Priority1[] value = entry.getValue();
             for (Priority1 item : value) {
@@ -261,9 +358,29 @@ public int[][] getHourList(){
                 
                 }
             }
-        }*/
+            int i=1;
+            for (Entry<Integer, TreeSet<Priority1>> entry : myJDBC.getHashmap().entrySet()) {
+                Integer key = entry.getKey();
+                TreeSet<Priority1> value = entry.getValue();
+                
+
+                for (Priority1 item : value) {
+                    System.out.println("here"+i);
+                    i++;
+                   
+
+                 
+                    
+                    }
+          /*   for (int i = 0; i<24 ; i++){
+                System.out.println( myJDBC.gettimearrayatindex(i));
+            }*/
+            
+        }
+
     }
-}
+
+
        
     
     
