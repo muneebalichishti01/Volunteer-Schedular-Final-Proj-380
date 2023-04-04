@@ -14,11 +14,9 @@ public class Treatment {
     public int getAnimalID() {
         return this.ANIMALID;
     }
-
     public int getTaskID() {
         return this.TASKID;
     }
-
     public int getStartHour() {
         return this.STARTHOUR;
     }

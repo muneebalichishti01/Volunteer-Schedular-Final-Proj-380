@@ -14,11 +14,9 @@ public class Animal {
     public int getAnimalID(){
         return this.ANIMALID;
     }
-
     public String getAnimalNickName(){
         return this.ANIMALNICKNAME;
     }
-
     public String getAnimalSpecies(){
         return this.ANIMALSPECIES;
     }

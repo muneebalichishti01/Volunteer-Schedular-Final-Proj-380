@@ -13,6 +13,7 @@ public class Task{
         this.DURATION= duration;
         this.MAXWINDOW = maxWindow; 
     }
+    
     public int getTaskID(){
         return this.TASKID;
     }
