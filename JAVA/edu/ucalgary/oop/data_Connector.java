@@ -188,7 +188,7 @@ public class data_Connector {
 
     public void setPriority(){
 
-        int l =0;
+        
 
 
         for(int i = 0 ; i<taskList.length;i++){
@@ -212,7 +212,7 @@ public class data_Connector {
 
                        
                         this.hoursMap.put(treatmentList[j].getStartHour(),set); 
-                        l++;
+               
                         
 
                         this.hoursMap.put(treatmentList[j].getStartHour(),set);                 
@@ -222,21 +222,24 @@ public class data_Connector {
                         
                         ArrayList<Priority1> set1 = new ArrayList<Priority1>();
                         set1.add(myPriority);
-                        this.hoursMap.put(treatmentList[j].getStartHour(),set1);
+                        this.hoursMap.put(treatmentList[j].getStartHour(),set1);}
+                   }
+                } 
+}
+                for(int k = 0; k< 24; k++){
+                    if(!this.hoursMap.containsKey(k)){
+                    }
+                    else{
+                        
+                        this.hoursMap.put(k,null);
 
-                        l++;
 
                    }
-                   
-                   
-
-                   } 
-
-                }
 
             }
            
         }
+    
 
        
     public void copying(){
