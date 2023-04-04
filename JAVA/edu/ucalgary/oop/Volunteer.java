@@ -15,27 +15,21 @@ public class Volunteer {
     public void setVolID(String volID) {
         this.ID = volID;
     }
-
     public void setVolunteerName(String volunteerName) {
         this.volunteerName = volunteerName;
     }
-
     public void setBackupVol(String backupVolName) {
         this.backupVolName = backupVolName;
     }
-
     public String getID() {
         return ID;
     }
-
     public String getVolunteerName() {
         return volunteerName;
     }
-
     public String getBackupVol() {
         return backupVolName;
     }
-
     public Task getTask() {
         return task;
     }

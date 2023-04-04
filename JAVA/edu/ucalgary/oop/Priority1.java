@@ -15,8 +15,8 @@ public class Priority1  implements Comparable<Priority1>{
         this.maxWindow= MaxWindow;
         this.description = Desc;
         this.startHour= start;
-    
     }
+
     public int getTaskID(){
         return this.taskID;
     }
@@ -36,6 +36,7 @@ public class Priority1  implements Comparable<Priority1>{
     public int getStartHour(){
         return this.startHour;
     }
+    
     @Override
     public int compareTo(Priority1 o) {
         // TODO Auto-generated method stub
