@@ -18,23 +18,21 @@ public class data_Connector {
     private int[][] hourList= new int [24][10];
     private HashMap<Integer, TreeSet<Priority1>> hoursMap = new HashMap<Integer, TreeSet<Priority1>>();
     private HashMap<Integer, Priority1[]> newb = new HashMap<Integer, Priority1[]>();
-<<<<<<< HEAD
-    private HashMap<Integer, Priority1[]> verynewb = new HashMap<Integer, Priority1[]>();
-=======
 
->>>>>>> 8036a266dd61030fa9eb04a666f6d61614767190
+    private HashMap<Integer, Priority1[]> verynewb = new HashMap<Integer, Priority1[]>();
+
+
     private int numberOfFOx = 0;
     private int numberOfCoyotes = 0;
     private int numberOfprocupines = 0;
     private int numberOfBeavers = 0;
     private int numberOfraccoons = 0;
-<<<<<<< HEAD
+
     private int timearray [] = new int [24];
     
  
     
-=======
->>>>>>> 8036a266dd61030fa9eb04a666f6d61614767190
+
 	
 	public data_Connector(){
            
@@ -176,88 +174,62 @@ public class data_Connector {
     }
 
     public void setPriority(){
-<<<<<<< HEAD
+
         int l =0;
 
-=======
->>>>>>> 8036a266dd61030fa9eb04a666f6d61614767190
+
         for(int i = 0 ; i<taskList.length;i++){
             for(int j = 0; j<treatmentList.length ;j++){
            
                 if (this.taskList[i].getTaskID()==this.treatmentList[j].getTaskID() ){
-<<<<<<< HEAD
+
 
                    
-=======
->>>>>>> 8036a266dd61030fa9eb04a666f6d61614767190
+
                     Priority1 myPriority = new Priority1(this.taskList[i].getTaskID(),this.treatmentList[j].getAnimalID(),this.taskList[i].getDuration(),taskList[i].getMaxWindow(),this.taskList[i].getDescription(),this.treatmentList[j].getStartHour());
                     
                      if(this.hoursMap.containsKey(treatmentList[j].getStartHour())){
                         TreeSet<Priority1> set = this.hoursMap.get(treatmentList[j].getStartHour());
                         set.add(myPriority);
-<<<<<<< HEAD
+
                         System.out.println("n"+treatmentList[j].getTaskID());
                         this.hoursMap.put(treatmentList[j].getStartHour(),set); 
                         l++;
                         
-=======
+
                         this.hoursMap.put(treatmentList[j].getStartHour(),set);                 
->>>>>>> 8036a266dd61030fa9eb04a666f6d61614767190
+
                     }
                      else{
                         System.out.println("k"+treatmentList[j].getTaskID());
                         TreeSet<Priority1> set1 = new TreeSet<>();
                         set1.add(myPriority);
                         this.hoursMap.put(treatmentList[j].getStartHour(),set1);
-<<<<<<< HEAD
+
                         l++;
 
                    }
                    
                    
-                    
-=======
+
                    } 
->>>>>>> 8036a266dd61030fa9eb04a666f6d61614767190
+
                 }
 
             }
+            System.out.println("last"+l);
         }
-<<<<<<< HEAD
-        System.out.println("last"+l);
-    }
-      
-
-        
-        public void newa(){
-            for (Entry<Integer, TreeSet<Priority1>> entry : hoursMap.entrySet()) {
-                Integer key = entry.getKey();
-                TreeSet<Priority1> value = entry.getValue();
-                
-                Priority1[] myArray = value.toArray(new Priority1[value.size()]);
-                
-                Arrays.sort(myArray);
-                
-                this.newb.put(key,myArray);
-
-                }
-                
-
-
-
 
        
-                }
-            
+    
+      
+
+        
+       
       
         
 
-        public HashMap<Integer,TreeSet<Priority1>> getHashmap (){
-            return this.hoursMap;
-        }
-        public HashMap<Integer,Priority1[]> getnewb (){
-            return this.newb;
-        }
+        
         public void fun1(){
            // Arrays.fill(this.timearray, 60);
            for (int i = 0; i<24; i++){
@@ -324,9 +296,8 @@ public class data_Connector {
                     
                 
         
-=======
-    }
->>>>>>> 8036a266dd61030fa9eb04a666f6d61614767190
+
+
     
     public void newa(){
         for (Entry<Integer, TreeSet<Priority1>> entry : hoursMap.entrySet()) {
@@ -354,7 +325,7 @@ public class data_Connector {
         myJDBC.createConnection();
         myJDBC.selectAnimals();
         myJDBC.selectTasks();
-<<<<<<< HEAD
+
        
         
        
@@ -367,6 +338,8 @@ public class data_Connector {
         System.out.print( myJDBC.getnumberOfCoyotes());
         System.out.print( myJDBC.getnumberOfFOx());
         System.out.print( myJDBC.getnumberOfprocupines());
+    }
+
       /*   for (Entry<Integer, Priority1[]> entry : myJDBC.getnewb().entrySet()) {
 =======
         myJDBC.selectTreatments();
@@ -377,8 +350,7 @@ public class data_Connector {
         System.out.print( myJDBC.getnumberOfFOx());
         System.out.print( myJDBC.getnumberOfprocupines());
 
-       /*  for (Entry<Integer, Priority1[]> entry : myJDBC.getnewb().entrySet()) {
->>>>>>> 8036a266dd61030fa9eb04a666f6d61614767190
+       /*  for (Entry<Integer, Priority1[]> entry : myJDBC.getnewb().entrySet())
             Integer key = entry.getKey();
             Priority1[] value = entry.getValue();
             for (Priority1 item : value) {
@@ -411,8 +383,10 @@ public class data_Connector {
             }*/
             
         }
+    
+        
 
-    }
+    
 
 
        
