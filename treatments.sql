@@ -19,7 +19,20 @@ CREATE TABLE ANIMALS (
 
 INSERT INTO ANIMALS (AnimalID, AnimalNickname, AnimalSpecies) VALUES
 (1, 'Loner', 'coyote'),
-(2, 'Biter', 'coyote'), // fox have feeding time at 3 pm 10
+(2, 'Biter', 'coyote'), 
+(3, 'Bitter', 'coyote'),
+(4, 'Pencil', 'coyote'),
+(5, 'Eraser', 'coyote'),
+(6, 'Annie, Oliver and Mowgli', 'fox'),
+(7, 'Slinky', 'fox'),
+(8, 'Spike', 'porcupine'),
+(9, 'Javelin', 'porcupine'),
+(10, 'Gatekeeper', 'porcupine'),
+(11, 'Sunshine', 'porcupine'),
+(12, 'Shadow', 'porcupine'),
+(13, 'Boots', 'coyote'),
+(14, 'Spin', 'coyote'),
+(15, 'Spot', 'coyote');
 (3, 'Bitter', 'coyote'),
 (4, 'Pencil', 'coyote'),
 (5, 'Eraser', 'coyote'),
