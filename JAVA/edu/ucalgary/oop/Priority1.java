@@ -9,7 +9,7 @@ public class Priority1  implements Comparable<Priority1>{
     private int startHour;
     private int id;
 
-    public Priority1(int task, int animal, int Duration, int MaxWindow, String Desc , int start,int  id){
+    public Priority1(int task, int animal, int Duration, int MaxWindow, String Desc , int start){
         this.taskID = task;
         this.animalID = animal;
         this.duration = Duration;
