@@ -192,7 +192,7 @@ public class data_Connector {
                      if(this.hoursMap.containsKey(treatmentList[j].getStartHour())){
                         TreeSet<Priority1> set = this.hoursMap.get(treatmentList[j].getStartHour());
                         set.add(myPriority);
-                        l++;
+                   
 
                        
                         this.hoursMap.put(treatmentList[j].getStartHour(),set); 
