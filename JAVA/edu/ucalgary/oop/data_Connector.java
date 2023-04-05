@@ -22,6 +22,7 @@ public class data_Connector {
     private HashMap<Integer, ArrayList<Priority1>> newb = new HashMap<Integer, ArrayList<Priority1>>();
 
     private HashMap<Integer, ArrayList<Priority1>> verynewb = new HashMap<Integer, ArrayList<Priority1>>();
+    private HashMap<Integer, ArrayList<Priority1>> veryverynewb = new HashMap<Integer, ArrayList<Priority1>>();
     private ArrayList<ArrayList<Priority1>> twoDimArrayList = new ArrayList<ArrayList<Priority1>>();
     private ArrayList<Integer>  keystorm =new ArrayList<>();
     private ArrayList<Priority1> valuestorm= new ArrayList<>();;
@@ -50,6 +51,12 @@ public class data_Connector {
        
        
 	}
+    public ArrayList<Priority1> getvaluestorm(){
+        return this.valuestorm;
+    }
+    public ArrayList<Integer> getkeystorm(){
+        return this.keystorm;
+    }
     public int [] gettimearray(){
         return this.timearray;
     }
@@ -188,7 +195,7 @@ public class data_Connector {
 
     public void setPriority(){
 
-        int l =0;
+        
 
 
         for(int i = 0 ; i<taskList.length;i++){
@@ -196,9 +203,7 @@ public class data_Connector {
            
                 if (this.taskList[i].getTaskID()==this.treatmentList[j].getTaskID() ){
 
-                    System.out.print(this.taskList[i].getTaskID());
-                    System.out.print(this.treatmentList[j].getTaskID() );
-                    System.out.println();
+                   
 
                    
 
@@ -212,7 +217,7 @@ public class data_Connector {
 
                        
                         this.hoursMap.put(treatmentList[j].getStartHour(),set); 
-                        l++;
+               
                         
 
                         this.hoursMap.put(treatmentList[j].getStartHour(),set);                 
@@ -222,30 +227,33 @@ public class data_Connector {
                         
                         ArrayList<Priority1> set1 = new ArrayList<Priority1>();
                         set1.add(myPriority);
-                        this.hoursMap.put(treatmentList[j].getStartHour(),set1);
-
-                        l++;
-
+                        this.hoursMap.put(treatmentList[j].getStartHour(),set1);}
                    }
+                } 
+}}
+                
+
+
                    
-                   
 
-                   } 
-
-                }
-
-            }
            
-        }
+        
 
        
     public void copying(){
-       this.twoDimArrayList = new ArrayList<>(this.newb.values());
-        /*for (Entry<Integer, ArrayList<Priority1>> entry :this.newb.entrySet()) {
-            Integer key = entry.getKey();
-            ArrayList<Priority1> value = entry.getValue();
-            this.twoDimArrayList.add(key,value);
-        }*/
+       //this.twoDimArrayList = new ArrayList<>(this.newb.values());
+       
+       // ... assume otherHashMap is populated with values
+       
+       // copy the values of the specified keys from otherHashMap to hashMap
+       for (int i = 0; i < 24; i++) {
+        verynewb.put(i,new ArrayList<Priority1>());
+    }
+       for (int key : verynewb.keySet()) {
+           if (newb.containsKey(key)) {
+               verynewb.put(key, newb.get(key));
+           }
+       }
 }
       
 
@@ -255,10 +263,10 @@ public class data_Connector {
         
 
         
-         /*public void fun1(){
+         public void fun1(){
             this.verynewb =new HashMap<>(newb);
-           // Arrays.fill(this.timearray, 60);
-           for (int i = 0; i<24; i++){
+           Arrays.fill(this.timearray, 60);
+           for (int i = 0; i<2; i++){
             
             this.timearray[i] = 60;
            }
@@ -271,18 +279,90 @@ public class data_Connector {
                 
                 for (Priority1 item : value){
                     
-                    if (item.getduration()<= gettimearrayatindex(key)){
+                    if (item.getduration()<= timearray[key]){
                     
                     int y=  this.timearray[key] ;
                     this.timearray[key] = y- item.getduration();
   
-            }
+                    }
+            
                     else{
-                        if (item.getMaxWindow() == 1){
-                            System.out.print("please change time");
+                        keystorm.add(key);
+                        valuestorm.add(item);
+                    }}}}
+
+public void fun2(){
+    for (int i=0; i<this.keystorm.size(); i++){
+        ArrayList<Priority1> valueForKeyB = this.newb.get(keystorm.get(i));
+        valueForKeyB.remove(valuestorm.get(i));
+        this.verynewb.put(keystorm.get(i),valueForKeyB);
+    }
+    for (int i=0; i<this.valuestorm.size(); i++){
+        Priority1 item = this.valuestorm.get(i);
+        if (item.getMaxWindow() ==1){
+            System.out.println("please call help"+keystorm.get(i));
+        }
+         else if (item.getMaxWindow() >1){
+            int max  =item.getMaxWindow();
+            int j=0;
+            int key1 = keystorm.get(i);
+            while(j<max-1){
+            if (item.getduration()<=this.timearray[key1+j+1]){
+                int y=  this.timearray[key1+j+1] ;
+                this.timearray[key1+1+j] = y- item.getduration();
+                ArrayList<Priority1> valueForKeyB = this.verynewb.get(key1+1+j);
+                if(valueForKeyB == null){
+                    valueForKeyB = new ArrayList<Priority1>();
+                }
+                valueForKeyB.add(item);
+                this.verynewb.put(key1+1+j, valueForKeyB);
+               
+               
+            }
+            j++;
+        }
+         }
+}
+
+        }
+    
+
+    
+   /* for (Entry<Integer, ArrayList<Priority1>> entry :this.newb.entrySet()) {
+       // while(i<this.keystorm.size()-1){
+        Integer key = entry.getKey();
+        ArrayList<Priority1> value = entry.getValue();
+       
+        
+        ArrayList<Priority1> value1= value;
+        if (i<this.keystorm.size())
+        if (key==this.keystorm.get(i)){
+            System.out.println("k");
+            System.out.println(this.keystorm.size());
+        
+        for (Priority1 item : value){
+            if(item ==this.valuestorm.get(i)){
+                //value1.remove(item);
+                this.verynewb.put(key,value1);
+                i++;
+            } 
+
+
+            
+
+}
+        }
+    }}//}
+                       
+
+                       /* if (item.getMaxWindow() == 1){
+                            System.out.print("please volunteer");
                         }
-                        else if (item.getMaxWindow() ==2){
-                            if (item.getduration()<= gettimearrayatindex(key+1)){
+                        else if (item.getMaxWindow() >1){
+                            int max  =item.getMaxWindow();
+                            int i=0;
+                            while(i<max){
+                            if (item.getduration()<=this.timearray[key+1]){
                                 int y=  this.timearray[key+1] ;
                                 this.timearray[key+1] = y- item.getduration();
 
@@ -292,8 +372,14 @@ public class data_Connector {
                                 //newvalue1.add(item);
                                
                                 keystoadd.add(key+1);
-                                valuestoadd.add(item);}}}}}
-                            }
+                                valuestoadd.add(item);}
+                            i++;
+                        }
+                    }
+                }
+            }
+        }*/
+    
                                 
 
                                 /*Priority1[] newArr = new Priority1[value.length - 1];
@@ -320,8 +406,8 @@ public class data_Connector {
 
                 }
 
-            }*/
-           /* public void xx(){
+            }
+             public void xx(){
             for (int i= 0; i<1; i++){
 
                 int element  = keystorm.get(0);
@@ -336,10 +422,10 @@ public class data_Connector {
                 this.newb.put(element2, x);
 
             }
-        }
-            */        
-  /*public void addPriority(int startHour, Priority1 priority) {
-            ArrayList<Priority1> priorityList = this.gettwo().get(startHour);
+        }/*
+                   
+  public void addPriority(int startHour, Priority1 priority) {
+           
             int remainingTime = 60;
             for (Priority1 p : priorityList) {
                 remainingTime -= p.getduration();
@@ -397,7 +483,7 @@ public class data_Connector {
             }
            
         }*/
-       /*  public void fun1(){
+      /*  public void fun1(){
             for (int i = 0; i < 16; i++) {
                 A.get(i);
                 for (int j = 0; j < row.size(); j++) {
@@ -447,6 +533,12 @@ public class data_Connector {
     public HashMap<Integer,ArrayList<Priority1> > getnewb (){
         return this.newb;
     }
+    public HashMap<Integer,ArrayList<Priority1> > getverynewb (){
+        return this.verynewb;
+    }
+    public HashMap<Integer,ArrayList<Priority1> > getveryverynewb (){
+        return this.veryverynewb;
+    }
     
     public static void  main(String [] args){
         data_Connector myJDBC = new data_Connector();
@@ -464,6 +556,8 @@ public class data_Connector {
         myJDBC.setPriority();
         myJDBC.newa();
         myJDBC.copying();
+        myJDBC.fun1();
+        myJDBC.fun2();
         
         
         
@@ -472,14 +566,7 @@ public class data_Connector {
         System.out.print( myJDBC.getnumberOfprocupines());
         ArrayList<ArrayList<Priority1>> lol = myJDBC.gettwo();
 
-       for(int i = 0; i< lol.size();i++){
-        ArrayList<Priority1> key = lol.get(i);
        
-        
-        for(int j = 0; j<lol.get(i).size(); j++){
-            Priority1 value = lol.get(i).get(j);
-            System.out.println( value.getStartHour()+ " " + value.getTaskID());
-        }
 
         
     
@@ -494,20 +581,23 @@ public class data_Connector {
         System.out.print( myJDBC.getnumberOfFOx());
         System.out.print( myJDBC.getnumberOfprocupines());
 */
-        // for (Entry<Integer, ArrayList<Priority1>> entry : myJDBC.getnewb().entrySet()){
-        //     Integer key = entry.getKey();
-        //     ArrayList<Priority1> value = entry.getValue();
-        //     for (Priority1 item : value) {
-        //         System.out.print("hour: "+key+ "    ");
-        //         System.out.print("task: "+item.getTaskID()+ "    ");
-        //         System.out.print("maxwindow:"+item.getMaxWindow()+ "    ");
-        //         System.out.print("description: "+item.getdescription()+ "    ");
-        //         System.out.print("animalid: "+item.getanimalID()+ "    ");
-        //         System.out.print("duration: "+item.getduration()+ "    ");
-        //         System.out.print("\n");
+         for (Entry<Integer, ArrayList<Priority1>> entry : myJDBC.getverynewb().entrySet()){
+             Integer key1 = entry.getKey();
+             ArrayList<Priority1> value = entry.getValue();
+             if(value!=null){
+             for (Priority1 item : value) {
                 
-        //         }
-        //     }
+                 System.out.print("hour: "+key1+ "    ");
+                 System.out.print("task: "+item.getTaskID()+ "    ");
+                 System.out.print("maxwindow:"+item.getMaxWindow()+ "    ");
+                 System.out.print("description: "+item.getdescription()+ "    ");
+                 System.out.print("animalid: "+item.getanimalID()+ "    ");
+                 System.out.print("duration: "+item.getduration()+ "    ");
+                 System.out.print("\n");
+                
+                 }
+             }
+            }
 
 
             /*for (int i = 0; i < 16; i++) {
@@ -535,12 +625,22 @@ public class data_Connector {
             for (int i = 0; i<24 ; i++){
                 System.out.println( myJDBC.gettimearrayatindex(i));
             }*/
-            
+            //for(int i=0; i<myJDBC.getvaluestorm().size(); i++  ){
+              //  System.out.println(i+"ccc"+myJDBC.getvaluestorm().get(i).getStartHour());
+           // }
+            //for(int i=0; i<myJDBC.gettimearray().length; i++  ){
+             //   System.out.println(i+"ccc"+myJDBC.gettimearray()[i]);
+           // }
+           for(int i=0; i<myJDBC.getvaluestorm().size(); i++  ){
+              System.out.println(myJDBC.getkeystorm().get(i));
+          }
        
              
     }
+    
 }
-}
+
+
 
  
         
