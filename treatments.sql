@@ -32,7 +32,7 @@ INSERT INTO ANIMALS (AnimalID, AnimalNickname, AnimalSpecies) VALUES
 (12, 'Shadow', 'porcupine'),
 (13, 'Boots', 'coyote'),
 (14, 'Spin', 'coyote'),
-(15, 'Spot', 'coyote');
+(15, 'Spot', 'coyote'),
 (3, 'Bitter', 'coyote'),
 (4, 'Pencil', 'coyote'),
 (5, 'Eraser', 'coyote'),

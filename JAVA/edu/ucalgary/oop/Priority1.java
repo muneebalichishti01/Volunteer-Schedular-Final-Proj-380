@@ -1,5 +1,7 @@
 package edu.ucalgary.oop;
 
+import java.util.ArrayList;
+
 public class Priority1  implements Comparable<Priority1>{
     private int taskID;
     private int animalID;
@@ -8,6 +10,7 @@ public class Priority1  implements Comparable<Priority1>{
     private String description;
     private int startHour;
     private int id;
+    private  ArrayList<String> animalNames;
 
     public Priority1(int task, int animal, int Duration, int MaxWindow, String Desc , int start){
         this.taskID = task;
@@ -17,6 +20,14 @@ public class Priority1  implements Comparable<Priority1>{
         this.description = Desc;
         this.startHour= start;
         this.id = id;
+    }
+    public Priority1(ArrayList<String> animallist , int Duration, int MaxWindow, String Desc ){
+       this.animalNames = animallist;
+        this.duration = Duration;
+        this.maxWindow = MaxWindow;
+        this.description = Desc;
+
+        
     }
 
     public int getTaskID(){
