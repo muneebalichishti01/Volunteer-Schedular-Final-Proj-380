@@ -6,11 +6,16 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map.Entry;
+import java.awt.BorderLayout;
+import java.awt.EventQueue;
+import javax.swing.*;
+import java.awt.event.*;
+import java.awt.FlowLayout;
 
 
 
 
-public class data_Connector {
+public class data_Connector extends JFrame implements ActionListener {
     private ArrayList<Treatment> myTreatment = new ArrayList<>();
 	private Connection dbConnect;
     private ResultSet results;
@@ -100,7 +105,7 @@ public class data_Connector {
         return this.veryverynewb;
     }
     public data_Connector(){
-
+        super("Schedule builder");
         createConnection();
         selectTreatments();
          selectAnimals();
@@ -109,16 +114,44 @@ public class data_Connector {
          setPriority();
          newa();
          copying();
-         fun1();
+        //  fun1();
          feeding();
+         setupGUI();
+
+         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);   
+      
          
           
        }
-	
+
+
+    public void setupGUI(){
+        JFrame frame = new JFrame("Schedule builder"); // MAIN FRAME
+        frame.setSize(500, 500);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        
+        JPanel buttonsPanel = new JPanel(); //THIS WILL BE ADDED INTO MAIN FRAME : ADD BUTTON INTO THIS PANNEL
+        JButton myButton = new JButton("Click to test your schedule"); //CREATES A BUTTON
+
+        //CREATES A FUNCTION OF BUTTON
+        myButton.addActionListener(this); //ADD FUNCTIONALITY TO BUTTON
+        buttonsPanel.add(myButton); // ADD BUTTON TO PANEL
+        frame.getContentPane().add(BorderLayout.CENTER, buttonsPanel); //ADD THIS PANEL TO BUTTON
+        frame.setVisible(true);
+
+    }
+	public void actionPerformed(ActionEvent event){
+
+        fun1();
+
+        JOptionPane.showMessageDialog(this,"You are all good");
+        printSchedule();
+
+    }
     public void createConnection(){
 
         try{
-            dbConnect = DriverManager.getConnection("jdbc:mysql://localhost/ewr", "root", "0953326601");
+            dbConnect = DriverManager.getConnection("jdbc:mysql://localhost/ewr", "root", "1234");
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -329,12 +362,12 @@ public class data_Connector {
                         adjustSchedule = true;
                     }}}
         if(adjustSchedule == true){
-            System.out.println("Need to make adjustment to schedule");
+           JOptionPane.showMessageDialog(this, "Making adjustments to your schedule");
             fun2();
         
                 }
         else{
-            System.out.println("Schedule is perfect");
+            JOptionPane.showMessageDialog(this, "No need to make changes to schedule");
                 }
                }
 
@@ -350,7 +383,18 @@ public class data_Connector {
             Boolean added = false;
             Priority1 item = this.valuestorm.get(i);
             if (item.getMaxWindow() ==1){
-                System.out.println("please call help");
+                int result = JOptionPane.showConfirmDialog(this, "Should I call for backup volunteer?", "Title", JOptionPane.YES_NO_OPTION);
+
+
+                if(result == JOptionPane.YES_OPTION){
+                    JOptionPane.showMessageDialog(this, "Calling back up volunteer");
+                    
+
+                }
+                else{
+                    JOptionPane.showMessageDialog(this, "Please select yes or come up with a new schedule");
+
+                }
                 
             }
             else if (item.getMaxWindow() >1){
@@ -862,47 +906,36 @@ if (s==procupineList.size()){
             }
         
     }
-      
-    
+      public void printSchedule(){
+        for (Entry<Integer, ArrayList<Priority1>> entry : getverynewb().entrySet()){
+            Integer key1 = entry.getKey();
+            ArrayList<Priority1> value = entry.getValue();
+            if(value!=null){
+            for (Priority1 item : value) {
+               
+                System.out.print("hour: "+key1+ "    ");
+                
+                System.out.print("maxwindow:"+item.getMaxWindow()+ "    ");
+                System.out.print("description: "+item.getdescription()+ "    ");
+                
+                System.out.print("duration: "+item.getduration()+ "    ");
+                System.out.print("\n");
+               
+                }
+            }
+       }
+
+      }
+
     
     public static void  main(String [] args){
-        data_Connector myJDBC = new data_Connector();
-         for (Entry<Integer, ArrayList<Priority1>> entry : myJDBC.getverynewb().entrySet()){
-             Integer key1 = entry.getKey();
-             ArrayList<Priority1> value = entry.getValue();
-             if(value!=null){
-             for (Priority1 item : value) {
-                
-                 System.out.print("hour: "+key1+ "    ");
-                 
-                 System.out.print("maxwindow:"+item.getMaxWindow()+ "    ");
-                 System.out.print("description: "+item.getdescription()+ "    ");
-                 
-                 System.out.print("duration: "+item.getduration()+ "    ");
-                 System.out.print("\n");
-                
-                 }
-             }
-        }
-        for (int val : myJDBC.gettimearray()){
-            System.out.println(val);
-        }
-       /*for (int k=0; k<myJDBC.getprocupineList().size(); k++){
-            System.out.println("procupines"+myJDBC.getprocupineList().get(k));
+      
+        EventQueue.invokeLater(()->{
+             new data_Connector().setVisible(true);
 
-        }*/
-        for (int k=0; k<myJDBC.getfoxList().size(); k++){
-            System.out.println("fox"+myJDBC.getfoxList().get(k));
-
-        }/*
-        for (int k=0; k<myJDBC.getraccoonsList().size(); k++){
-            System.out.println("raccoons"+myJDBC.getraccoonsList().get(k));
-
-        }
-        for (int k=0; k<myJDBC.getcoyoteList().size(); k++){
-            System.out.println("coyote"+myJDBC.getcoyoteList().get(k));
-
-        }*/
+        });
+        
+      
     }
     
 }
