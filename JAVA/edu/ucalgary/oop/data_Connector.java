@@ -35,6 +35,8 @@ public class data_Connector extends JFrame implements ActionListener {
     private ArrayList<String> procupineList = new ArrayList<>();
     private ArrayList<String> beaverList = new ArrayList<>();
     private ArrayList<String> raccoonList = new ArrayList<>();
+    private ArrayList<Integer> volList = new ArrayList<>();
+
 
     private int numberOfFOx = 0;
     private int numberOfCoyotes = 0;
@@ -50,6 +52,9 @@ public class data_Connector extends JFrame implements ActionListener {
   public ArrayList<String> getraccoonsList(){return this.raccoonList;}
     public ArrayList<Priority1> getvaluestorm(){
         return this.valuestorm;
+    }
+    public ArrayList<Integer> getvolList(){
+        return this.volList;
     }
     public ArrayList<Integer> getkeystorm(){
         return this.keystorm;
@@ -114,7 +119,7 @@ public class data_Connector extends JFrame implements ActionListener {
          setPriority();
          newa();
          copying();
-        //  fun1();
+         // fun1();
          feeding();
          setupGUI();
 
@@ -151,7 +156,7 @@ public class data_Connector extends JFrame implements ActionListener {
     public void createConnection(){
 
         try{
-            dbConnect = DriverManager.getConnection("jdbc:mysql://localhost/ewr", "root", "1234");
+            dbConnect = DriverManager.getConnection("jdbc:mysql://localhost/ewr", "root", "0953326601");
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -346,9 +351,13 @@ public class data_Connector extends JFrame implements ActionListener {
         this.verynewb =new HashMap<>(newb);
         
         for (int i = 0; i<24; i++){
+            if (this.volList.contains(i)){
+            this.timearray[i] = 120;
+           }
+           else {
             this.timearray[i] = 60;
            }
-           
+        }
             for (Entry<Integer, ArrayList<Priority1>> entry :this.newb.entrySet()) {
                 Integer key = entry.getKey();
                 ArrayList<Priority1> value = entry.getValue();
@@ -356,11 +365,38 @@ public class data_Connector extends JFrame implements ActionListener {
                     if (item.getduration()<= timearray[key]){
                     int y=  this.timearray[key] ;
                     this.timearray[key] = y- item.getduration();}
-                    else{
+                    
+                    else if (item.getMaxWindow()==1){
+                        int result = JOptionPane.showConfirmDialog(this, "Should I call for backup volunteer?", "Title", JOptionPane.YES_NO_OPTION);
+
+
+                        if(result == JOptionPane.YES_OPTION){
+                            JOptionPane.showMessageDialog(this, "Calling back up volunteer");
+                            
+                            
+                            
+        
+                            
+                             
+                            
+        
+                        }
+                        else{
+                            JOptionPane.showMessageDialog(this, "Please select yes or come up with a new schedule");
+        
+                        }
+                       timearray[key ]+=60;
+                       this.volList.add(key);
+                       if (item.getduration()<= timearray[key]){
+                        int y=  this.timearray[key] ;
+                        this.timearray[key] = y- item.getduration();}
+                       }
+                       else{
                         keystorm.add(key);
                         valuestorm.add(item);
                         adjustSchedule = true;
                     }}}
+
         if(adjustSchedule == true){
            JOptionPane.showMessageDialog(this, "Making adjustments to your schedule");
             fun2();
@@ -382,22 +418,8 @@ public class data_Connector extends JFrame implements ActionListener {
         for (int i=0; i<this.valuestorm.size(); i++){
             Boolean added = false;
             Priority1 item = this.valuestorm.get(i);
-            if (item.getMaxWindow() ==1){
-                int result = JOptionPane.showConfirmDialog(this, "Should I call for backup volunteer?", "Title", JOptionPane.YES_NO_OPTION);
-
-
-                if(result == JOptionPane.YES_OPTION){
-                    JOptionPane.showMessageDialog(this, "Calling back up volunteer");
-                    
-
-                }
-                else{
-                    JOptionPane.showMessageDialog(this, "Please select yes or come up with a new schedule");
-
-                }
-                
-            }
-            else if (item.getMaxWindow() >1){
+           
+             if (item.getMaxWindow() >1){
                 int max  =item.getMaxWindow();
                 int j=1;
                 int key1 = keystorm.get(i);
@@ -923,6 +945,12 @@ if (s==procupineList.size()){
                
                 }
             }
+       }
+       for (int val :this.volList){
+        System.out.print(val);
+       }
+       for(int val : this.timearray){
+        System.out.println(val);
        }
 
       }
