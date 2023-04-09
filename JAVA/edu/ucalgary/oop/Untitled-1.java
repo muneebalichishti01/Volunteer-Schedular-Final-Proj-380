@@ -1,5 +1,4 @@
-
-
+/*
  package edu.ucalgary.oop;
 
 
@@ -437,7 +436,6 @@ public class data_Connector extends JFrame implements ActionListener {
               
             
                 while(j<max){
-                    added= false;
                     if(key1+j>23){
                           System.out.println("Day finished cant add");
                
@@ -458,33 +456,33 @@ public class data_Connector extends JFrame implements ActionListener {
                //we should add break here to prevent further adding into other hours after this hour
                 break;
             }
-            else if (item.getduration()>=this.timearray[key1+j] && j==max-1 ){
-                int z=key1+j;
-                JOptionPane.showMessageDialog(this, "adding vol to hour"+z);
-                this.timearray[key1+j]+=60;
-                this.volList.add(key1+j); 
-                this.timearray[key1+j] -=  item.getduration();
-                if(item.getduration()<=this.timearray[key1+j]){
-                ArrayList<Priority1> valueForKeyB = this.verynewb.get(key1+j);
+            
+
+            j++;
+           }
+        }}
+           int l=0;
+           while(l<max-1){
+            if(added == false){
+                this.timearray[key1+l]+=60;
+                this.volList.add(key1+l);
+                if (item.getduration()<=this.timearray[key1+l]){
+                    this.timearray[key1+l]-=item.getduration();
+                    ArrayList<Priority1> valueForKeyB = this.verynewb.get(key1+l);
                     if(valueForKeyB == null){
                         valueForKeyB = new ArrayList<Priority1>();
                     }
                 valueForKeyB.add(item);
-                this.verynewb.put(key1+j, valueForKeyB);
+                this.verynewb.put(key1+l, valueForKeyB);
                 added = true;
+                l=max-1;
                 }
+                
+                
             }
-            else{System.out.print("please change schedule");}
+            l++;
+        }
             
-
-            
-
-            j++;
-        
-           }
-        
-           }
-    }  
         
         
  
@@ -494,10 +492,9 @@ public class data_Connector extends JFrame implements ActionListener {
         sort(); //this will sort veynewb
     }
     public void feeding(){
-        
         System.out.print("size"+this.foxList.size());
         if (this.foxList.size()!= 0){
-            boolean done = false;   
+            boolean done = false;
         int feedingtime = 5+(this.foxList.size() * 5);
         String desc= "feeding";
         for (int i=0; i<this.foxList.size(); i++){
@@ -554,7 +551,7 @@ public class data_Connector extends JFrame implements ActionListener {
 
       
     
-     
+      System.out.print("first "+first.size());
       for (int k=0; k<first.size(); k++){
         desc1 = desc1+foxList.get(k)+" , ";
         
@@ -568,9 +565,8 @@ public class data_Connector extends JFrame implements ActionListener {
     u.add(newpro1);
     this.verynewb.put(i,u);
     this.timearray[i]= this.timearray[i]-(z*5)-5;
-    if (alreadyfed<=foxList.size()){
-        JOptionPane.showMessageDialog(this, "please change schedule or hit okay to discard feeding for extra foxes");
-        
+    if (s==foxList.size()){
+        System.out.print("wow");
         break;}
 
 
@@ -654,11 +650,9 @@ if(u==null){
 u.add(newpro1);
 this.verynewb.put(i,u);
 this.timearray[i]= this.timearray[i]-(z*5);
-if (alreadyfed<=raccoonList.size()){
-    JOptionPane.showMessageDialog(this, "please change schedule or hit okay to discard feeding for extra raccons");
-    
+if (s==raccoonList.size()){
+    System.out.print("wow");
     break;}
-
 
 
     }
@@ -741,10 +735,10 @@ if(u==null){
 u.add(newpro1);
 this.verynewb.put(i,u);
 this.timearray[i]= this.timearray[i]-(z*5);
-if (alreadyfed<=raccoonList.size()){
-    JOptionPane.showMessageDialog(this, "please change schedule or hit okay to discard feeding for extra beavers");
-    
+if (s==beaverList.size()){
+    System.out.print("wow");
     break;}
+
 
     }
   
@@ -833,9 +827,8 @@ if(u==null){
 u.add(newpro1);
 this.verynewb.put(i,u);
 this.timearray[i]= this.timearray[i]-(z*5)-10;
-if (alreadyfed<=coyoteList.size()){
-    JOptionPane.showMessageDialog(this, "please change schedule or hit okay to discard feeding for extra coyotes");
-    
+if (s==coyoteList.size()){
+    System.out.print("wow");
     break;}
 
 
@@ -919,10 +912,10 @@ if(u==null){
 u.add(newpro1);
 this.verynewb.put(i,u);
 this.timearray[i]= this.timearray[i]-(z*5);
-if (alreadyfed<=procupineList.size()){
-    JOptionPane.showMessageDialog(this, "please change schedule or hit okay to discard feeding for extra procipines");
-    
+if (s==procupineList.size()){
+    System.out.print("wow");
     break;}
+
 
     }
   
@@ -1012,13 +1005,11 @@ if (alreadyfed<=procupineList.size()){
                     break;
                 } 
                 if (i==23 && alreadyclean!=x){
-                    
+                    System.out.print("please call for help please add qazi");
                     for (int l=0; l<24;l++){
                         if (!volList.contains(l)){
                             this.timearray[l]+=60;
                             volList.add(l);
-                            JOptionPane.showMessageDialog(this, "volunteer added to hour"+l);
-                            break;
                         }
                              k = new ArrayList<>();
                             desc= "cleaning";
@@ -1159,48 +1150,4 @@ if (alreadyfed<=procupineList.size()){
 
  
         
- 
-
-       
-    
-    
-    
-            
-    
-   
-        
-
-     
-    
-
-
-        
-        
-
-        
-
-    
-
-
-    
-
-
-       
-    
-    
-    
-            
-    
-   
-        
-
-     
-    
-
-
-        
-        
-
-        
-
-    
+ */

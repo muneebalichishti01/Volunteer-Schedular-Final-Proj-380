@@ -11,6 +11,8 @@ public class Priority1  implements Comparable<Priority1>{
     private int startHour;
     private int id;
     private  ArrayList<String> animalNames;
+    
+    public Priority1(){}
 
     public Priority1(int task, int animal, int Duration, int MaxWindow, String Desc , int start){
         this.taskID = task;
