@@ -1,13 +1,17 @@
 package edu.ucalgary.oop;
 
-public class Task{
+public class Task implements Print{
     private final int TASKID;
     private final String DESCRIPTION;
     private final int DURATION;
     private final int MAXWINDOW;
 
 
-    public Task(int taskId, String description,int duration, int maxWindow){
+    public Task(int taskId, String description,int duration, int maxWindow)throws IllegalArgumentException{
+        if(taskId < 0 || description == null || duration < 0 || maxWindow < 0)
+            throw new IllegalArgumentException("Invalid input");
+        
+
         this.TASKID = taskId;
         this.DESCRIPTION = description;
         this.DURATION= duration;
@@ -25,5 +29,10 @@ public class Task{
     }
     public int getMaxWindow(){
         return this.MAXWINDOW;
+    }
+    @Override
+    public void print() {
+            // TODO Auto-generated method stub
+            System.out.println("Task ID: " + this.TASKID + " Description: " + this.DESCRIPTION +" Duration: " + this.DURATION + " Max Window: " + this.MAXWINDOW);
     }
 }
