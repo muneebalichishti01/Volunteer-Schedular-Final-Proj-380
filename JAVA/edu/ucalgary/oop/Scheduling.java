@@ -12,6 +12,8 @@
 */
 
 package edu.ucalgary.oop;
+import java.io.FileWriter;
+import java.io.IOException;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -871,43 +873,64 @@ public class  Scheduling extends Populating implements Print , ActionListener {
     
       }
       //This method is used to print our final schedule.
-      @Override
-      public void print() {
-       
-        for (Entry < Integer, ArrayList < Priority >> entry: getsortedTreatmentsFeedingCleaning().entrySet()) {
-          boolean volunteer = false;
-          Integer key1 = entry.getKey();
-          ArrayList < Priority > value = entry.getValue();
-          //checking if we neeeded a backup volunteer for that hour or not.
-          if (volList.contains(key1)){
-            volunteer = true;
-          }
-          if (value != null) {
-            for (Priority item: value) {
+     //This method is used to print our final schedule.
+     @Override
+     public void print() {
+      String mySchedule=""; 
+       for (Entry < Integer, ArrayList < Priority >> entry: getsortedTreatmentsFeedingCleaning().entrySet()) {
+         boolean volunteer = false;
+         Integer key1 = entry.getKey();
+         ArrayList < Priority > value = entry.getValue();
+         //checking if we neeeded a backup volunteer for that hour or not.
+         if (volList.contains(key1)){
+           volunteer = true;
+         }
+         if (value != null) {
+           System.out.print("hour: [" + key1 + ".00]");
+           mySchedule+= "hour: [" + key1 + ".00]";
+           for (Priority item: value) {
+            
+   
              
-    
-              System.out.print("hour: [" + key1 + ".00]");
-              //Printing the volunteer name if called.
-              if (volunteer== true){
-                System.out.println("[backup vol]");
-              }
-              else{
-                System.out.println();
-              }
+             //Printing the volunteer name if called.
+             if (volunteer== true){
 
+               System.out.println("   [backup vol]");
+               mySchedule+= "   [backup vol]";
+              mySchedule+= "\n";
+             }
+             else{
+               System.out.println();
+                mySchedule+= "\n";
+             }
+
+            
+             System.out.println("    description: " + item.getDescription() + "    ");
+             System.out.println("     duration: " + item.getDuration() + "    ");
+             mySchedule+= "    description: " + item.getDescription() + "    ";
+             mySchedule+= "\n";
+            mySchedule+= "     duration: " + item.getDuration() + "    ";
+            mySchedule+= "\n";
+           
              
-              System.out.println("description: " + item.getDescription() + "    ");
-    
-              System.out.println("duration: " + item.getDuration() + "    ");
-              System.out.println("--------------------------------------------------");
-    
-            }
-          }
-        }
-
-    
+   
+           }
+         }
+         System.out.println("--------------------------------------------------");
+         mySchedule+= "--------------------------------------------------";
+          mySchedule+= "\n";
       }
-      
-    
+      String filePath = "Schedule.txt";
+   
+
+        try {
+            FileWriter fileWriter = new FileWriter(filePath, true);
+            fileWriter.write(mySchedule);
+            fileWriter.close();
+            System.out.println("Schedule has been added to the file.");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+}
     
 }

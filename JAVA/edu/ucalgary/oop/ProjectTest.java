@@ -277,4 +277,37 @@ public class ProjectTest {
 		String actualString = actualKeys.toString();
 		assertEquals("something wrong in setPriority()", expected,actualString);
 	}
+	@Test //based on the values in database given if you want to change the expected value change the value in database
+	public void Testfeeding(){
+		Scheduling mySchedule= new Scheduling();
+		mySchedule.feeding();
+		HashMap<Integer, ArrayList<Priority>> actualValue  = mySchedule.getsortedTreatmentsFeedingCleaning();
+		for (int i=0; i<24; i++){
+			assertTrue(actualValue.containsKey((Integer)i));
+		}
+		mySchedule.cleaning();
+		for (int i=0; i<24; i++){
+			assertTrue(actualValue.containsKey((Integer)i));
+		}
+
+
 }
+	@Test //based on the values in database given if you want to change the expected value change the value in database
+	//this test is for the scheduleAdjust method Scheduling Treatment and Feeding and Cleaning so at the end of the day the sortedTreatmentsFeedingCleaning will have these expected keys
+	public void TestFinal(){
+
+		String expected = "[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23]";
+		Scheduling schedule = new Scheduling();
+		HashMap < Integer, ArrayList < Priority >> actualHashMap = schedule.getsortedTreatmentsFeedingCleaning();
+		ArrayList<Integer> actualKeys = new ArrayList<Integer>();
+
+		for (Integer key : actualHashMap.keySet()) {
+			actualKeys.add(key); 
+		}
+
+		Collections.sort(actualKeys);
+		String actualString = actualKeys.toString();
+		assertEquals("something wrong in scheduleAdjust", expected,actualString);
+	}
+	}
+
