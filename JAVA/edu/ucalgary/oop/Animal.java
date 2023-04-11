@@ -6,7 +6,7 @@ public class Animal {
     private final String ANIMALSPECIES;
 
     public Animal(int animalID, String Nickname, String Species)throws IllegalArgumentException{
-        if(animalID < 0 || Nickname == null || Species == null)
+        if(animalID < 1 || Nickname == null || Species == null)
             throw new IllegalArgumentException("Invalid input");
         this.ANIMALID = animalID;
         this.ANIMALNICKNAME = Nickname;
@@ -21,5 +21,9 @@ public class Animal {
     }
     public String getAnimalSpecies(){
         return this.ANIMALSPECIES;
+    }
+    public void print() {
+        // TODO Auto-generated method stub
+        System.out.println("Animal ID: " + this.ANIMALID + " Animal Nickname: " + this.ANIMALNICKNAME + " Animal Species: " + this.ANIMALSPECIES);
     }
 }

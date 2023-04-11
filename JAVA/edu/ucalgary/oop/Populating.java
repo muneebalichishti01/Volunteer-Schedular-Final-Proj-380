@@ -21,7 +21,7 @@ public abstract class Populating extends  JFrame {
   protected HashMap < Integer, ArrayList < Priority >> hoursMap = new HashMap < > ();
   protected HashMap < Integer, ArrayList < Priority >> newb = new HashMap < Integer, ArrayList < Priority >> ();
   protected HashMap < Integer, ArrayList < Priority >> verynewb = new HashMap < Integer, ArrayList < Priority >> ();
-  protected HashMap < Integer, ArrayList < Priority >> veryverynewb = new HashMap < Integer, ArrayList < Priority >> ();
+  protected HashMap < Integer, ArrayList < Priority >> veryverynewb = new HashMap < Integer, ArrayList < Priority >> (); //mohammad
   protected ArrayList < Integer > keystorm = new ArrayList < > ();
   protected ArrayList < Priority > valuestorm = new ArrayList < > ();
   protected ArrayList < String > foxList = new ArrayList < > ();

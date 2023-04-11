@@ -42,7 +42,7 @@ public class  Scheduling extends Populating implements Print , ActionListener {
       }
       public void actionPerformed(ActionEvent event) {
     
-        SchedulingTreatment();
+        SchedulingTreatment(); //fun1
         feeding();
         cleaning();
         JOptionPane.showMessageDialog(this, "You are all good");
@@ -106,7 +106,7 @@ public class  Scheduling extends Populating implements Print , ActionListener {
         }
       }
     
-      public void scheduleAdjust() {
+      public void scheduleAdjust() { //fun2
     
         for (int i = 0; i < this.keystorm.size(); i++) {
           ArrayList < Priority > valueForKeyB = this.newb.get(keystorm.get(i));

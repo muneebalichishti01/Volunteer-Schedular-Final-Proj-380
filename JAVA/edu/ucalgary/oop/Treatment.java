@@ -7,9 +7,9 @@ public class Treatment implements Print{
 
     public Treatment(int animalID, int taskID, int startHour) throws IllegalArgumentException {
 
-        if(animalID < 0 || taskID < 0 || startHour < 0)
+        if(animalID < 1 || taskID < 1 || startHour < 0)
             throw new IllegalArgumentException("Invalid input");
-        if(startHour < 0 || startHour > 34)
+        if(startHour < 0 || startHour > 23)
             throw new IllegalArgumentException("Start Hour must be between 1 and 24 hours");
         if(taskID < 1 )
             throw new IllegalArgumentException("Task ID must be greater than1" );
