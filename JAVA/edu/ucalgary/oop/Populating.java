@@ -17,10 +17,7 @@ package edu.ucalgary.oop;
 
 import java.sql.*;
 import java.util.ArrayList;
-
 import java.util.HashMap;
-
-
 import javax.swing.*;
 
 
@@ -34,56 +31,35 @@ public abstract class Populating extends  JFrame {
   protected Treatment[] treatmentList = null;
   protected int[][] hourList = new int[24][10];
   protected HashMap < Integer, ArrayList < Priority >> hoursMap = new HashMap < > ();
-  protected HashMap < Integer, ArrayList < Priority >> newb = new HashMap < Integer, ArrayList < Priority >> ();
-  protected HashMap < Integer, ArrayList < Priority >> verynewb = new HashMap < Integer, ArrayList < Priority >> ();
-  protected HashMap < Integer, ArrayList < Priority >> veryverynewb = new HashMap < Integer, ArrayList < Priority >> (); //mohammad
-  protected ArrayList < Integer > keystorm = new ArrayList < > ();
-  protected ArrayList < Priority > valuestorm = new ArrayList < > ();
   protected ArrayList < String > foxList = new ArrayList < > ();
   protected ArrayList < String > coyoteList = new ArrayList < > ();
   protected ArrayList < String > procupineList = new ArrayList < > ();
   protected ArrayList < String > beaverList = new ArrayList < > ();
   protected ArrayList < String > raccoonList = new ArrayList < > ();
-  protected ArrayList < Integer > volList = new ArrayList < > ();
-  protected int numberOfFOx = 0;
+  protected int numberOfFox = 0;
   protected int numberOfCoyotes = 0;
-  protected int numberOfprocupines = 0;
+  protected int numberOfProcupines = 0;
   protected int numberOfBeavers = 0;
   protected int numberOfraccoons = 0;
-  protected int timearray[] = new int[24];
+
 
   //Getters
-  public ArrayList < String > getfoxList() {
+  public ArrayList < String > getFoxList() { //here
     return this.foxList;
   }
-  public ArrayList < String > getcoyoteList() {
+  public ArrayList < String > getCoyoteList() { //here
     return this.coyoteList;
   }
-  public ArrayList < String > getprocupineList() {
+  public ArrayList < String > getProcupineList() { //here
     return this.procupineList;
   }
-  public ArrayList < String > getbeaverList() {
+  public ArrayList < String > getBeaverList() { //here
     return this.beaverList;
   }
-  public ArrayList < String > getraccoonsList() {
+  public ArrayList < String > getRaccoonsList() { //here
     return this.raccoonList;
   }
-  public ArrayList < Priority > getvaluestorm() {
-    return this.valuestorm;
-  }
-  public ArrayList < Integer > getvolList() {
-    return this.volList;
-  }
-  public ArrayList < Integer > getkeystorm() {
-    return this.keystorm;
-  }
-  public int[] gettimearray() {
-    return this.timearray;
-  }
-  public int gettimearrayatindex(int x) {
-    return this.timearray[x];
-
-  }
+ 
   public Animal[] getAnimalList() {
     return this.animalList;
   }
@@ -94,15 +70,15 @@ public abstract class Populating extends  JFrame {
     return this.numberOfCoyotes;
   }
   public int getnumberOfFOx() {
-    return this.numberOfFOx;
+    return this.numberOfFox;
   }
-  public int getnumberOfprocupines() {
-    return this.numberOfprocupines;
+  public int getnumberOfProcupines() { //here
+    return this.numberOfProcupines; //here
   }
   public int getnumberOfBeavers() {
     return this.numberOfBeavers;
   }
-  public int getnumberOfraccoons() {
+  public int getnumberOfRaccoons() { //here
     return this.numberOfraccoons;
   }
   public Treatment[] getTreatmentList() {
@@ -111,23 +87,11 @@ public abstract class Populating extends  JFrame {
   public int[][] getHourList() {
     return this.hourList;
   }
-  public HashMap < Integer, ArrayList < Priority >> getHashmap() {
+  public HashMap < Integer, ArrayList < Priority >> getHoursMap() { //here
     return this.hoursMap;
   }
-  public HashMap < Integer, ArrayList < Priority > > getnewb() {
-    return this.newb;
-  }
-  public HashMap < Integer, ArrayList < Priority > > getverynewb() {
-    return this.verynewb;
-  }
-  public HashMap < Integer, ArrayList < Priority > > getveryverynewb() {
-    return this.veryverynewb;
-  }
-  // Setters
-  public void settimearray(int x, int duration) {
-    int y = this.timearray[x];
-    this.timearray[x] = y - duration;
-  }
+
+  
 
   //Constructor has super because it is the parent class of the Scheduling class
   public Populating() {
@@ -172,7 +136,7 @@ public abstract class Populating extends  JFrame {
           }
 
           if (!z.contains(animalNew.getAnimalNickName())) {
-            this.numberOfFOx += 1;
+            this.numberOfFox += 1;
             this.foxList.add(animalNew.getAnimalNickName());
           }
         }
@@ -202,7 +166,7 @@ public abstract class Populating extends  JFrame {
           }
 
           if (!z.contains(animalNew.getAnimalNickName())) {
-            this.numberOfprocupines += 1;
+            this.numberOfProcupines += 1;
             this.procupineList.add(animalNew.getAnimalNickName());
           }
         }

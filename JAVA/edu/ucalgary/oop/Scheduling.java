@@ -23,6 +23,50 @@ import java.awt.event.*;
 
 
 public class  Scheduling extends Populating implements Print , ActionListener {
+  
+  private HashMap < Integer, ArrayList < Priority >> newb = new HashMap < Integer, ArrayList < Priority >> ();
+  private HashMap < Integer, ArrayList < Priority >> verynewb = new HashMap < Integer, ArrayList < Priority >> ();
+  private HashMap < Integer, ArrayList < Priority >> veryverynewb = new HashMap < Integer, ArrayList < Priority >> ();
+  private int timearray[] = new int[24]; //here
+  private ArrayList < Integer > volList = new ArrayList < > ();
+  private ArrayList < Integer > keysToRm = new ArrayList < > ();
+  private ArrayList < Priority > valuestorm = new ArrayList < > ();
+  public ArrayList < Priority > getvaluestorm() {
+    return this.valuestorm;
+  }
+  
+  public ArrayList < Integer > getkeystorm() {
+    return this.keysToRm;
+  }
+  
+
+  public HashMap < Integer, ArrayList < Priority > > getnewb() {
+    return this.newb;
+  }
+  public HashMap < Integer, ArrayList < Priority > > getverynewb() {
+    return this.verynewb;
+  }
+  public HashMap < Integer, ArrayList < Priority > > getveryverynewb() {
+    return this.veryverynewb;
+  }
+  // Setters
+  
+  public ArrayList < Integer > getvolList() {
+    return this.volList;
+  }
+
+
+  public int[] gettimearray() {
+    return this.timearray;
+  }
+  public int gettimearrayatindex(int x) {
+    return this.timearray[x];
+
+  }
+  public void settimearray(int x, int duration) {
+    int y = this.timearray[x];
+    this.timearray[x] = y - duration;
+  }
 
     //Constructor which makes a call to the parent class (populating) using super
     public Scheduling (){
@@ -56,7 +100,7 @@ public class  Scheduling extends Populating implements Print , ActionListener {
       // This method makes calls to our other methods needed to implement feeding, cleaning etc.
       public void actionPerformed(ActionEvent event) {
     
-        SchedulingTreatment(); //fun1
+        SchedulingTreatment(); 
         feeding();
         cleaning();
         JOptionPane.showMessageDialog(this, "You are all good");
@@ -113,7 +157,7 @@ public class  Scheduling extends Populating implements Print , ActionListener {
               timearray[key] += 60;
               this.volList.add(key);
             } else {
-              keystorm.add(key);
+              keysToRm.add(key);
               valuestorm.add(item);
               adjustSchedule = true;
             }
@@ -134,10 +178,10 @@ public class  Scheduling extends Populating implements Print , ActionListener {
       // if any change was made to the schedule
       public void scheduleAdjust() { 
     
-        for (int i = 0; i < this.keystorm.size(); i++) {
-          ArrayList < Priority > valueForKeyB = this.newb.get(keystorm.get(i));
+        for (int i = 0; i < this.keysToRm.size(); i++) {
+          ArrayList < Priority > valueForKeyB = this.newb.get(keysToRm.get(i));
           valueForKeyB.remove(valuestorm.get(i));
-          this.verynewb.put(keystorm.get(i), valueForKeyB);
+          this.verynewb.put(keysToRm.get(i), valueForKeyB);
           //value is not added yet
         }
         int max = 0;
@@ -151,7 +195,7 @@ public class  Scheduling extends Populating implements Print , ActionListener {
           if (item.getMaxWindow() > 1) {
             max = item.getMaxWindow();
             int j = 1;
-            key1 = keystorm.get(i);
+            key1 = keysToRm.get(i);
     
             while (j < max) {
     
@@ -190,7 +234,7 @@ public class  Scheduling extends Populating implements Print , ActionListener {
     
                 }
               } else {
-                System.out.print("please change schedule");
+                JOptionPane.showMessageDialog(this,"Please change schedule");
               }
               j++;
     
@@ -709,8 +753,22 @@ public class  Scheduling extends Populating implements Print , ActionListener {
     
               for (int l = 0; l < 24; l++) {
                 if (!volList.contains(l)) {
+                  int result = JOptionPane.showConfirmDialog(this, "Should I call for backup volunteer?",
+               "Title", JOptionPane.YES_NO_OPTION);
+              if (result == JOptionPane.YES_OPTION) {
+                JOptionPane.showMessageDialog(this, "Calling back up volunteer");
+    
+              } else {
+                while (result == JOptionPane.NO_OPTION) {
+                  JOptionPane.showMessageDialog(this, "Please select yes or come up with a new schedule");
+                  result = JOptionPane.showConfirmDialog(this, "Should I call for backup volunteer?", 
+                  "Title", JOptionPane.YES_NO_OPTION);
+                }
+              } 
+              //Adding extra time to the hour that backup volunteer was called for
                   this.timearray[l] += 60;
                   volList.add(l);
+                  
                   JOptionPane.showMessageDialog(this, "volunteer added to hour" + l);
                   break;
                 }

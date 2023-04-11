@@ -13,19 +13,19 @@ package edu.ucalgary.oop;
 import java.util.ArrayList;
 
 public class Priority  implements Comparable<Priority>,Print{
-    private int taskID;
-    private int animalID;
-    private int duration;
-    private int maxWindow;
-    private String description;
-    private int startHour;
-    private int id;
-    private  ArrayList<String> animalNames;
+    private int taskId; //here
+    private int animalId; //here
+    private int duration; //here
+    private int maxWindow; //here
+    private String description; //here
+    private int startHour; //here
+    private int id; //here
+    private  ArrayList<String> animalNames; //here
     
     public Priority(){}
     //Constructor throws illegal argument exception for invalid data
     public Priority(int task, int animal, int Duration, int MaxWindow, String Desc , int start)throws IllegalArgumentException{
-        if(task < 0 || animal < 0 || Duration < 0 || MaxWindow < 0 || Desc == null || start < 0)
+        if(task < 1 || animal < 0 || Duration < 0 || MaxWindow < 0 || Desc == null || start < 0)
             throw new IllegalArgumentException("Invalid input");
        
         if(start < 0 || start > 23)
@@ -35,8 +35,8 @@ public class Priority  implements Comparable<Priority>,Print{
         if(animal < 1 )
             throw new IllegalArgumentException("Animal ID must be greater than1" );
         
-        this.taskID = task;
-        this.animalID = animal;
+        this.taskId = task;
+        this.animalId = animal;
         this.duration = Duration;
         this.maxWindow= MaxWindow;
         this.description = Desc;
@@ -54,10 +54,10 @@ public class Priority  implements Comparable<Priority>,Print{
     }
     //Getters
     public int getTaskID(){
-        return this.taskID;
+        return this.taskId;
     }
-    public int getanimalID(){
-        return this.animalID;
+    public int getanimalId(){
+        return this.animalId;
     }
     public int getduration(){
         return this.duration;
@@ -82,7 +82,7 @@ public class Priority  implements Comparable<Priority>,Print{
     @Override
     public void print() {
         // TODO Auto-generated method stub
-        System.out.println("Task ID: " + this.taskID + " Animal ID: " + this.animalID + " Duration: " + this.duration + " Max Window: " + this.maxWindow + " Description: " + this.description + " Start Hour: " + this.startHour);
+        System.out.println("Task ID: " + this.taskId + " Animal ID: " + this.animalId + " Duration: " + this.duration + " Max Window: " + this.maxWindow + " Description: " + this.description + " Start Hour: " + this.startHour);
     }
 }
 /*Arrays.sort(myArray); */
