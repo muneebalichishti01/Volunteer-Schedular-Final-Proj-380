@@ -17,7 +17,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map.Entry;
 import java.awt.BorderLayout;
-import java.awt.EventQueue;
+
 import javax.swing.*;
 import java.awt.event.*;
 
@@ -916,14 +916,7 @@ public class  Scheduling extends Populating implements Print , ActionListener {
 
     
       }
-      public static void main(String[] args) {
-
-        EventQueue.invokeLater(() -> {
-          new Scheduling().setVisible(true);
-    
-        });
-    
-      }
+      
     
     
 }
