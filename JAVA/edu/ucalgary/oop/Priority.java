@@ -56,17 +56,17 @@ public class Priority  implements Comparable<Priority>,Print{
     public int getTaskID(){
         return this.taskId;
     }
-    public int getanimalId(){
+    public int getAnimalId(){
         return this.animalId;
     }
-    public int getduration(){
+    public int getDuration(){
         return this.duration;
     
     }
     public int getMaxWindow(){
         return this.maxWindow;
     }
-    public String getdescription(){
+    public String getDescription(){
         return this.description;
     }
     public int getStartHour(){

@@ -24,31 +24,29 @@ import java.awt.event.*;
 
 public class  Scheduling extends Populating implements Print , ActionListener {
   
-  private HashMap < Integer, ArrayList < Priority >> newb = new HashMap < Integer, ArrayList < Priority >> ();
-  private HashMap < Integer, ArrayList < Priority >> verynewb = new HashMap < Integer, ArrayList < Priority >> ();
-  private HashMap < Integer, ArrayList < Priority >> veryverynewb = new HashMap < Integer, ArrayList < Priority >> ();
+  private HashMap < Integer, ArrayList < Priority >> sortedTreatments = new HashMap < Integer, ArrayList < Priority >> (); //here
+  private HashMap < Integer, ArrayList < Priority >> sortedTreatmentsFeedingCleaning = new HashMap < Integer, ArrayList < Priority >> (); //here
+   //here
   private int timeArray[] = new int[24]; //here
   private ArrayList < Integer > volList = new ArrayList < > ();
   private ArrayList < Integer > keysToRm = new ArrayList < > ();
   private ArrayList < Priority > valuesToRm = new ArrayList < > ();
-  public ArrayList < Priority > getvaluestorm() {
+  public ArrayList < Priority > getValuesToRm() {
     return this.valuesToRm;
   }
   
-  public ArrayList < Integer > getkeystorm() {
+  public ArrayList < Integer > getKeysToRm() { //here
     return this.keysToRm;
   }
   
 
-  public HashMap < Integer, ArrayList < Priority > > getnewb() {
-    return this.newb;
+  public HashMap < Integer, ArrayList < Priority > > getsortedTreatments() {
+    return this.sortedTreatments;
   }
-  public HashMap < Integer, ArrayList < Priority > > getverynewb() {
-    return this.verynewb;
+  public HashMap < Integer, ArrayList < Priority > > getsortedTreatmentsFeedingCleaning() {
+    return this.sortedTreatmentsFeedingCleaning;
   }
-  public HashMap < Integer, ArrayList < Priority > > getveryverynewb() {
-    return this.veryverynewb;
-  }
+ 
   // Setters
   
   public ArrayList < Integer > getvolList() {
@@ -76,7 +74,7 @@ public class  Scheduling extends Populating implements Print , ActionListener {
         selectAnimals();
         selectTasks();
         setPriority();
-        newa();
+        sortHoursMap();
         copying();
         setupGUI();
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -112,11 +110,11 @@ public class  Scheduling extends Populating implements Print , ActionListener {
     // that has a null value 
     public void copying() {
         for (int i = 0; i < 24; i++) {
-          verynewb.put(i, new ArrayList < Priority > ());
+          sortedTreatmentsFeedingCleaning.put(i, new ArrayList < Priority > ());
         }
-        for (int key: verynewb.keySet()) {
-          if (newb.containsKey(key)) {
-            verynewb.put(key, newb.get(key));
+        for (int key: sortedTreatmentsFeedingCleaning.keySet()) {
+          if (sortedTreatments.containsKey(key)) {
+            sortedTreatmentsFeedingCleaning.put(key, sortedTreatments.get(key));
           }
         }
       }
@@ -125,21 +123,21 @@ public class  Scheduling extends Populating implements Print , ActionListener {
       //if not then it tries to shift them, if there is still conflict then a backup volunteer is called
       public void SchedulingTreatment() {
         boolean adjustSchedule = false;
-        this.verynewb = new HashMap < > (newb);
+        this.sortedTreatmentsFeedingCleaning = new HashMap < > (sortedTreatments);
     
         for (int i = 0; i < 24; i++) {
     
           this.timeArray[i] = 60;
     
         }
-        for (Entry < Integer, ArrayList < Priority >> entry: this.newb.entrySet()) {
+        for (Entry < Integer, ArrayList < Priority >> entry: this.sortedTreatments.entrySet()) {
           // looping through our hashmap 
           Integer key = entry.getKey();
           ArrayList < Priority > value = entry.getValue();
           for (Priority item: value) { 
-            if (item.getduration() <= timeArray[key]) { //checking if there is enough time left 
+            if (item.getDuration() <= timeArray[key]) { //checking if there is enough time left 
               int y = this.timeArray[key]; 
-              this.timeArray[key] = y - item.getduration();// Adjusting the remaining time
+              this.timeArray[key] = y - item.getDuration();// Adjusting the remaining time
             } else if (item.getMaxWindow() == 1) {
               int result = JOptionPane.showConfirmDialog(this, "Should I call for backup volunteer?",
                "Title", JOptionPane.YES_NO_OPTION);
@@ -179,9 +177,9 @@ public class  Scheduling extends Populating implements Print , ActionListener {
       public void scheduleAdjust() { 
     
         for (int i = 0; i < this.keysToRm.size(); i++) {
-          ArrayList < Priority > valueForKeyB = this.newb.get(keysToRm.get(i));
+          ArrayList < Priority > valueForKeyB = this.sortedTreatments.get(keysToRm.get(i));
           valueForKeyB.remove(valuesToRm.get(i));
-          this.verynewb.put(keysToRm.get(i), valueForKeyB);
+          this.sortedTreatmentsFeedingCleaning.put(keysToRm.get(i), valueForKeyB);
           //value is not added yet
         }
         int max = 0;
@@ -205,20 +203,20 @@ public class  Scheduling extends Populating implements Print , ActionListener {
                 break;
               }
     
-              if (item.getduration() <= this.timeArray[key1 + j]) {
+              if (item.getDuration() <= this.timeArray[key1 + j]) {
     
                 int y = this.timeArray[key1 + j];
-                this.timeArray[key1 + j] = y - item.getduration();
-                ArrayList < Priority > valueForKeyB = this.verynewb.get(key1 + j);
+                this.timeArray[key1 + j] = y - item.getDuration();
+                ArrayList < Priority > valueForKeyB = this.sortedTreatmentsFeedingCleaning.get(key1 + j);
                 if (valueForKeyB == null) {
                   valueForKeyB = new ArrayList < Priority > ();
                 }
                 valueForKeyB.add(item);
-                this.verynewb.put(key1 + j, valueForKeyB);
+                this.sortedTreatmentsFeedingCleaning.put(key1 + j, valueForKeyB);
                 //value added succesfully
                 //we should add break here to prevent further adding into other hours after this hour
                 break;
-              } else if (item.getduration() >= this.timeArray[key1 + j] && j == max - 1) {
+              } else if (item.getDuration() >= this.timeArray[key1 + j] && j == max - 1) {
                 int z = key1 + j;
                 int result = JOptionPane.showConfirmDialog(this, "Should I call for backup volunteer?",
                "Title", JOptionPane.YES_NO_OPTION);
@@ -235,14 +233,14 @@ public class  Scheduling extends Populating implements Print , ActionListener {
               
                 this.timeArray[key1 + j] += 60;
                 this.volList.add(key1 + j);
-                this.timeArray[key1 + j] -= item.getduration();
-                if (item.getduration() <= this.timeArray[key1 + j]) {
-                  ArrayList < Priority > valueForKeyB = this.verynewb.get(key1 + j);
+                this.timeArray[key1 + j] -= item.getDuration();
+                if (item.getDuration() <= this.timeArray[key1 + j]) {
+                  ArrayList < Priority > valueForKeyB = this.sortedTreatmentsFeedingCleaning.get(key1 + j);
                   if (valueForKeyB == null) {
                     valueForKeyB = new ArrayList < Priority > ();
                   }
                   valueForKeyB.add(item);
-                  this.verynewb.put(key1 + j, valueForKeyB);
+                  this.sortedTreatmentsFeedingCleaning.put(key1 + j, valueForKeyB);
     
                 }
               } else {
@@ -255,7 +253,7 @@ public class  Scheduling extends Populating implements Print , ActionListener {
           }
         }
     
-        sort(); //this will sort veynewb
+        sortTreatments(); //this will sort veysortedTreatments
       }
       // This method will add the feeding task to our schedule
       // This method also shifts the feeding tasks or calls the backup volunteer if needed
@@ -274,7 +272,7 @@ public class  Scheduling extends Populating implements Print , ActionListener {
           Priority newpro = new Priority(this.foxList, feedingtime, 3, desc);
           
           for (int i = 0; i < 3; i++) {
-            ArrayList < Priority > u = verynewb.get(i);
+            ArrayList < Priority > u = sortedTreatmentsFeedingCleaning.get(i);
             if (u == null) {
               u = new ArrayList < Priority > ();
             }
@@ -282,7 +280,7 @@ public class  Scheduling extends Populating implements Print , ActionListener {
             //adjusting the remaining time again
             if (feedingtime <= this.timeArray[i]) {
               u.add(newpro);
-              this.verynewb.put(i, u);
+              this.sortedTreatmentsFeedingCleaning.put(i, u);
               this.timeArray[i] = this.timeArray[i] - feedingtime;
               done = true;
               break;
@@ -327,12 +325,12 @@ public class  Scheduling extends Populating implements Print , ActionListener {
     
                 }
                 Priority newpro1 = new Priority(first, (z * 5) + 5, 3, desc1);
-                ArrayList < Priority > u = verynewb.get(i);
+                ArrayList < Priority > u = sortedTreatmentsFeedingCleaning.get(i);
                 if (u == null) {
                   u = new ArrayList < Priority > ();
                 }
                 u.add(newpro1);
-                this.verynewb.put(i, u);
+                this.sortedTreatmentsFeedingCleaning.put(i, u);
                 this.timeArray[i] = this.timeArray[i] - (z * 5) - 5;
                 if (alreadyfed <= foxList.size()) {
                   JOptionPane.showMessageDialog(this, "please change schedule or hit okay to discard feeding for extra foxes");
@@ -358,14 +356,14 @@ public class  Scheduling extends Populating implements Print , ActionListener {
           Priority newpro = new Priority(this.raccoonList, feedingtime, 3, desc);
     
           for (int i = 0; i < 3; i++) {
-            ArrayList < Priority > u = verynewb.get(i);
+            ArrayList < Priority > u = sortedTreatmentsFeedingCleaning.get(i);
             if (u == null) {
               u = new ArrayList < Priority > ();
             }
             //checking the remaining time and adjusting the new remaining time
             if (feedingtime < this.timeArray[i]) {
               u.add(newpro);
-              this.verynewb.put(i, u);
+              this.sortedTreatmentsFeedingCleaning.put(i, u);
               this.timeArray[i] = this.timeArray[i] - feedingtime;
               done = true;
               break;
@@ -411,12 +409,12 @@ public class  Scheduling extends Populating implements Print , ActionListener {
     
                 }
                 Priority newpro1 = new Priority(first, (z * 5), 3, desc1);
-                ArrayList < Priority > u = verynewb.get(i);
+                ArrayList < Priority > u = sortedTreatmentsFeedingCleaning.get(i);
                 if (u == null) {
                   u = new ArrayList < Priority > ();
                 }
                 u.add(newpro1);
-                this.verynewb.put(i, u);
+                this.sortedTreatmentsFeedingCleaning.put(i, u);
                 this.timeArray[i] = this.timeArray[i] - (z * 5);
                 if (alreadyfed <= raccoonList.size()) {
                   JOptionPane.showMessageDialog(this, "please change schedule or hit okay to discard feeding for extra raccons");
@@ -444,13 +442,13 @@ public class  Scheduling extends Populating implements Print , ActionListener {
           Priority newpro = new Priority(this.beaverList, feedingtime, 3, desc);
     
           for (int i = 7; i < 10; i++) {
-            ArrayList < Priority > u = verynewb.get(i);
+            ArrayList < Priority > u = sortedTreatmentsFeedingCleaning.get(i);
             if (u == null) {
               u = new ArrayList < Priority > ();
             }
             if (feedingtime < this.timeArray[i]) {
               u.add(newpro);
-              this.verynewb.put(i, u);
+              this.sortedTreatmentsFeedingCleaning.put(i, u);
               this.timeArray[i] = this.timeArray[i] - feedingtime;
               done = true;
               break;
@@ -497,12 +495,12 @@ public class  Scheduling extends Populating implements Print , ActionListener {
     
                 }
                 Priority newpro1 = new Priority(first, (z * 5), 3, desc1);
-                ArrayList < Priority > u = verynewb.get(i);
+                ArrayList < Priority > u = sortedTreatmentsFeedingCleaning.get(i);
                 if (u == null) {
                   u = new ArrayList < Priority > ();
                 }
                 u.add(newpro1);
-                this.verynewb.put(i, u);
+                this.sortedTreatmentsFeedingCleaning.put(i, u);
                 //subtracting the time used for the task from our time list
                 this.timeArray[i] = this.timeArray[i] - (z * 5);
                 if (alreadyfed <= raccoonList.size()) {
@@ -529,13 +527,13 @@ public class  Scheduling extends Populating implements Print , ActionListener {
           Priority newpro = new Priority(this.coyoteList, feedingtime, 3, desc);
     
           for (int i = 7; i < 10; i++) {
-            ArrayList < Priority > u = verynewb.get(i);
+            ArrayList < Priority > u = sortedTreatmentsFeedingCleaning.get(i);
             if (u == null) {
               u = new ArrayList < Priority > ();
             }
             if (feedingtime < this.timeArray[i]) {
               u.add(newpro);
-              this.verynewb.put(i, u);
+              this.sortedTreatmentsFeedingCleaning.put(i, u);
               this.timeArray[i] = this.timeArray[i] - feedingtime;
               done = true;
               break;
@@ -581,12 +579,12 @@ public class  Scheduling extends Populating implements Print , ActionListener {
     
                 }
                 Priority newpro1 = new Priority(first, (z * 5) + 10, 3, desc1);
-                ArrayList < Priority > u = verynewb.get(i);
+                ArrayList < Priority > u = sortedTreatmentsFeedingCleaning.get(i);
                 if (u == null) {
                   u = new ArrayList < Priority > ();
                 }
                 u.add(newpro1);
-                this.verynewb.put(i, u);
+                this.sortedTreatmentsFeedingCleaning.put(i, u);
                 this.timeArray[i] = this.timeArray[i] - (z * 5) - 10;
                 if (alreadyfed <= coyoteList.size()) {
                   JOptionPane.showMessageDialog(this, "please change schedule or hit okay to discard feeding for extra coyotes");
@@ -611,13 +609,13 @@ public class  Scheduling extends Populating implements Print , ActionListener {
           Priority newpro = new Priority(this.procupineList, feedingtime, 3, desc);
     
           for (int i = 7; i < 10; i++) {
-            ArrayList < Priority > u = verynewb.get(i);
+            ArrayList < Priority > u = sortedTreatmentsFeedingCleaning.get(i);
             if (u == null) {
               u = new ArrayList < Priority > ();
             }
             if (feedingtime < this.timeArray[i]) {
               u.add(newpro);
-              this.verynewb.put(i, u);
+              this.sortedTreatmentsFeedingCleaning.put(i, u);
               this.timeArray[i] = this.timeArray[i] - feedingtime;
               done = true;
               break;
@@ -662,12 +660,12 @@ public class  Scheduling extends Populating implements Print , ActionListener {
     
                 }
                 Priority newpro1 = new Priority(first, (z * 5), 3, desc1);
-                ArrayList < Priority > u = verynewb.get(i);
+                ArrayList < Priority > u = sortedTreatmentsFeedingCleaning.get(i);
                 if (u == null) {
                   u = new ArrayList < Priority > ();
                 }
                 u.add(newpro1);
-                this.verynewb.put(i, u);
+                this.sortedTreatmentsFeedingCleaning.put(i, u);
                 this.timeArray[i] = this.timeArray[i] - (z * 5);
                 if (alreadyfed <= procupineList.size()) {
                   JOptionPane.showMessageDialog(this, "please change schedule or hit okay to discard feeding for extra procipines");
@@ -683,8 +681,8 @@ public class  Scheduling extends Populating implements Print , ActionListener {
     
       }
     
-      public void newa() {
-        // This method is used to sort our hashmap based on maxWindow
+      public void sortHoursMap() {
+        // This method is used to sort our hashmap based on maxWindow and put it in SortedTreatmentsHashmap
         for (Entry < Integer, ArrayList < Priority >> entry: hoursMap.entrySet()) {
           Integer key = entry.getKey();
           ArrayList < Priority > value = entry.getValue();
@@ -694,18 +692,18 @@ public class  Scheduling extends Populating implements Print , ActionListener {
           Arrays.sort(myArray);
           ArrayList < Priority > list = new ArrayList < > (Arrays.asList(myArray));
     
-          this.newb.put(key, list);
+          this.sortedTreatments.put(key, list);
         }
       }
     
-      public void sort() { //sorts verynewB after adding values
-        for (Entry < Integer, ArrayList < Priority >> entry: verynewb.entrySet()) {
+      public void sortTreatments() { //sorts sortedTreatmentsFeedingCleaning after adding values and put it in sortedTreatmentsFeedingCleaning hashmap
+        for (Entry < Integer, ArrayList < Priority >> entry: sortedTreatmentsFeedingCleaning.entrySet()) {
           Integer key = entry.getKey();
           ArrayList < Priority > value = entry.getValue();
           Priority[] myArray = value.toArray(new Priority[value.size()]);
           Arrays.sort(myArray);
           ArrayList < Priority > list = new ArrayList < > (Arrays.asList(myArray));
-          this.verynewb.put(key, list);
+          this.sortedTreatmentsFeedingCleaning.put(key, list);
         }
     
       }
@@ -748,13 +746,13 @@ public class  Scheduling extends Populating implements Print , ActionListener {
             }
             
             Priority kk = new Priority(k, x * 5, 24, desc);
-            ArrayList < Priority > h = this.verynewb.get(i);
+            ArrayList < Priority > h = this.sortedTreatmentsFeedingCleaning.get(i);
             if (h == null) {
               h = new ArrayList < Priority > ();
             }
             alreadyclean += x;
             h.add(kk);
-            this.verynewb.put(i, h);
+            this.sortedTreatmentsFeedingCleaning.put(i, h);
             timeArray[i] -= (x * 5);
             //checking if we cleaned all our animal cages
             if (alreadyclean == animaltoclean.size()) {
@@ -792,13 +790,13 @@ public class  Scheduling extends Populating implements Print , ActionListener {
                   desc = desc + " ," + animaltoclean.get(a).getAnimalNickName();
                 }
                 kk = new Priority(k, x * 5, 24, desc);
-                h = this.verynewb.get(l);
+                h = this.sortedTreatmentsFeedingCleaning.get(l);
                 if (h == null) {
                   h = new ArrayList < Priority > ();
                 }
     
                 h.add(kk);
-                this.verynewb.put(l, h);
+                this.sortedTreatmentsFeedingCleaning.put(l, h);
                 // subtracting the time spent on cleaning from the hour
                 timeArray[l] -= (animaltoclean.size() - alreadyclean) * 5;
                 all = true;
@@ -831,14 +829,14 @@ public class  Scheduling extends Populating implements Print , ActionListener {
             }
     
             Priority kk = new Priority(k, x * 10, 24, desc);
-            ArrayList < Priority > h = this.verynewb.get(i);
+            ArrayList < Priority > h = this.sortedTreatmentsFeedingCleaning.get(i);
             if (h == null) {
               h = new ArrayList < Priority > ();
             }
             //keeping track of number of cleaned cages for procupines.
             alreadyclean1 += x;
             h.add(kk);
-            this.verynewb.put(i, h);
+            this.sortedTreatmentsFeedingCleaning.put(i, h);
             timeArray[i] -= (x * 10);
             if (alreadyclean1 == procupinetoclean.size()) {
               break;
@@ -860,14 +858,14 @@ public class  Scheduling extends Populating implements Print , ActionListener {
                   desc = desc + " ," + procupinetoclean.get(a).getAnimalNickName();
                 }
                 kk = new Priority(k, x * 10, 24, desc);
-                h = this.verynewb.get(l);
+                h = this.sortedTreatmentsFeedingCleaning.get(l);
                 if (h == null) {
                   h = new ArrayList < Priority > ();
                 }
     
                 h.add(kk);
                 //reasigning that hour to its tasks with cleaning tasks added.
-                this.verynewb.put(l, h);
+                this.sortedTreatmentsFeedingCleaning.put(l, h);
                 timeArray[l] -= (procupinetoclean.size() - alreadyclean1) * 10;
                 all1 = true;
     
@@ -885,7 +883,7 @@ public class  Scheduling extends Populating implements Print , ActionListener {
       @Override
       public void print() {
        
-        for (Entry < Integer, ArrayList < Priority >> entry: getverynewb().entrySet()) {
+        for (Entry < Integer, ArrayList < Priority >> entry: getsortedTreatmentsFeedingCleaning().entrySet()) {
           boolean volunteer = false;
           Integer key1 = entry.getKey();
           ArrayList < Priority > value = entry.getValue();
@@ -907,9 +905,9 @@ public class  Scheduling extends Populating implements Print , ActionListener {
               }
 
              
-              System.out.println("description: " + item.getdescription() + "    ");
+              System.out.println("description: " + item.getDescription() + "    ");
     
-              System.out.println("duration: " + item.getduration() + "    ");
+              System.out.println("duration: " + item.getDuration() + "    ");
               System.out.println("--------------------------------------------------");
     
             }

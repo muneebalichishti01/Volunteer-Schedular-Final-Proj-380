@@ -14,12 +14,12 @@ public class Animal implements Print{
     private final String ANIMALNICKNAME;
     private final String ANIMALSPECIES;
 
-    public Animal(int animalID, String Nickname, String Species)throws IllegalArgumentException{ // A Constructor that throw illegal argument exception when bad data is given
-        if(animalID < 1 || Nickname == null || Species == null)
+    public Animal(int animalID, String nickname, String species)throws IllegalArgumentException{ // A Constructor that throw illegal argument exception when bad data is given
+        if(animalID < 1 || nickname == null || species == null)
             throw new IllegalArgumentException("Invalid input");
         this.ANIMALID = animalID;
-        this.ANIMALNICKNAME = Nickname;
-        this.ANIMALSPECIES = Species;
+        this.ANIMALNICKNAME = nickname;
+        this.ANIMALSPECIES = species;
     }
     // Getters 
     public int getAnimalID(){
