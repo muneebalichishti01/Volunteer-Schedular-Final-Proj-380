@@ -1,11 +1,10 @@
 /**
 * 
-* This ANimal Class is used to create animal objects which will have 3 data members: AnimalID,AnimalNickname,  and Animal Species
-* @author  Mohamad Jamal Hammoud, Qazi Ali, Mirza Hassan Baig, Muneeb Ali
+* This ANimal Class is used to create animal objects which will have 3 data members: AnimalID ,AnimalNickname, and Animal Species
+/* @author  Mohamad Jamal Hammoud, Qazi Ali, Mirza Hassan Baig, Muneeb Ali
 * @version 3.0
 * @since   2023-03-25 
 */
-
 
 package edu.ucalgary.oop;
 

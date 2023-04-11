@@ -1,29 +1,31 @@
+/* @author  Mohamad Jamal Hammoud, Qazi Ali, Mirza Hassan Baig, Muneeb Ali
+* @version 3.0
+* @since   2023-03-25 
+*/
+
 package edu.ucalgary.oop;
 
 import org.junit.*;
 import java.util.*;
 import static org.junit.Assert.*;
 
-
 public class ProjectTest {
 
+	public ProjectTest(){
+		//empty constructor
+	}
 
-	public ProjectTest(){}
 
 	@Test  //based on the values in database given if you want to change the expected value change the value in database
 	public void selectAnimalsTest(){
 		Populating pop1 = new Populating ();
 		Animal [] expectedList= new Animal[15];
-		
-		
 		Animal [] actualAnimalList= new Animal[15];
-		
-		
 		Animal animalNew = new Animal(1, "Loner", "coyote");
+
 		expectedList[0]= animalNew;
-		 animalNew = new Animal(2, "Biter", "coyote");
+		animalNew = new Animal(2, "Biter", "coyote");
 		expectedList[1]= animalNew;
-		
 		animalNew = new Animal(3, "Bitter", "coyote");
 		expectedList[2]= animalNew;
 		animalNew = new Animal(4, "Pencil", "coyote");
@@ -49,136 +51,129 @@ public class ProjectTest {
 		animalNew = new Animal(14, "Spin", "coyote");
 		expectedList[13]= animalNew;
 		animalNew = new Animal(15, "Spot", "coyote");
+
 		expectedList[14]= animalNew;
 		pop1.createConnection();
 		pop1.selectAnimals();
-		
-		
 		actualAnimalList = pop1.getAnimalList(); 
+
 		for(int i = 0; i<15; i++){
-		boolean check = expectedList[i].getAnimalID()==actualAnimalList[i].getAnimalID();
-		assertEquals("something wrong in select animals foxlist id for index "+ i, true, check);
-		check = expectedList[i].getAnimalNickName().equals(actualAnimalList[i].getAnimalNickName());
-		assertEquals("something wrong in select animals foxlist species" + i, true, check);
-		check = expectedList[i].getAnimalSpecies().equals(actualAnimalList[i].getAnimalSpecies());
-		assertEquals("something wrong in select animals foxlist species" + i, true, check);
+			boolean check = expectedList[i].getAnimalID()==actualAnimalList[i].getAnimalID();
+			assertEquals("something wrong in select animals foxlist id for index "+ i, true, check);
+			check = expectedList[i].getAnimalNickName().equals(actualAnimalList[i].getAnimalNickName());
+			assertEquals("something wrong in select animals foxlist species" + i, true, check);
+			check = expectedList[i].getAnimalSpecies().equals(actualAnimalList[i].getAnimalSpecies());
+			assertEquals("something wrong in select animals foxlist species" + i, true, check);
 		}
 }
 
 
+	@Test
+	public void AnimalClassTest(){
+		Animal myAnimalactual = new Animal(1, "Spin", "coyote");
+		int expectedAnimalID = 1;
+		String expectedAnimalNickname = "Spin";
+		String expectedAnimalSpecies = "coyote";
+		int actualAnimalID = myAnimalactual.getAnimalID();
+		String actualAnimalNickname = myAnimalactual.getAnimalNickName();
+		String actualAnimalSpecies = myAnimalactual.getAnimalSpecies();
 
-@Test
-
-public void AnimalClassTest(){
-  Animal myAnimalactual = new Animal(1, "Spin", "coyote");
-  int expectedAnimalID = 1;
-  String expectedAnimalNickname = "Spin";
-  String expectedAnimalSpecies = "coyote";
-  int actualAnimalID = myAnimalactual.getAnimalID();
-  String actualAnimalNickname = myAnimalactual.getAnimalNickName();
-  String actualAnimalSpecies = myAnimalactual.getAnimalSpecies();
-
-  assertEquals("something wrong in animal id", expectedAnimalID,actualAnimalID);
-  assertEquals("something wrong in animal nickname", expectedAnimalNickname,actualAnimalNickname);
-  assertEquals("something wrong in animal species", expectedAnimalSpecies,actualAnimalSpecies);
-
-}
+		assertEquals("something wrong in animal id", expectedAnimalID,actualAnimalID);
+		assertEquals("something wrong in animal nickname", expectedAnimalNickname,actualAnimalNickname);
+		assertEquals("something wrong in animal species", expectedAnimalSpecies,actualAnimalSpecies);
+	}
 
 
-@Test(expected=IllegalArgumentException.class)
-public void AnimalClassTestException(){
-	Animal myAnimalActual = new Animal(0, "Spin", "coyote");
+	@Test(expected=IllegalArgumentException.class)
+	public void AnimalClassTestException(){
+		Animal myAnimalActual = new Animal(0, "Spin", "coyote");
+	}
 
-}
 
-@Test
-public void PriorityClassTest(){
-	Priority myPriorityActual = new Priority(1, 2,20,2,"feeding",0);
-	int expectedTaskID = 1;
-	int expectedAnimalID = 2;
-	int expectedDuration = 20;
-	int expectedMaxWindow = 2;
-	String expectedDesc = "feeding";
-	int expectedStart = 0;
-	int actualTaskID = myPriorityActual.getTaskID();
-	int actualAnimalID = myPriorityActual.getAnimalId();
-	int actualDuration = myPriorityActual.getDuration();
-	int actualMaxWindow = myPriorityActual.getMaxWindow();
-	String actualDesc = myPriorityActual.getDescription();
-	int actualStart = myPriorityActual.getStartHour();
-	assertEquals("something wrong in task id", expectedTaskID,actualTaskID);
-	assertEquals("something wrong in animal id", expectedAnimalID,actualAnimalID);
-	assertEquals("something wrong in duration", expectedDuration,actualDuration);
+	@Test
+	public void PriorityClassTest(){
+		Priority myPriorityActual = new Priority(1, 2,20,2,"feeding",0);
+		int expectedTaskID = 1;
+		int expectedAnimalID = 2;
+		int expectedDuration = 20;
+		int expectedMaxWindow = 2;
+		String expectedDesc = "feeding";
+		int expectedStart = 0;
+		int actualTaskID = myPriorityActual.getTaskID();
+		int actualAnimalID = myPriorityActual.getAnimalId();
+		int actualDuration = myPriorityActual.getDuration();
+		int actualMaxWindow = myPriorityActual.getMaxWindow();
+		String actualDesc = myPriorityActual.getDescription();
+		int actualStart = myPriorityActual.getStartHour();
 
-	assertEquals("something wrong in max window", expectedMaxWindow,actualMaxWindow);
-	assertEquals("something wrong in desc", expectedDesc,actualDesc);
-	assertEquals("something wrong in start", expectedStart,actualStart);
-	
-}
+		assertEquals("something wrong in task id", expectedTaskID,actualTaskID);
+		assertEquals("something wrong in animal id", expectedAnimalID,actualAnimalID);
+		assertEquals("something wrong in duration", expectedDuration,actualDuration);
 
-@Test(expected=IllegalArgumentException.class)
-public void PriorityClassTestException(){
-	Priority myPriorityActual = new Priority(0, 2,20,2,"feeding",0);
+		assertEquals("something wrong in max window", expectedMaxWindow,actualMaxWindow);
+		assertEquals("something wrong in desc", expectedDesc,actualDesc);
+		assertEquals("something wrong in start", expectedStart,actualStart);
+	}
 
-}
+	@Test(expected=IllegalArgumentException.class)
+	public void PriorityClassTestException(){
+		Priority myPriorityActual = new Priority(0, 2,20,2,"feeding",0);
+	}
 
-@Test 
 
-public void TreatmentClassTest(){
-	Treatment myTreatmentActual = new Treatment(1, 2,4);
-	int expectedAnimalID = 1;
-	int expectedTaskID = 2;
-	int expectedStartHour = 4;
-	int actualAnimalID = myTreatmentActual.getAnimalID();
-	int actualTaskID = myTreatmentActual.getTaskID();
-	int actualStartHour = myTreatmentActual.getStartHour();
-	assertEquals("something wrong in animal id", expectedAnimalID,actualAnimalID);
-	assertEquals("something wrong in task id", expectedTaskID,actualTaskID);
-	assertEquals("something wrong in start hour", expectedStartHour,actualStartHour);
+	@Test
+	public void TreatmentClassTest(){
+		Treatment myTreatmentActual = new Treatment(1, 2,4);
+		int expectedAnimalID = 1;
+		int expectedTaskID = 2;
+		int expectedStartHour = 4;
+		int actualAnimalID = myTreatmentActual.getAnimalID();
+		int actualTaskID = myTreatmentActual.getTaskID();
+		int actualStartHour = myTreatmentActual.getStartHour();
 
-	
-}
+		assertEquals("something wrong in animal id", expectedAnimalID,actualAnimalID);
+		assertEquals("something wrong in task id", expectedTaskID,actualTaskID);
+		assertEquals("something wrong in start hour", expectedStartHour,actualStartHour);
+	}
 
-@Test(expected=IllegalArgumentException.class)
-public void TreatmentClassTestException(){
-	Treatment myTreatmentActual = new Treatment(0, 2,4);
-}
 
-@Test
+	@Test(expected=IllegalArgumentException.class)
+	public void TreatmentClassTestException(){
+		Treatment myTreatmentActual = new Treatment(0, 2,4);
+	}
 
-	
-public void TestTaskClass(){
-	
-	Task myTaskActual = new Task(1, "feeding", 20, 2);
-	int expectedTaskID = 1;
-	String expectedDesc = "feeding";
-	int expectedDuration = 20;
-	int expectedMaxWindow = 2;
-	int actualTaskID = myTaskActual.getTaskID();
-	String actualDesc = myTaskActual.getDescription();
-	int actualDuration = myTaskActual.getDuration();
-	int actualMaxWindow = myTaskActual.getMaxWindow();
-	assertEquals("something wrong in task id", expectedTaskID,actualTaskID);
-	assertEquals("something wrong in desc", expectedDesc,actualDesc);
-	assertEquals("something wrong in duration", expectedDuration,actualDuration);
-	assertEquals("something wrong in max window", expectedMaxWindow,actualMaxWindow);
-}
 
-@Test(expected=IllegalArgumentException.class)
-public void TestTaskClassException(){
-	Task myTaskActual = new Task(1, "feeding",20,0);
-}
+	@Test	
+	public void TestTaskClass(){
+		Task myTaskActual = new Task(1, "feeding", 20, 2);
+		int expectedTaskID = 1;
+		String expectedDesc = "feeding";
+		int expectedDuration = 20;
+		int expectedMaxWindow = 2;
+		int actualTaskID = myTaskActual.getTaskID();
+		String actualDesc = myTaskActual.getDescription();
+		int actualDuration = myTaskActual.getDuration();
+		int actualMaxWindow = myTaskActual.getMaxWindow();
 
-@Test  //based on the values in database given if you want to change the expected value change the value in database
+		assertEquals("something wrong in task id", expectedTaskID,actualTaskID);
+		assertEquals("something wrong in desc", expectedDesc,actualDesc);
+		assertEquals("something wrong in duration", expectedDuration,actualDuration);
+		assertEquals("something wrong in max window", expectedMaxWindow,actualMaxWindow);
+	}
+
+
+	@Test(expected=IllegalArgumentException.class)
+	public void TestTaskClassException(){
+		Task myTaskActual = new Task(1, "feeding",20,0);
+	}
+
+	@Test  //based on the values in database given if you want to change the expected value change the value in database
 	public void selectTaskTest(){
 		Populating pop1 = new Populating ();
 		Task [] expectedList= new Task[15];
-		
-		
 		Task [] actualTaskList= new Task[10];
-		
-		
 		Task taskNew = new Task(1, "Kit feeding", 30, 2);
+
 		expectedList[0]= taskNew;
 		taskNew = new Task(2, "Rebandage leg wound", 20, 1);
 		expectedList[1]= taskNew;
@@ -199,37 +194,25 @@ public void TestTaskClassException(){
 		taskNew = new Task(10, "Inspect broken leg", 5, 2);
 		expectedList[9]= taskNew;
 		
-		
-
-		 
-		
-		
 		pop1.createConnection();
 		pop1.selectTasks();
-		
-		
 		actualTaskList = pop1.getTaskList(); 
+
 		for (int i=0;i<10;i++){
-		assertTrue("something wrong in selecttask()", (expectedList[i].getTaskID()==actualTaskList[i].getTaskID()));
-		
-		}
-		
-		
-		
-		
-}
-@Test  //based on the values in database given if you want to change the expected value change the value in database
+			assertTrue("something wrong in selecttask()", (expectedList[i].getTaskID()==actualTaskList[i].getTaskID()));
+		}	
+	}
+
+
+	@Test  //based on the values in database given if you want to change the expected value change the value in database
 	public void selectTreatmentTest(){
 		Populating pop1 = new Populating ();
 		Treatment [] expectedList= new Treatment[10];
-		
-		
 		Treatment [] actualTreatmentList= new Treatment[10];
-		
-		
 		Treatment treatmentNew = new Treatment(6, 1, 0);
+
 		expectedList[0]= treatmentNew;
-		 treatmentNew = new Treatment(6, 1, 2);
+		treatmentNew = new Treatment(6, 1, 2);
 		expectedList[1]= treatmentNew;
 		treatmentNew = new Treatment(6, 1, 4);
 		expectedList[2]= treatmentNew;
@@ -248,31 +231,19 @@ public void TestTaskClassException(){
 		treatmentNew = new Treatment(6, 1, 18);
 		expectedList[9]= treatmentNew;
 		
-
-		
-		
-		
-		
-
-		 
-		
-		
 		pop1.createConnection();
 		pop1.selectTreatments();
-		
-		
-		actualTreatmentList = pop1.getTreatmentList(); 
+		actualTreatmentList = pop1.getTreatmentList();
+
 		for (int i=0;i<10;i++){
-		assertTrue("something wrong in selectTreatment()", (expectedList[i].getTaskID()==actualTreatmentList[i].getTaskID()));
-		assertTrue("something wrong in selectTreatment()", (expectedList[i].getAnimalID()==actualTreatmentList[i].getAnimalID()));
-		assertTrue("something wrong in selectTreatment()", (expectedList[i].getStartHour()==actualTreatmentList[i].getStartHour()));
-		}
-		
-		
-		
-		
-}
-@Test
+			assertTrue("something wrong in selectTreatment()", (expectedList[i].getTaskID()==actualTreatmentList[i].getTaskID()));
+			assertTrue("something wrong in selectTreatment()", (expectedList[i].getAnimalID()==actualTreatmentList[i].getAnimalID()));
+			assertTrue("something wrong in selectTreatment()", (expectedList[i].getStartHour()==actualTreatmentList[i].getStartHour()));
+		}	
+	}
+
+
+	@Test
 	public void copyingTest(){
 		Populating pop1 = new Populating();
 		pop1.createConnection();
@@ -288,22 +259,22 @@ public void TestTaskClassException(){
 		assertEquals(24, actualValue.size());
 		assertTrue(actualValue.containsKey((Integer)0));
 		assertTrue(actualValue.containsKey((Integer)1));
+	}
 
-		
-}
-@Test //based on the values in database given if you want to change the expected value change the value in database
-public void TestSetPriority(){
 
-String expected = "[0, 2, 4, 6, 8, 10, 12, 13, 14, 15, 16, 18, 19, 20, 22, 23]";
-Scheduling schedule = new Scheduling();
-HashMap < Integer, ArrayList < Priority >> actualHashMap = schedule.getHoursMap();
-ArrayList<Integer> actualKeys = new ArrayList<Integer>();
-for (Integer key : actualHashMap.keySet()) {
-	actualKeys.add(key); 
-}
-Collections.sort(actualKeys);
-String actualString = actualKeys.toString();
-assertEquals("something wrong in setPriority()", expected,actualString);
+	@Test //based on the values in database given if you want to change the expected value change the value in database
+	public void TestSetPriority(){
+		String expected = "[0, 2, 4, 6, 8, 10, 12, 13, 14, 15, 16, 18, 19, 20, 22, 23]";
+		Scheduling schedule = new Scheduling();
+		HashMap < Integer, ArrayList < Priority >> actualHashMap = schedule.getHoursMap();
+		ArrayList<Integer> actualKeys = new ArrayList<Integer>();
 
-}
+		for (Integer key : actualHashMap.keySet()) {
+			actualKeys.add(key); 
+		}
+
+		Collections.sort(actualKeys);
+		String actualString = actualKeys.toString();
+		assertEquals("something wrong in setPriority()", expected,actualString);
+	}
 }

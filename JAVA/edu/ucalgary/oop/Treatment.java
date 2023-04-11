@@ -6,8 +6,6 @@
 * @since   2023-03-31
 */
 
-
-
 package edu.ucalgary.oop;
 
 public class Treatment implements Print{
@@ -41,7 +39,6 @@ public class Treatment implements Print{
     //Implementation of abstract method included in the interface that the class implements
     @Override
     public void print() {
-        // TODO Auto-generated method stub
         System.out.println("Animal ID: " + this.ANIMALID + " Task ID: " + this.TASKID + " Start Hour: " + this.STARTHOUR);
     }
 }

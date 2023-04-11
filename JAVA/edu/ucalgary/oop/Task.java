@@ -1,3 +1,8 @@
+/* @author  Mohamad Jamal Hammoud, Qazi Ali, Mirza Hassan Baig, Muneeb Ali
+* @version 3.0
+* @since   2023-03-25 
+*/
+
 package edu.ucalgary.oop;
 
 public class Task implements Print{
@@ -5,7 +10,6 @@ public class Task implements Print{
     private final String DESCRIPTION;
     private final int DURATION;
     private final int MAXWINDOW;
-
 
     public Task(int taskId, String description,int duration, int maxWindow)throws IllegalArgumentException{
         if(taskId < 1 || description == null || duration < 0 || maxWindow < 1)
@@ -30,7 +34,6 @@ public class Task implements Print{
     }
     @Override
     public void print() {
-            // TODO Auto-generated method stub
             System.out.println("Task ID: " + this.TASKID + " Description: " + this.DESCRIPTION +" Duration: " + this.DURATION + " Max Window: " + this.MAXWINDOW);
     }
 }
