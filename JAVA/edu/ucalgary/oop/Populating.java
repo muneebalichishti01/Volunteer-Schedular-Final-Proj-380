@@ -1,3 +1,18 @@
+/**
+* This class is used to make a connection with the database and extract all
+* the information needed to fill our Animals, Treatments, and Tasks Lists
+* It Also creates a Hashmap with keys of hours in the day and values as 
+* ArraList of Priority objects that describes the medical treatments only
+* 
+* @author  Mohamad Jamal Hammoud: Version 1.0
+ Qazi Ali: Version 2.0
+ Mirza Hassan Baig Version: 3.0,
+ Muneeb Ali Version: 4.0
+ Mohamad Jamal Hammoud: Version 5.0
+* @version 5.0
+* @since   2023-04-3 
+*/
+
 package edu.ucalgary.oop;
 
 import java.sql.*;
@@ -37,6 +52,7 @@ public abstract class Populating extends  JFrame {
   protected int numberOfraccoons = 0;
   protected int timearray[] = new int[24];
 
+  //Getters
   public ArrayList < String > getfoxList() {
     return this.foxList;
   }
@@ -67,10 +83,6 @@ public abstract class Populating extends  JFrame {
   public int gettimearrayatindex(int x) {
     return this.timearray[x];
 
-  }
-  public void settimearray(int x, int duration) {
-    int y = this.timearray[x];
-    this.timearray[x] = y - duration;
   }
   public Animal[] getAnimalList() {
     return this.animalList;
@@ -111,13 +123,19 @@ public abstract class Populating extends  JFrame {
   public HashMap < Integer, ArrayList < Priority > > getveryverynewb() {
     return this.veryverynewb;
   }
+  // Setters
+  public void settimearray(int x, int duration) {
+    int y = this.timearray[x];
+    this.timearray[x] = y - duration;
+  }
+
+  //Constructor has super because it is the parent class of the Scheduling class
   public Populating() {
     super("Schedule builder");
-  
 
   }
 
-
+  // Connects with the sql database
   public void createConnection() {
 
     try {
@@ -126,7 +144,7 @@ public abstract class Populating extends  JFrame {
       e.printStackTrace();
     }
   }
-
+  //Function to read line by line from the Animal Table in the sql database, and intialize animal objects for each line read
   public void selectAnimals () {
     ArrayList < Animal > myAnimals = new ArrayList < > ();
 
@@ -141,7 +159,9 @@ public abstract class Populating extends  JFrame {
         //this.animalList[i]= new Animal(results.getInt("AnimalID"),results.getString("AnimalNickname"),results.getString("AnimalSpecies"));
         Animal animalNew = new Animal(results.getInt("AnimalID"), results.getString("AnimalNickname"), results.getString("AnimalSpecies"));
 
+        //Adding read object to the arraylist of animals
         myAnimals.add(animalNew);
+        // Creating an arrayList of foxes which contains the fox names, and the size of the array is the number of foxes
         if (animalNew.getAnimalSpecies().equals("fox")) {
           for (int k = 0; k < this.myTreatment.size(); k++) {
             if (myTreatment.get(k).getAnimalID() == animalNew.getAnimalID() && myTreatment.get(k).getTaskID() == 1) {
@@ -156,7 +176,7 @@ public abstract class Populating extends  JFrame {
             this.foxList.add(animalNew.getAnimalNickName());
           }
         }
-
+        // Creating an arrayList of Coyote which contains the Coyote names, and the size of the array is the number of coyotes
         if (animalNew.getAnimalSpecies().equals("coyote")) {
           for (int k = 0; k < this.myTreatment.size(); k++) {
             if (myTreatment.get(k).getAnimalID() == animalNew.getAnimalID() && myTreatment.get(k).getTaskID() == 1) {
@@ -171,6 +191,7 @@ public abstract class Populating extends  JFrame {
             this.coyoteList.add(animalNew.getAnimalNickName());
           }
         }
+        // Creating an arrayList of Porcupines which contains the porcupine names, and the size of the array is the number of porcupines
         if (animalNew.getAnimalSpecies().equals("porcupine")) {
           for (int k = 0; k < this.myTreatment.size(); k++) {
             if (myTreatment.get(k).getAnimalID() == animalNew.getAnimalID() && myTreatment.get(k).getTaskID() == 1) {
@@ -185,6 +206,7 @@ public abstract class Populating extends  JFrame {
             this.procupineList.add(animalNew.getAnimalNickName());
           }
         }
+        // Creating an arrayList of Beavers which contains the Beaver names, and the size of the array is the number of Beavers
         if (animalNew.getAnimalSpecies().equals("beavers")) {
           for (int k = 0; k < this.myTreatment.size(); k++) {
             if (myTreatment.get(k).getAnimalID() == animalNew.getAnimalID() && myTreatment.get(k).getTaskID() == 1) {
@@ -199,6 +221,7 @@ public abstract class Populating extends  JFrame {
             this.beaverList.add(animalNew.getAnimalNickName());
           }
         }
+        // Creating an arrayList of raccoons which contains the raccoon names, and the size of the array is the number of raccoons
         if (animalNew.getAnimalSpecies().equals("raccoons")) {
           for (int k = 0; k < this.myTreatment.size(); k++) {
             if (myTreatment.get(k).getAnimalID() == animalNew.getAnimalID() && myTreatment.get(k).getTaskID() == 1) {
@@ -216,7 +239,7 @@ public abstract class Populating extends  JFrame {
 
         i++;
       }
-
+      //converting the arrayList (AnimalList) to an array.
       this.animalList = myAnimals.toArray(new Animal[0]);
       myStmt.close();
     } catch (SQLException ex) {
@@ -224,8 +247,9 @@ public abstract class Populating extends  JFrame {
     }
 
   }
-
+  
   public void selectTasks() {
+    //Creating an empty arrayList(myTasks) which task objects will be added to
     ArrayList < Task > myTasks = new ArrayList < > ();
 
     try {
@@ -234,7 +258,7 @@ public abstract class Populating extends  JFrame {
 
       int i = 0;
       while (results.next()) {
-
+        //Adding task objects to our ArrayList(myTasks)
         myTasks.add(new Task(results.getInt("TaskID"), results.getString("Description"), results.getInt("Duration"),
           results.getInt("MaxWindow")));
         i++;
@@ -253,11 +277,9 @@ public abstract class Populating extends  JFrame {
     try {
       Statement myStmt = dbConnect.createStatement();
       results = myStmt.executeQuery("SELECT * FROM treatments");
-      int i = 0;
-
+      // Adding treatment objects to our arraList (myTreatment)
       while (results.next()) {
         myTreatment.add(new Treatment(results.getInt("AnimalID"), results.getInt("TaskID"), results.getInt("StartHour")));
-        i++;
       }
 
       this.treatmentList = myTreatment.toArray(new Treatment[0]);
@@ -269,21 +291,25 @@ public abstract class Populating extends  JFrame {
     }
 
   }
-
+  // This function will check if any of the animals has any medical treatment in the Treatment List, 
+  //and then assigns it to a priority object. Then it adds these priority objects to the arrayList based on there StartHours
+  // Then we add this ArrayList to our hasmap which has Starthour as the keys and the arrayList as the value
   public void setPriority() {
 
     for (int i = 0; i < taskList.length; i++) {
       for (int j = 0; j < treatmentList.length; j++) {
 
+        // Checking if the animal has any medical treatments
         if (this.taskList[i].getTaskID() == this.treatmentList[j].getTaskID()) {
           Priority myPriority = new Priority(this.taskList[i].getTaskID(), this.treatmentList[j].getAnimalID(), this.taskList[i].getDuration(), taskList[i].getMaxWindow(), this.taskList[i].getDescription(), this.treatmentList[j].getStartHour());
-
+          //Checking if the Starthour has any priority object or arrayList of prioritys, if it does then the object is appended to the arraList
+          
           if (this.hoursMap.containsKey(treatmentList[j].getStartHour())) {
             ArrayList < Priority > set = this.hoursMap.get(treatmentList[j].getStartHour());
             set.add(myPriority);
             this.hoursMap.put(treatmentList[j].getStartHour(), set);
           } else {
-
+            //Otherwise it creates the arrayList of the objects to add to the hashmap
             ArrayList < Priority > set1 = new ArrayList < Priority > ();
             set1.add(myPriority);
             this.hoursMap.put(treatmentList[j].getStartHour(), set1);

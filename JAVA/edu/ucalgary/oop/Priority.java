@@ -1,3 +1,13 @@
+/**
+* 
+* This priority Class is used to create priority objects which will have 8 data members
+* This class connects every animal with the tasks & Medical Treatments Associated with the animal
+* It also includes all the needed information about task durtion, maxWindows, & Starting hours
+* @author  Mohamad Jamal Hammoud, Qazi Ali, Mirza Hassan Baig, Muneeb Ali
+* @version 2.0
+* @since   2023-04-4 
+*/
+
 package edu.ucalgary.oop;
 
 import java.util.ArrayList;
@@ -13,7 +23,7 @@ public class Priority  implements Comparable<Priority>,Print{
     private  ArrayList<String> animalNames;
     
     public Priority(){}
-
+    //Constructor throws illegal argument exception for invalid data
     public Priority(int task, int animal, int Duration, int MaxWindow, String Desc , int start)throws IllegalArgumentException{
         if(task < 0 || animal < 0 || Duration < 0 || MaxWindow < 0 || Desc == null || start < 0)
             throw new IllegalArgumentException("Invalid input");
@@ -33,6 +43,7 @@ public class Priority  implements Comparable<Priority>,Print{
         this.startHour= start;
         this.id = id;
     }
+    // Another constructor that has arrayList of animal Names of the same type (Nocturnal, Diurnal, crepescular)
     public Priority(ArrayList<String> animallist , int Duration, int MaxWindow, String Desc ){
        this.animalNames = animallist;
         this.duration = Duration;
@@ -41,7 +52,7 @@ public class Priority  implements Comparable<Priority>,Print{
 
         
     }
-
+    //Getters
     public int getTaskID(){
         return this.taskID;
     }
@@ -61,13 +72,13 @@ public class Priority  implements Comparable<Priority>,Print{
     public int getStartHour(){
         return this.startHour;
     }
-    
+    //Interface to sort depending on MaxWindow
     @Override
     public int compareTo(Priority o) {
         // TODO Auto-generated method stub
         return Integer.compare(this.maxWindow, o.maxWindow);
     }
-
+    // Interface to print each priority object members
     @Override
     public void print() {
         // TODO Auto-generated method stub
