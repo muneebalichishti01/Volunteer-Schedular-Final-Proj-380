@@ -28,7 +28,7 @@ To run the program code, please follow the steps below:
 ```
 4. Finally, write the following command in terminal to *run the program*:
 ```terminal
-  `java -cp .;mysql-connector-java-8.0.23.jar edu.ucalgary.oop.main`
+  java -cp .;mysql-connector-java-8.0.23.jar edu.ucalgary.oop.main
 ```
 # # Program Description:
 The program will prompt you to enter the following information:
