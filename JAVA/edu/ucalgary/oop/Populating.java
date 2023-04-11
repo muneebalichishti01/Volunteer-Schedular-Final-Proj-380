@@ -103,7 +103,7 @@ public class Populating extends  JFrame {
   public void createConnection() {
 
     try {
-      dbConnect = DriverManager.getConnection("jdbc:mysql://localhost/ewr", "root", "1234");
+      dbConnect = DriverManager.getConnection("jdbc:mysql://localhost/ewr", "oop", "password");
     } catch (SQLException e) {
       e.printStackTrace();
     }
