@@ -8,7 +8,7 @@ public class Task implements Print{
 
 
     public Task(int taskId, String description,int duration, int maxWindow)throws IllegalArgumentException{
-        if(taskId < 1 || description == null || duration < 0 || maxWindow < 0)
+        if(taskId < 1 || description == null || duration < 0 || maxWindow < 1)
             throw new IllegalArgumentException("Invalid input");
         this.TASKID = taskId;
         this.DESCRIPTION = description;

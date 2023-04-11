@@ -22,7 +22,7 @@ import javax.swing.*;
 
 
 
-public abstract class Populating extends  JFrame {
+public class Populating extends  JFrame {
   protected ArrayList < Treatment > myTreatment = new ArrayList < > ();
   protected Connection dbConnect;
   protected ResultSet results;
