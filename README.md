@@ -1,7 +1,6 @@
 # ENSF380 Final Project - Wildlife Rescue Centre (EWR) Volunteer Schedular (Grp 27)
 
 # # Learning Outcomes:
-
 - Design and document an object-oriented Java application
 - Connect to and import data from a given database
 - Process and output data according to user input
@@ -21,18 +20,16 @@ To run the program code, please follow the steps below:
 
 # # Using the Program:
 1. To run the program, make sure the *keys* are right; changes to the keys can be done in **Populating()** class in the `createConnection()` method
-2. Navigate to the directory:
-
-  `ENSF380_Final_Project/JAVA`
+2. Navigate to the directory: `ENSF380_Final_Project/JAVA`
 
 3. Type the following command in terminal to *compile*:
-
-  `javac -cp .;mysql-connector-java-8.0.23.jar edu/ucalgary/oop/main.java`
-
+```terminal
+  javac -cp .;mysql-connector-java-8.0.23.jar edu/ucalgary/oop/main.java
+```
 4. Finally, write the following command in terminal to *run the program*:
-
+```terminal
   `java -cp .;mysql-connector-java-8.0.23.jar edu.ucalgary.oop.main`
-
+```
 # # Program Description:
 The program will prompt you to enter the following information:
 - The program will start with testing your already given schedule and it will give you an option to test your schedule
