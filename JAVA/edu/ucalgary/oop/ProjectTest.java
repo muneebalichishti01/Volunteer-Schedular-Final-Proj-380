@@ -10,7 +10,7 @@ public class ProjectTest {
 
 	public ProjectTest(){}
 
-	@Test //the expected values are the one given in database from instructors so if you want to test with different values you can change the values in database
+	@Test  //based on the values in database given if you want to change the expected value change the value in database
 	public void selectAnimalsTest(){
 		Populating pop1 = new Populating ();
 		Animal [] expectedList= new Animal[15];
@@ -169,7 +169,7 @@ public void TestTaskClassException(){
 	Task myTaskActual = new Task(1, "feeding",20,0);
 }
 
-@Test //the expected values are the one given in database given so if you want to test with different values you can change the values in database
+@Test  //based on the values in database given if you want to change the expected value change the value in database
 	public void selectTaskTest(){
 		Populating pop1 = new Populating ();
 		Task [] expectedList= new Task[15];
@@ -218,7 +218,7 @@ public void TestTaskClassException(){
 		
 		
 }
-@Test //the expected values are the one given in database given so if you want to test with different values you can change the values in database
+@Test  //based on the values in database given if you want to change the expected value change the value in database
 	public void selectTreatmentTest(){
 		Populating pop1 = new Populating ();
 		Treatment [] expectedList= new Treatment[10];
@@ -272,7 +272,25 @@ public void TestTaskClassException(){
 		
 		
 }
+@Test
+	public void copyingTest(){
+		Populating pop1 = new Populating();
+		pop1.createConnection();
+		pop1.selectAnimals();
+		pop1.selectTasks();
+		pop1.selectTreatments();
+		pop1.setPriority();
+		
+		Scheduling mySchedule = new Scheduling();
+		mySchedule.copying();
+		HashMap<Integer, ArrayList<Priority>> actualValue  = mySchedule.getsortedTreatmentsFeedingCleaning();
+		
+		assertEquals(24, actualValue.size());
+		assertTrue(actualValue.containsKey((Integer)0));
+		assertTrue(actualValue.containsKey((Integer)1));
 
+		
+}
 @Test //based on the values in database given if you want to change the expected value change the value in database
 public void TestSetPriority(){
 
@@ -288,5 +306,4 @@ String actualString = actualKeys.toString();
 assertEquals("something wrong in setPriority()", expected,actualString);
 
 }
-
 }
