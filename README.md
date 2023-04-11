@@ -30,6 +30,19 @@ To run the program code, please follow the steps below:
 ```terminal
   java -cp .;mysql-connector-java-8.0.23.jar edu.ucalgary.oop.main
 ```
+
+# # Running the Tests:
+1. Navigate to the directory: `ENSF380_Final_Project/JAVA`
+
+2. Type the following command in terminal to *compile*:
+```terminal
+  javac -cp .;junit-4.13.2.jar;hamcrest-core-1.3.jar;mysql-connector-java-8.0.23.jar edu/ucalgary/oop/ProjectTest.java
+```
+3. Finally, write the following command in terminal to *run the program*:
+```terminal
+  java -cp .;junit-4.13.2.jar;hamcrest-core-1.3.jar;mysql-connector-java-8.0.23.jar org.junit.runner.JUnitCore edu.ucalgary.oop.ProjectTest
+```
+
 # # Program Description:
 The program will prompt you to enter the following information:
 - The program will start with testing your already given schedule and it will give you an option to test your schedule
