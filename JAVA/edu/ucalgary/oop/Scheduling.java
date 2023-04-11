@@ -27,12 +27,12 @@ public class  Scheduling extends Populating implements Print , ActionListener {
   private HashMap < Integer, ArrayList < Priority >> newb = new HashMap < Integer, ArrayList < Priority >> ();
   private HashMap < Integer, ArrayList < Priority >> verynewb = new HashMap < Integer, ArrayList < Priority >> ();
   private HashMap < Integer, ArrayList < Priority >> veryverynewb = new HashMap < Integer, ArrayList < Priority >> ();
-  private int timearray[] = new int[24]; //here
+  private int timeArray[] = new int[24]; //here
   private ArrayList < Integer > volList = new ArrayList < > ();
   private ArrayList < Integer > keysToRm = new ArrayList < > ();
-  private ArrayList < Priority > valuestorm = new ArrayList < > ();
+  private ArrayList < Priority > valuesToRm = new ArrayList < > ();
   public ArrayList < Priority > getvaluestorm() {
-    return this.valuestorm;
+    return this.valuesToRm;
   }
   
   public ArrayList < Integer > getkeystorm() {
@@ -57,15 +57,15 @@ public class  Scheduling extends Populating implements Print , ActionListener {
 
 
   public int[] gettimearray() {
-    return this.timearray;
+    return this.timeArray;
   }
   public int gettimearrayatindex(int x) {
-    return this.timearray[x];
+    return this.timeArray[x];
 
   }
   public void settimearray(int x, int duration) {
-    int y = this.timearray[x];
-    this.timearray[x] = y - duration;
+    int y = this.timeArray[x];
+    this.timeArray[x] = y - duration;
   }
 
     //Constructor which makes a call to the parent class (populating) using super
@@ -129,7 +129,7 @@ public class  Scheduling extends Populating implements Print , ActionListener {
     
         for (int i = 0; i < 24; i++) {
     
-          this.timearray[i] = 60;
+          this.timeArray[i] = 60;
     
         }
         for (Entry < Integer, ArrayList < Priority >> entry: this.newb.entrySet()) {
@@ -137,9 +137,9 @@ public class  Scheduling extends Populating implements Print , ActionListener {
           Integer key = entry.getKey();
           ArrayList < Priority > value = entry.getValue();
           for (Priority item: value) { 
-            if (item.getduration() <= timearray[key]) { //checking if there is enough time left 
-              int y = this.timearray[key]; 
-              this.timearray[key] = y - item.getduration();// Adjusting the remaining time
+            if (item.getduration() <= timeArray[key]) { //checking if there is enough time left 
+              int y = this.timeArray[key]; 
+              this.timeArray[key] = y - item.getduration();// Adjusting the remaining time
             } else if (item.getMaxWindow() == 1) {
               int result = JOptionPane.showConfirmDialog(this, "Should I call for backup volunteer?",
                "Title", JOptionPane.YES_NO_OPTION);
@@ -154,11 +154,11 @@ public class  Scheduling extends Populating implements Print , ActionListener {
                 }
               } 
               //Adding extra time to the hour that backup volunteer was called for
-              timearray[key] += 60;
+              timeArray[key] += 60;
               this.volList.add(key);
             } else {
               keysToRm.add(key);
-              valuestorm.add(item);
+              valuesToRm.add(item);
               adjustSchedule = true;
             }
           }
@@ -180,7 +180,7 @@ public class  Scheduling extends Populating implements Print , ActionListener {
     
         for (int i = 0; i < this.keysToRm.size(); i++) {
           ArrayList < Priority > valueForKeyB = this.newb.get(keysToRm.get(i));
-          valueForKeyB.remove(valuestorm.get(i));
+          valueForKeyB.remove(valuesToRm.get(i));
           this.verynewb.put(keysToRm.get(i), valueForKeyB);
           //value is not added yet
         }
@@ -188,9 +188,9 @@ public class  Scheduling extends Populating implements Print , ActionListener {
     
         int key1 = 0;
         Priority item = new Priority();
-        for (int i = 0; i < this.valuestorm.size(); i++) {
+        for (int i = 0; i < this.valuesToRm.size(); i++) {
     
-          item = this.valuestorm.get(i);
+          item = this.valuesToRm.get(i);
     
           if (item.getMaxWindow() > 1) {
             max = item.getMaxWindow();
@@ -205,10 +205,10 @@ public class  Scheduling extends Populating implements Print , ActionListener {
                 break;
               }
     
-              if (item.getduration() <= this.timearray[key1 + j]) {
+              if (item.getduration() <= this.timeArray[key1 + j]) {
     
-                int y = this.timearray[key1 + j];
-                this.timearray[key1 + j] = y - item.getduration();
+                int y = this.timeArray[key1 + j];
+                this.timeArray[key1 + j] = y - item.getduration();
                 ArrayList < Priority > valueForKeyB = this.verynewb.get(key1 + j);
                 if (valueForKeyB == null) {
                   valueForKeyB = new ArrayList < Priority > ();
@@ -218,13 +218,25 @@ public class  Scheduling extends Populating implements Print , ActionListener {
                 //value added succesfully
                 //we should add break here to prevent further adding into other hours after this hour
                 break;
-              } else if (item.getduration() >= this.timearray[key1 + j] && j == max - 1) {
+              } else if (item.getduration() >= this.timeArray[key1 + j] && j == max - 1) {
                 int z = key1 + j;
-                JOptionPane.showMessageDialog(this, "adding vol to hour" + z);
-                this.timearray[key1 + j] += 60;
+                int result = JOptionPane.showConfirmDialog(this, "Should I call for backup volunteer?",
+               "Title", JOptionPane.YES_NO_OPTION);
+              if (result == JOptionPane.YES_OPTION) {
+                JOptionPane.showMessageDialog(this, "Calling back up volunteer");
+    
+              } else {
+                while (result == JOptionPane.NO_OPTION) {
+                  JOptionPane.showMessageDialog(this, "Please select yes or come up with a new schedule");
+                  result = JOptionPane.showConfirmDialog(this, "Should I call for backup volunteer?", 
+                  "Title", JOptionPane.YES_NO_OPTION);
+                }
+              } 
+              
+                this.timeArray[key1 + j] += 60;
                 this.volList.add(key1 + j);
-                this.timearray[key1 + j] -= item.getduration();
-                if (item.getduration() <= this.timearray[key1 + j]) {
+                this.timeArray[key1 + j] -= item.getduration();
+                if (item.getduration() <= this.timeArray[key1 + j]) {
                   ArrayList < Priority > valueForKeyB = this.verynewb.get(key1 + j);
                   if (valueForKeyB == null) {
                     valueForKeyB = new ArrayList < Priority > ();
@@ -268,10 +280,10 @@ public class  Scheduling extends Populating implements Print , ActionListener {
             }
             //checking if there is remaining time, then adding the remaining task and
             //adjusting the remaining time again
-            if (feedingtime <= this.timearray[i]) {
+            if (feedingtime <= this.timeArray[i]) {
               u.add(newpro);
               this.verynewb.put(i, u);
-              this.timearray[i] = this.timearray[i] - feedingtime;
+              this.timeArray[i] = this.timeArray[i] - feedingtime;
               done = true;
               break;
             }
@@ -287,9 +299,9 @@ public class  Scheduling extends Populating implements Print , ActionListener {
     
               String desc1 = "feeding";
               ArrayList < String > first = new ArrayList < String > ();
-              if (this.timearray[i] >= 10) {
+              if (this.timeArray[i] >= 10) {
     
-                int timeleft = this.timearray[i];
+                int timeleft = this.timeArray[i];
                 timeleft = timeleft - 5;
                 int z = timeleft / 5;
                 s += z;
@@ -321,7 +333,7 @@ public class  Scheduling extends Populating implements Print , ActionListener {
                 }
                 u.add(newpro1);
                 this.verynewb.put(i, u);
-                this.timearray[i] = this.timearray[i] - (z * 5) - 5;
+                this.timeArray[i] = this.timeArray[i] - (z * 5) - 5;
                 if (alreadyfed <= foxList.size()) {
                   JOptionPane.showMessageDialog(this, "please change schedule or hit okay to discard feeding for extra foxes");
     
@@ -351,10 +363,10 @@ public class  Scheduling extends Populating implements Print , ActionListener {
               u = new ArrayList < Priority > ();
             }
             //checking the remaining time and adjusting the new remaining time
-            if (feedingtime < this.timearray[i]) {
+            if (feedingtime < this.timeArray[i]) {
               u.add(newpro);
               this.verynewb.put(i, u);
-              this.timearray[i] = this.timearray[i] - feedingtime;
+              this.timeArray[i] = this.timeArray[i] - feedingtime;
               done = true;
               break;
             }
@@ -370,9 +382,9 @@ public class  Scheduling extends Populating implements Print , ActionListener {
     
               String desc1 = "feeding";
               ArrayList < String > first = new ArrayList < String > ();
-              if (this.timearray[i] >= 5) {
+              if (this.timeArray[i] >= 5) {
     
-                int timeleft = this.timearray[i];
+                int timeleft = this.timeArray[i];
                 //calculating how many raccoons we can feed in that hour
                 int z = timeleft / 5;
                 s += z;
@@ -405,7 +417,7 @@ public class  Scheduling extends Populating implements Print , ActionListener {
                 }
                 u.add(newpro1);
                 this.verynewb.put(i, u);
-                this.timearray[i] = this.timearray[i] - (z * 5);
+                this.timeArray[i] = this.timeArray[i] - (z * 5);
                 if (alreadyfed <= raccoonList.size()) {
                   JOptionPane.showMessageDialog(this, "please change schedule or hit okay to discard feeding for extra raccons");
     
@@ -436,10 +448,10 @@ public class  Scheduling extends Populating implements Print , ActionListener {
             if (u == null) {
               u = new ArrayList < Priority > ();
             }
-            if (feedingtime < this.timearray[i]) {
+            if (feedingtime < this.timeArray[i]) {
               u.add(newpro);
               this.verynewb.put(i, u);
-              this.timearray[i] = this.timearray[i] - feedingtime;
+              this.timeArray[i] = this.timeArray[i] - feedingtime;
               done = true;
               break;
             }
@@ -455,9 +467,9 @@ public class  Scheduling extends Populating implements Print , ActionListener {
     
               String desc1 = "feeding";
               ArrayList < String > first = new ArrayList < String > ();
-              if (this.timearray[i] >= 5) {
+              if (this.timeArray[i] >= 5) {
     
-                int timeleft = this.timearray[i];
+                int timeleft = this.timeArray[i];
                 //calculating how many animals can be fed in that hour 
                 //and splitting task based on the result
                 int z = timeleft / 5;
@@ -492,7 +504,7 @@ public class  Scheduling extends Populating implements Print , ActionListener {
                 u.add(newpro1);
                 this.verynewb.put(i, u);
                 //subtracting the time used for the task from our time list
-                this.timearray[i] = this.timearray[i] - (z * 5);
+                this.timeArray[i] = this.timeArray[i] - (z * 5);
                 if (alreadyfed <= raccoonList.size()) {
                   JOptionPane.showMessageDialog(this, "please change schedule or hit okay to discard feeding for extra beavers");
     
@@ -521,10 +533,10 @@ public class  Scheduling extends Populating implements Print , ActionListener {
             if (u == null) {
               u = new ArrayList < Priority > ();
             }
-            if (feedingtime < this.timearray[i]) {
+            if (feedingtime < this.timeArray[i]) {
               u.add(newpro);
               this.verynewb.put(i, u);
-              this.timearray[i] = this.timearray[i] - feedingtime;
+              this.timeArray[i] = this.timeArray[i] - feedingtime;
               done = true;
               break;
             }
@@ -540,9 +552,9 @@ public class  Scheduling extends Populating implements Print , ActionListener {
     
               String desc1 = "feeding";
               ArrayList < String > first = new ArrayList < String > ();
-              if (this.timearray[i] >= 10) {
+              if (this.timeArray[i] >= 10) {
     
-                int timeleft = this.timearray[i];
+                int timeleft = this.timeArray[i];
                 timeleft = timeleft - 10;
                 int z = timeleft / 5;
                 s += z;
@@ -575,7 +587,7 @@ public class  Scheduling extends Populating implements Print , ActionListener {
                 }
                 u.add(newpro1);
                 this.verynewb.put(i, u);
-                this.timearray[i] = this.timearray[i] - (z * 5) - 10;
+                this.timeArray[i] = this.timeArray[i] - (z * 5) - 10;
                 if (alreadyfed <= coyoteList.size()) {
                   JOptionPane.showMessageDialog(this, "please change schedule or hit okay to discard feeding for extra coyotes");
     
@@ -603,10 +615,10 @@ public class  Scheduling extends Populating implements Print , ActionListener {
             if (u == null) {
               u = new ArrayList < Priority > ();
             }
-            if (feedingtime < this.timearray[i]) {
+            if (feedingtime < this.timeArray[i]) {
               u.add(newpro);
               this.verynewb.put(i, u);
-              this.timearray[i] = this.timearray[i] - feedingtime;
+              this.timeArray[i] = this.timeArray[i] - feedingtime;
               done = true;
               break;
             }
@@ -622,9 +634,9 @@ public class  Scheduling extends Populating implements Print , ActionListener {
     
               String desc1 = "feeding";
               ArrayList < String > first = new ArrayList < String > ();
-              if (this.timearray[i] >= 5) {
+              if (this.timeArray[i] >= 5) {
     
-                int timeleft = this.timearray[i];
+                int timeleft = this.timeArray[i];
     
                 int z = timeleft / 5;
                 s += z;
@@ -656,7 +668,7 @@ public class  Scheduling extends Populating implements Print , ActionListener {
                 }
                 u.add(newpro1);
                 this.verynewb.put(i, u);
-                this.timearray[i] = this.timearray[i] - (z * 5);
+                this.timeArray[i] = this.timeArray[i] - (z * 5);
                 if (alreadyfed <= procupineList.size()) {
                   JOptionPane.showMessageDialog(this, "please change schedule or hit okay to discard feeding for extra procipines");
     
@@ -722,8 +734,8 @@ public class  Scheduling extends Populating implements Print , ActionListener {
         for (int i = 0; i < 24; i++) {
           String desc = "cleaning ";
           //checking if there is time left in any hour
-          if (this.timearray[i] > 0) {
-            int x = this.timearray[i] / 5;
+          if (this.timeArray[i] > 0) {
+            int x = this.timeArray[i] / 5;
             if (x > animaltoclean.size() - alreadyclean) {
               x = animaltoclean.size() - alreadyclean;
               all = true;
@@ -743,7 +755,7 @@ public class  Scheduling extends Populating implements Print , ActionListener {
             alreadyclean += x;
             h.add(kk);
             this.verynewb.put(i, h);
-            timearray[i] -= (x * 5);
+            timeArray[i] -= (x * 5);
             //checking if we cleaned all our animal cages
             if (alreadyclean == animaltoclean.size()) {
               break;
@@ -766,7 +778,7 @@ public class  Scheduling extends Populating implements Print , ActionListener {
                 }
               } 
               //Adding extra time to the hour that backup volunteer was called for
-                  this.timearray[l] += 60;
+                  this.timeArray[l] += 60;
                   volList.add(l);
                   
                   JOptionPane.showMessageDialog(this, "volunteer added to hour" + l);
@@ -788,7 +800,7 @@ public class  Scheduling extends Populating implements Print , ActionListener {
                 h.add(kk);
                 this.verynewb.put(l, h);
                 // subtracting the time spent on cleaning from the hour
-                timearray[l] -= (animaltoclean.size() - alreadyclean) * 5;
+                timeArray[l] -= (animaltoclean.size() - alreadyclean) * 5;
                 all = true;
     
               }
@@ -805,9 +817,9 @@ public class  Scheduling extends Populating implements Print , ActionListener {
         for (int i = 0; i < 24; i++) {
           String desc = "cleaning ";
     
-          if (this.timearray[i] > 0) {
+          if (this.timeArray[i] > 0) {
             //calculating how many porcupines we can feed in that hour.
-            int x = this.timearray[i] / 10;
+            int x = this.timeArray[i] / 10;
             if (x > procupinetoclean.size() - alreadyclean1) {
               x = procupinetoclean.size() - alreadyclean1;
               all1 = true;
@@ -827,7 +839,7 @@ public class  Scheduling extends Populating implements Print , ActionListener {
             alreadyclean1 += x;
             h.add(kk);
             this.verynewb.put(i, h);
-            timearray[i] -= (x * 10);
+            timeArray[i] -= (x * 10);
             if (alreadyclean1 == procupinetoclean.size()) {
               break;
             }
@@ -837,7 +849,7 @@ public class  Scheduling extends Populating implements Print , ActionListener {
              
               for (int l = 0; l < 24; l++) {
                 if (!volList.contains(l)) {
-                  this.timearray[l] += 60;
+                  this.timeArray[l] += 60;
                   volList.add(l);
                 }
                 k = new ArrayList < > ();
@@ -856,7 +868,7 @@ public class  Scheduling extends Populating implements Print , ActionListener {
                 h.add(kk);
                 //reasigning that hour to its tasks with cleaning tasks added.
                 this.verynewb.put(l, h);
-                timearray[l] -= (procupinetoclean.size() - alreadyclean1) * 10;
+                timeArray[l] -= (procupinetoclean.size() - alreadyclean1) * 10;
                 all1 = true;
     
               }
