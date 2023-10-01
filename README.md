@@ -1,4 +1,4 @@
-# ENSF380 Final Project - Wildlife Rescue Centre (EWR) Volunteer Schedular (Grp 27)
+# Wildlife Rescue Centre (EWR) Volunteer Schedular
 
 Demo Video: https://youtu.be/vBEaBBCPJt8
 
@@ -57,6 +57,9 @@ The program will prompt you to enter the following information:
 > - Muneeb Ali
 > - Mirza Hassan Baig
 > - Mohamad Jamal Hammoud
+
+# # Disclaimer
+ENSF380 Final Project - GRP 27
 
 # # Instructors:
 > - [Dr. Barcomb]
